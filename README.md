@@ -66,7 +66,28 @@ You can create awesome automated wizzards with `LS.Steps`<br>
 <br>Terminal usage example: (from ExtraGon panel)<br>
 ![image](https://user-images.githubusercontent.com/62482747/225791727-0694a058-7138-4095-8b09-df9e4d94649b.png)<br>
 Notable features:
-- ANSI \\esc parsing, allowing you to directly pass it terminal output and get all the crazy rainbow stuff.
+- ANSI \\esc parsing, allowing you to directly pass it terminal output and get all the crazy rainbow stuff.<br>
+
+### 6. Special elements, like groups
+Code<br>
+![image](https://user-images.githubusercontent.com/62482747/225992621-b6512e1c-cf5c-43c9-b69b-1c58de4ce250.png)<br>
+Will result in:<br>
+![image](https://user-images.githubusercontent.com/62482747/225992611-9abfb49f-dddd-4946-9300-2b158a5fd0e9.png)<br><br>
+Tabs are also super simple to setup:
+```html
+<tabs>
+  <tab tab-title="my tab">
+    ...
+  </tab>
+  <tab tab-title="hello world"> ... </tab>
+  ...
+</tabs>
+```
+Result:<br>
+![image](https://user-images.githubusercontent.com/62482747/225993488-c81a587c-d9af-415f-ad82-2331ecc8950f.png)<br>
+(Same applies to steps, but with `<steps>` and `<step>`, and you can also set an "if" attribute on a `<step>` element to add a condition under which it will be visible, like if="field=value" only displays that step if a field "field" is equal to "value")<br>
+Those are all designed to be as simple to use and use as little boilerplate as possible.
+
 
 <br><br>
 ## There is also more, like global custom events and such, but i'll need to make a proper documentation for them.<br>This readme serves more as a showcase that i put together half-asleep at 3AM rather than a tutorial, so if you need to explain something, do not hesitate to contact me. Or wait till i finish puredocs and then this documentation.
