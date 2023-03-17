@@ -8,6 +8,7 @@ All this, while being super lightweight - it is being served on a dynamic CDN wi
 LS has a rich component system that allows you to create, manage and use components with ease.<br>
 It automatically adds things like events and takes care of managing instances.<br>
 ![image](https://user-images.githubusercontent.com/62482747/225786140-c0a25483-f230-4529-80c1-33a5bc0d47ed.png)
+
 ## Tiny
 Tiny was originally it's own thing, but was later merged into LS.<br>
 Tiny is a set of single-letter super-helpful and efficiency-improoving utilities.<br>
@@ -38,6 +39,11 @@ Here are some randomly-picked examples of what LS can do, out-of-the-box.<br>Of 
 ### 1. Default design styles
 `ls-flat`, `ls-fluent`, `ls-sharp`<br><br>
 ![styles](https://user-images.githubusercontent.com/62482747/225784871-e1ee9427-a468-49c1-943e-aebd4d0731ea.png)<br>
+![dialogs](https://user-images.githubusercontent.com/62482747/225974145-afdb6f8c-0bb5-4806-b85f-d279c61f631e.png)
+![image](https://user-images.githubusercontent.com/62482747/225974327-bfa2f75c-b679-48e6-afb8-6d270ce09281.png)<br>
+Of course you can create your own from scratch, simply create your own style in CSS.<br>
+To apply the style, add an "`ls`" attribute to the element where you want to apply it to (can be body), and also an attribute with which style you want, like "`ls-fluent`".<br>
+Theres also a **color system**, add "ls-[color]" (like `ls-blue`, `ls-yellow`...) attribute to the parent element to apply an accent color. CSS variables will be available, like `--accent`, `--accent-dark` and `--color-bg` (text color to be used when using accent as a background). For transparency, use `rgba(var(--accent-raw), 200)`, replacing "80" with the value you want (0-255, 255 being fully opaic).
 
 ### 2. Improoved select
 ![image](https://user-images.githubusercontent.com/62482747/225783797-8414c3f1-198a-405b-83fb-6bd3452c6092.png)
@@ -49,7 +55,7 @@ Structure would be, for example:<br>
 ![navbar-struct-code](https://user-images.githubusercontent.com/62482747/225785573-422dc651-48cb-4605-8060-9bd2d6f81a2f.png)<br>
 
 ### 4. Wizzards
-You can create awesome automatic wizzards with `LS.Steps`<br>
+You can create awesome automated wizzards with `LS.Steps`<br>
 ![image](https://user-images.githubusercontent.com/62482747/225785875-24090b6d-faa2-4fde-97d6-0121e960dc48.png)<br>
 ![image](https://user-images.githubusercontent.com/62482747/225785979-1f5888d7-1e4e-4cc3-85da-59be4012d692.png)<br>
 
@@ -60,9 +66,7 @@ You can create awesome automatic wizzards with `LS.Steps`<br>
 <br>Terminal usage example: (from ExtraGon panel)<br>
 ![image](https://user-images.githubusercontent.com/62482747/225791727-0694a058-7138-4095-8b09-df9e4d94649b.png)<br>
 Notable features:
-- ANSI \\esc parsing, allowing you to directly pass it terminal output and get all the crazy blinking rainbow stuff.
-- Handome
-- Likes carrots
+- ANSI \\esc parsing, allowing you to directly pass it terminal output and get all the crazy rainbow stuff.
 
 <br><br>
 ## There is also more, like global custom events and such, but i'll need to make a proper documentation for them.<br>This readme serves more as a showcase that i put together half-asleep at 3AM rather than a tutorial, so if you need to explain something, do not hesitate to contact me. Or wait till i finish puredocs and then this documentation.
