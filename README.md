@@ -1,7 +1,7 @@
 # LS "Framework"
 LS is a powerful "framework", "component manager", and what not.<br>It improoves your efficiency and offers many great tools for you to use in your web development journey, all in a singular, clean object.
 
-In just 22kb (all components) it contains a big set of useful utilities, a full UI library with 3 styles and a color scheme system, tabs, modal & dialog, steps (wizzard system), navbar, select (improoved \<select>), chips, tree, notification ui, and a full-blown terminal emulator, console, and a code editor components. And there is way more to come.
+In just 21kb (all components!) it contains a big set of useful utilities, a full UI library with 3 styles and a color scheme system, tabs, modal & dialog, steps (wizzard system), navbar, select (improoved \<select>), chips, tree, notification ui, and a full-blown terminal emulator, console, and a code editor components. And there is way more to come.
 
 ## Component system
 LS has a rich component system that allows you to create, manage and use components with ease.<br>
