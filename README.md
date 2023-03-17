@@ -1,7 +1,8 @@
 # LS "Framework"
 LS is a powerful "framework", "component manager", and what not.<br>It improoves your efficiency and offers many great tools for you to use in your web development journey, all in a singular, clean object.
 
-In just 21kb (all components!) it contains a big set of useful utilities, a full UI library with 3 styles and a color scheme system, tabs, modal & dialog, steps (wizzard system), navbar, select (improoved \<select>), chips, tree, notification ui, and a full-blown terminal emulator, console, and a code editor components. And there is way more to come.
+In just 21kb (all components!) it contains a big set of useful utilities, a full UI library with 3 styles and a color scheme system, tabs, modal & dialog, steps (wizzard system), navbar, select (improoved \<select>), chips, tree, notification ui, and a full-blown terminal emulator, console, and a code editor components. And there is way more to come.<br>
+All this, while being super lightweight - it is being served on a dynamic CDN with segments, aka you can simply just choose which components to include and which not, other simply won't be sent to save bandwidth and speed. This is both for CSS and JS.
 
 ## Component system
 LS has a rich component system that allows you to create, manage and use components with ease.<br>
@@ -35,7 +36,7 @@ Here are some randomly-picked examples of what LS can do, out-of-the-box.<br>Of 
 
 
 ### 1. Default design styles
-`ls-flat`, `ls-fluent`, `ls-sharp`<br>
+`ls-flat`, `ls-fluent`, `ls-sharp`<br><br>
 ![styles](https://user-images.githubusercontent.com/62482747/225784871-e1ee9427-a468-49c1-943e-aebd4d0731ea.png)<br>
 
 ### 2. Improoved select
@@ -53,17 +54,17 @@ You can create awesome automatic wizzards with `LS.Steps`<br>
 ![image](https://user-images.githubusercontent.com/62482747/225785979-1f5888d7-1e4e-4cc3-85da-59be4012d692.png)<br>
 
 ### 5. Console/Terminal emulator
-`LS.Console` is a component that adds an interactive & highly customizable console to your app.<br>2 major modes are terminal and "debug console".<br>
+`LS.Console` is a component that adds an interactive & highly customizable console to your app.<br>It has 2 major modes, "terminal" and "debug console".<br>
 <br>Debug console usage example: (from Hastrell playground)<br>
 ![image](https://user-images.githubusercontent.com/62482747/225791720-291d8b85-9840-42c6-8ad2-ebbd3190289c.png)<br>
-<br>Terminal mode usage example: (from ExtraGon panel)<br>
+<br>Terminal usage example: (from ExtraGon panel)<br>
 ![image](https://user-images.githubusercontent.com/62482747/225791727-0694a058-7138-4095-8b09-df9e4d94649b.png)<br>
 Notable features:
-- ANSI escape parsing, allowing you to directly pass it terminal output and get all the colors and crazy blinking rainbow stuff.
+- ANSI \\esc parsing, allowing you to directly pass it terminal output and get all the crazy blinking rainbow stuff.
 - Handome
 - Likes carrots
 
-
 <br><br>
-## There is also more things like global custom events and such, but i'll need to make a proper documentation for them. This readme serves more as a showcase that i put together half-asleep than a tutorial, so if you need to explain something, do not hesitate to contact me.
+## There is also more, like global custom events and such, but i'll need to make a proper documentation for them.<br>This readme serves more as a showcase that i put together half-asleep at 3AM rather than a tutorial, so if you need to explain something, do not hesitate to contact me. Or wait till i finish puredocs and then this documentation.
+## Also, this isn't the main source - i do not update the source that often on GitHub (that may change when i automate that in WSDK), overall almost none of my work is on GitHub or is not updated here, so to make sure you are using the latest, check the CDN, where there's always the most recent version.
 More stuff is about to come, too.
