@@ -1,3 +1,44 @@
+## Update 6.0 (not released on Github yet)
+- Complete backend rework - With advanced tree-shaking thanks to our new segmenting language
+- Optimisations, bugfixes and cleanups all across the framework
+- Migrated to SCSS and separated components in source
+### New components in 6.0:
+### 1. PatchBay
+![Screenshot from 2023-11-06 23-47-13](https://github.com/TheLSTV/LS/assets/62482747/d5f9e933-8295-443e-a5c8-a98e62644999)
+
+An extensive component adding the full functionality of a patch bay, with an infinite workspace.
+### 2. MultiSelect
+![Screenshot from 2023-11-06 23-49-35](https://github.com/TheLSTV/LS/assets/62482747/ee4ea8ad-ab20-430d-b50b-fde609383e7c)
+
+Allows you to easily enable mutiselect on any element.
+### 3. Knob
+![Screenshot from 2023-11-06 23-40-57](https://github.com/TheLSTV/LS/assets/62482747/c56903c0-3659-4d73-be18-cb32390b4b6b)
+
+Allows you to create fully customizable, beautiful and responsive knobs. Provides arc functionality, and a lot more to allow you to make any knob you need.
+### 4. Color
+With this component, you can finally add custom accents and manage colors + themes.
+### 5. ToolBox
+![Screenshot from 2023-11-06 23-55-04](https://github.com/TheLSTV/LS/assets/62482747/22a791fc-760c-423d-94fc-2e159722f36a)
+
+A full-on bash simulator and debugger, instantly accessible on any website with LS.
+### 6. Resize
+![Screenshot from 2023-11-06 23-57-18](https://github.com/TheLSTV/LS/assets/62482747/8408a217-ae4a-4c50-9227-58cffb02926c)
+
+With this component, you can easily add resizing functionality to any element.
+### 7. GraphGL
+![Screenshot from 2023-11-07 00-00-17](https://github.com/TheLSTV/LS/assets/62482747/c621ceb4-6dac-4962-b6f7-71eee46c5256)
+
+A beautiful linear graph renderer
+### 7. Progress & Seeker
+![Screenshot from 2023-11-07 00-03-43](https://github.com/TheLSTV/LS/assets/62482747/8603819c-ff94-49d5-9d8f-b0e1c166b0ec)
+
+Progress & range components.
+
+..and almost every other component was greatly improved.
+
+# Old content;
+
+
 # LS "Framework"
 LS is a powerful "framework", "component manager", and what not.<br>It improoves your efficiency and offers many great tools for you to use in your web development journey, all in a singular, clean object.
 
