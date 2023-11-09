@@ -18,6 +18,8 @@ Allows you to create fully customizable, beautiful and responsive knobs. Provide
 ### 4. Color
 With this component, you can finally add custom accents and manage colors + themes.
 ### 5. ToolBox
+![Screenshot from 2023-11-09 22-49-17](https://github.com/TheLSTV/LS/assets/62482747/7d77712c-2bc7-4062-9f31-36c8307a5692)
+
 ![Screenshot from 2023-11-06 23-55-04](https://github.com/TheLSTV/LS/assets/62482747/22a791fc-760c-423d-94fc-2e159722f36a)
 
 A full-on bash simulator and debugger, instantly accessible on any website with LS.
