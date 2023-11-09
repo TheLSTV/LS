@@ -14,6 +14,9 @@ Allows you to easily enable mutiselect on any element.
 ### 3. Knob
 ![Screenshot from 2023-11-06 23-40-57](https://github.com/TheLSTV/LS/assets/62482747/c56903c0-3659-4d73-be18-cb32390b4b6b)
 
+![Screenshot from 2023-11-09 22-52-58](https://github.com/TheLSTV/LS/assets/62482747/b3cd69a3-3872-4621-851d-8e0b015f4d36)
+
+
 Allows you to create fully customizable, beautiful and responsive knobs. Provides arc functionality, and a lot more to allow you to make any knob you need.
 ### 4. Color
 With this component, you can finally add custom accents and manage colors + themes.
