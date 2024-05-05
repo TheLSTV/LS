@@ -82,12 +82,14 @@
             }
             return false
         }
+
         onChain(...events){
             let func=events.find(e=>typeof e=="function");
             for(const evt of events){
                 _this.on(evt, func);
             }
         }
+
         destroy(){
             _this.on = _this.off = ()=>{}
             _this.listeners = []
