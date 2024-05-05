@@ -1,0 +1,25 @@
+[ls-style="elevated"] {
+    --br: .4375em;
+    --br-lg: .5625em;
+    :is(input, select, textarea):focus {
+        outline: .125em solid var(--accent-focus, var(--accent))
+    }
+    :is(button, input, select, textarea){
+        color: var(--color-bg, #fff);
+        background: var(--accent);
+        border: 0.8px solid #000000bd;
+        box-shadow: inset 0px 1px 1px 0px #ffffff55, inset 0 -6px 10px -5px #000;
+    }
+
+    :is(input, select, textarea) {
+        color: var(--color);
+        background: var(--ui-bg-0, var(--background))
+    }
+
+    button:active {
+        background: var(--accent-dark);
+        color: var(--color-bg, #fff);
+        border: 0.8px solid #000000bd;
+        box-shadow: inset 0px 0px 1px 1px #00000088, inset 0 -6px 10px -5px #000c;
+    }
+}

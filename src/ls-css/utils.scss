@@ -1,0 +1,25 @@
+
+
+/*
+    This function increases specificity x times by repeating the selector.
+
+    eg.
+
+    button#{priority(".myClass", 2)} { ... }
+
+    will result in:
+
+    button.myClass.myClass { ... }
+
+    which boosts the specificity to 0,2,1 instead of 0,1,1 if the class was written just once.
+
+    Use this only in edge cases, where a higher selector is breaking a lower selector and there is not a better way.
+*/
+
+@function priority($thing, $times) {
+    $result: '';
+    @for $i from 1 through $times {
+        $result: #{$result}#{$thing};
+    }
+    @return $result;
+}
