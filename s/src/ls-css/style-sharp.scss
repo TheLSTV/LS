@@ -1,0 +1,55 @@
+[ls-style="sharp"] {
+    --br: 2px;
+    --br-lg: 6px;
+
+    :is(button, input, select, textarea):focus {
+        outline: 1px solid var(--accent-focus, var(--accent))
+    }
+
+    :is(button, input, select, textarea) {
+        color: var(--color);
+        background: var(--elevate-0);
+        border-radius: var(--br);
+    }
+
+    :is(button, input, select,textarea):hover {
+        opacity: 1
+    }
+
+    :is(button,select):active {
+        background: var(--ui-bg-1)
+    }
+
+    group[inputs] {
+        box-shadow: 0 4px 40px -10px #000
+    }
+
+    group>:is(button, input) {
+        box-shadow: unset
+    }
+
+    :is(ls-select, [ls-box], [ls-box-i], .ls-tooltip-content, [ls-box-i][ls-fluent]){
+        padding: 5px 15px;
+        margin-bottom: 5px;
+        color: var(--color);
+        background: var(--elevate-0);
+        border-radius: var(--br);
+    }
+
+    ls-menu #{$input} {
+        background: var(--ui-bg-0);
+    }
+
+    ls-menu {
+        border-radius: 0;
+        box-shadow: 0px 4px 10px 0px rgb(0 0 0 / 20%);
+        padding: 0 0 4px;
+        background: var(--ui-bg-1);
+    }
+
+    ls-option {
+        border-radius: 0;
+        margin: 0;
+        padding: .2em .8em;
+    }
+}
