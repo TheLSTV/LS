@@ -184,7 +184,7 @@ if(!LS){
             /*]
             
             import(
-                ls-js/manipulator.js
+                ls-js/deprecated/manipulator.js
                 : Manipulator : -f
             )
             
