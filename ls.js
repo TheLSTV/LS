@@ -1108,9 +1108,6 @@ LS.LoadComponents({
         ls-js/tree.js
         : Tree $type,
 
-        ls-js/menubar.js
-        : Menubar $type,
-
         ls-js/present.js
         : Present $type,
 
@@ -1144,7 +1141,7 @@ LS.LoadComponents({
         ls-js/native.js
         : Native $type,
 
-        ls-js/deprecated/toolbox.js
+        ls-js/toolbox.js
         : ToolBox $type,
 
         ls-js/deprecated/dialog.js
@@ -1176,6 +1173,9 @@ LS.LoadComponents({
 
         ls-js/deprecated/react.js
         : NanoReact $type,
+
+        ls-js/deprecated/menubar.js
+        : Menubar $type
     )
     */
 });
