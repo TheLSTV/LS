@@ -1,5 +1,5 @@
 {
-    return(_this)=>class Tabs{
+    return(_this) => class Tabs{
         constructor(id, element = O("tabs"), options = {}){
             _this = this;
             this.element = O(element);

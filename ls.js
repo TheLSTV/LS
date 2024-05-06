@@ -1072,7 +1072,7 @@ LS.GlobalEvents = new(LS.EventResolver())(LS)
         })
     })
 
-    if(document.body) {LS.invoke("body-available")} else {M.on("load", ()=>LS.invoke("body-available"))}
+    if(document.body) LS.invoke("body-available"); else M.on("load", () => LS.invoke("body-available"));
 })();
 /*]}*/
 
@@ -1084,23 +1084,11 @@ LS.LoadComponents({
         ls-js/modal.js
         : Modal $type,
 
-        ls-js/dialog.js
-        : Dialog $type,
-
         ls-js/tabs.js
         : Tabs $type,
 
-        ls-js/form.js
-        : Form $type,
-
-        ls-js/steps.js
-        : Steps $type,
-
         ls-js/dragdrop.js
         : DragDrop $type,
-
-        ls-js/fragment.js
-        : Fragment $type,
 
         ls-js/timeline.js
         : Timeline $type,
@@ -1114,14 +1102,8 @@ LS.LoadComponents({
         ls-js/select.js
         : Select $type,
 
-        ls-js/debugger.js
-        : Debugger $type,
-
         ls-js/tooltips.js
         : Tooltips $type,
-
-        ls-js/chips.js
-        : Chips $type,
 
         ls-js/tree.js
         : Tree $type,
@@ -1132,20 +1114,8 @@ LS.LoadComponents({
         ls-js/present.js
         : Present $type,
 
-        ls-js/notif.js
-        : Notif $type,
-
-        ls-js/react.js
-        : NanoReact $type,
-
         ls-js/resize.js
         : Resize $type,
-
-        ls-js/terminal.js
-        : Terminal $type,
-
-        ls-js/editor.js
-        : Editor $type,
         
         ls-js/progress.js
         : Progress $type,
@@ -1174,9 +1144,38 @@ LS.LoadComponents({
         ls-js/native.js
         : Native $type,
 
-        ls-js/toolbox.js
-        : ToolBox $type
+        ls-js/deprecated/toolbox.js
+        : ToolBox $type,
 
+        ls-js/deprecated/dialog.js
+        : Dialog $type,
+
+        ls-js/deprecated/terminal.js
+        : Terminal $type,
+
+        ls-js/deprecated/editor.js
+        : Editor $type,
+
+        ls-js/deprecated/fragment.js
+        : Fragment $type,
+
+        ls-js/deprecated/form.js
+        : Form $type,
+
+        ls-js/deprecated/steps.js
+        : Steps $type,
+
+        ls-js/deprecated/debugger.js
+        : Debugger $type,
+
+        ls-js/deprecated/chips.js
+        : Chips $type,
+
+        ls-js/deprecated/notif.js
+        : Notif $type,
+
+        ls-js/deprecated/react.js
+        : NanoReact $type,
     )
     */
 });
