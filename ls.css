@@ -572,6 +572,8 @@ ls-option i, .ls-select-label i {
 [ls-style=sharp] {
   --br: 2px;
   --br-lg: 6px;
+  /*]part(Modal)*/
+  /*]end*/
 }
 [ls-style=sharp] :is(button, input, select, textarea):focus {
   outline: 1px solid var(--accent-focus, var(--accent));
@@ -613,6 +615,33 @@ ls-option i, .ls-select-label i {
   border-radius: 0;
   margin: 0;
   padding: 0.2em 0.8em;
+}
+[ls-style=sharp] ls-modal {
+  background: var(--ui-bg-1);
+  border-radius: 4px;
+  outline: 2px solid var(--ui-border);
+  border: 1px solid var(--ui);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+  flex-direction: column;
+  overflow: hidden;
+}
+[ls-style=sharp] ls-modal-body {
+  padding: 1.4rem;
+}
+[ls-style=sharp] ls-modal-footer > button {
+  width: 100%;
+}
+[ls-style=sharp] ls-modal-footer > button:is(:active, :focus):not([disabled]) {
+  background: var(--elevate-1) !important;
+}
+[ls-style=sharp] ls-modal-footer {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--transparent-overlay);
+  overflow: hidden;
+  gap: 10px;
+  padding: 10px;
 }
 
 /*]end;part(LS-Elevated)*/

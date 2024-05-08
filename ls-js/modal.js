@@ -20,7 +20,7 @@
 
             this.options = LS.Util.defaults({
                 uncancelable: false,
-                open: true,
+                open: false,
                 shade: true,
                 keep: true,
                 animationDelay: 100
@@ -29,7 +29,7 @@
             Object.defineProperty(this, "isOpen", {
                 get(){
                     if(!_this.element) return false;
-                    return _this.element.attr('open') === "true";
+                    return (!_this.element.hasAttr('open') || _this.element.attr('open') === "true");
                 }
             })
 
@@ -60,6 +60,8 @@
 
             _this.closeTimeout = 0;
 
+            if(element) this.setContent(element);
+
             LS.once("body-available", () => {
                 if(!gl.targetElement){
                     if(!LS._topLayer.has(".modals")) LS._topLayer.add(N({class: "modals"}));
@@ -71,7 +73,21 @@
         }
         
         _init(){
-            if(_this.options.open) _this.open()
+            if(_this.options.open) _this.open(); else _this.close()
+        }
+
+        setContent(content){
+            _this.element = _this.options.shade? N("ls-shade-fixed", {
+                onclick(){
+                    if(!(_this.options.uncancelable || _this.options.uncancellable) && event.target == this){
+                        _this.hide()
+                    }
+                },
+                inner: content
+            }) : content;
+
+            _this.element.attr("open", "false")
+            _this.element.hide()
         }
 
         handleKey(event){
@@ -92,7 +108,7 @@
         }
 
         show(){
-            if(_this.isOpen || !_this.element) return;
+            if(_this.isOpen || !_this.element) return false;
 
             _this.lastFocus = document.activeElement;
             
@@ -123,12 +139,12 @@
         }
 
         hide(){
-            if(!_this.isOpen || !this.element) return;
+            if(!_this.isOpen || !this.element) return false;
 
             _this.invoke("close");
             _this.element.attr('open', "false");
 
-            _this.lastFocus.focus();
+            if(_this.lastFocus) _this.lastFocus.focus();
 
             window.removeEventListener("keyup", this.handleKey)
 
@@ -175,14 +191,7 @@
 
             if(template.uncancelable || template.uncancellable) _this.options.uncancelable = true;
 
-            _this.element = _this.options.shade? N("ls-shade-fixed", {
-                onclick(){
-                    if(!(_this.options.uncancelable || _this.options.uncancellable) && event.target == this){
-                        _this.hide()
-                    }
-                },
-                inner: modal
-            }) : modal;
+            _this.setContent(modal)
 
             _this.element.style.display = "none";
 
