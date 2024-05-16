@@ -1,107 +1,153 @@
 {
-    return(_this)=>class List{
-        constructor(id,e,options={data:" .".repeat(20).split(".").filter(e=>e).map((e,i)=>i+1)}){
-            this.element=O(e);
-            _this=this;
-            this.data=options.data;
-            this.opt=Object.assign({
-                rowHeight: 20,
-                height: 200,
-                element: {
-                    class: "ls-list-row",
-                    attr: "chv"
-                }
-            },options);
-            this.elements=[];
-            this.element.style.height=this.opt.height+"px";
-            let container=N({class:"ls-list-container"}),
-                roll=N({class:"ls-list-roller"}),
-                fill=N({class:"ls-list-fill"});
-            this.view = [];
-            this.fill=fill;
-            this.roll=roll;
-            this.container=container;
-            this.updateSize(0);
-            this.fixElements();
-            this.element.class("ls-list");
-            this.roll.add(container)
-            this.element.add(fill,roll);
-            let prev=0,prevfs=0;
+    return (_this) => class InfiniteList {
 
-            this.buffer = 0;
-            async function handleShift(){
-                if(_this.buffer>1)return console.error("BUFFERED");
-                if(_this.up){
-                    // _this.container.prepend(_this.elements.at(-1));
-                    // _this.elements.unshift(_this.elements.pop());
-                    // _this.elements[0].innerText=fs;
-                    _this.view.unshift(_this.view.pop());
-                    _this.view[0]=fs;
-                }else{
-                    // _this.container.add(_this.elements[0]);
-                    // _this.elements.push(_this.elements.shift());
-                    // _this.elements.at(-1).innerText=fs+1+_this.visibleElements;
-                    _this.view.push(_this.view.shift());
-                    _this.view[_this.view.length-1]=fs+3+_this.visibleElements;
-                }
-                // console.clear()
-                // _this.updateContent()
-                console.log(_this.view);
-                if(_this.buffer>0)_this.buffer--
-            }
-            this.element.on("scroll",async e=>{
-                _this.buffer++
-                let fs=Math.floor(_this.element.scrollTop/_this.opt.rowHeight);
-                _this.up=_this.element.scrollTop<prev;
+        constructor(id, element, options){
+            _this = this;
+            
+            options = LS.Util.defaults({
+                lineHeight: 16, // Fixed height of each item
+                overheadLines: 16, // Scroll overhead. Must be divisible by two. Eg. 16 = each side of the scroll will have 8 extra rendered items. Lower values might create performance issues when scrolling fast, higher values will consume a more memory and slow down all scrolling. Recommended range is 8 to 32.
+                scrollArea: 400, // Scroll area, this also defines the maximum scroll speed per frame
+                scrollSensitivity: 2, // More = more effort needed to start scrolling, less = less effort needed to start scrolling. Not recommended to set below 1.
+                bottomScrollPadding: 200, // Extra space at the bottom of the scroll in pixels,
+                minimumScroll: 0, // Minimum that can be scrolled. Can be below 0.
+                layoutOnNoDifference: false, // Disabling this might improve performance a bit, but can cause issues in specific scenarios.
+                minimalDifference: 0, // If the difference is smaller than this, do not perform a layout. Higher values can improove load but will cause lagging.
+        
+                realScroll: false, // If enabled, the scroller will use absolute scroll position and create a filler element, instead of tracking scroll events relatively. This may negatively impact performance but allows you to use the native scrollbar.
+                dualScrollbar: false // Incompatible with realScroll - this creates an alternative scrollbar on the left, which uses the browser native scrollbar, but still allows you to use relative scrolling. This might still have a slight negative impact on performance.
+            }, options)
 
-                _this.container.style.transform="translateY("+((_this.element.scrollTop)-(_this.element.scrollTop%_this.opt.rowHeight)-(_this.opt.rowHeight*2))+"px)";
-                prev=_this.element.scrollTop;
 
-                _this.container.style.overflow=_this.element.scrollTop>=(_this.fullHeight-_this.opt.height)?"hidden":"visible"
-                console.log(_this.buffer);
-                if(fs!=prevfs)await handleShift();
-                prevfs=fs;
+            this.element = O(element) || N();
+
+            this.options = options;
+
+            this.scrollContainer = N({
+                class: "ls-listScrollContainer"
             })
-            // handleScroll();
-            this.update();
+
+            this.itemContainer = N({
+                class: "ls-listItemContainer"
+            })
+
+            this.scrollFilter = N({
+                class: "ls-listScrollFilter"
+            })
+
+            this.items = []
+
+            this.scrollContainer.add(this.itemContainer, this.scrollFilter)
+            this.element.add(this.scrollContainer)
+            this.element.class("ls-listContainer")
+
+            this.scrollY = 0;
+            this.previousEtape = null;
+            this.previousY = null;
+
+            this.scrollContainer.on("scroll", event => {
+
+                let diff = _this.scrollContainer.scrollTop - _this.options.scrollArea;
+            
+                if (diff < _this.options.scrollSensitivity && diff > -_this.options.scrollSensitivity) return;
+            
+                _this.scrollContainer.scrollTop = _this.options.scrollArea
+            
+                _this.scrollY += diff;
+                _this.scrollY = Math.max(_this.options.minimumScroll, Math.min((_this.items.length * _this.options.lineHeight) - _this.element.clientHeight + _this.options.bottomScrollPadding, _this.scrollY));
+            
+                if (!_this.options.layoutOnNoDifference && Math.floor(_this.previousY) == Math.floor(_this.scrollY)) return;
+                if (_this.options.minimalDifference && Math.abs(_this.scrollY - _this.previousY) < _this.options.minimalDifference) return;
+            
+                _this.previousY = _this.scrollY
+            
+                return _this.updateList()
+            })
+
+            this.init()
         }
-        updateContent(){
-            for(let i=0;i<this.drawAmount;i++){
-                //Update elements:
-                
-                this.elements[i].innerText=this.data[Math.round(this.element.scrollTop/this.opt.rowHeight)+i-1];
-            }
+
+        init() {
+            _this.itemContainer.clear()
+
+            _this.element.style.setProperty("--editor-lineHeight", _this.options.lineHeight + "px")
+
+            _this.items = "123\njkhg".split("\n")
+
+            _this.scrollY = 0
+            _this.scrollContainer.scrollTop = _this.options.scrollArea
+
+            _this.itemContainer.set(Array(Math.floor(_this.element.clientHeight / _this.options.lineHeight) + _this.options.overheadLines).fill().map((line, i) => N({
+                class: "ls-listItem",
+                textContent: _this.items[i]
+            })))
+
+            _this.updateList()
         }
-        update(){
-            this.updateSize();
-            this.updateContent();
+
+        scroll(x, y) {
+            scrollY = y
+            _this.previousY = y
+            _this.itemContainer.scrollLeft = x
+            _this.updateList()
         }
-        updateSize(updateElements=true){
-            this.fullHeight=this.data.length*this.opt.rowHeight;
-            this.visibleElements=Math.round(this.opt.height/this.opt.rowHeight);
-            this.drawAmount=this.visibleElements+4;
-            this.fill.style.height=(this.data.length*this.opt.rowHeight)+"px";
-            this.container.style.height=((this.drawAmount-2)*this.opt.rowHeight)+"px"
-            if(updateElements)this.fixElements();
+
+        scrollBy(x, y) {
+            _this.scrollContainer.scrollBy(x, y)
         }
-        fixElements(){
-            if(this.elements.length<this.drawAmount){
-                //Add elements if missing:
-                let n=this.drawAmount-this.elements.length;
-                for(let i=0;i<n;i++){
-                    this.elements.push(N({...this.opt.element}));
-                    this.view.push(i)
-                    this.container.add(this.elements.at(-1))
-                    console.log("element added"+i)
+
+        updateList() {
+            let etapeHeight = _this.options.overheadLines * _this.options.lineHeight,
+                etape = Math.floor(_this.scrollY / etapeHeight),
+                transform = _this.scrollY % etapeHeight
+            ;
+
+
+            // console.log("Previous etape:", _this.previousEtape, "Etape:", etape, "Scroll:", _this.scrollY, "Transform:", transform);
+
+            // if(etape > _this.previousEtape){
+            //     console.log("Shifting bottom");
+
+            //     for(let i = 0; i < _this.options.overheadLines; i++){
+            //         let location = (etape * _this.options.overheadLines) + i,
+            //             target = _this.itemContainer.child(0)
+            //         ;
+
+            //         _this.itemContainer.add(target)
+
+            //         if(location < _this.items.length){
+            //             target.class("hidden", 0)
+            //             target.set(_this.items[location])
+            //         } else {
+            //             target.class("hidden")
+            //         }
+            //     }
+            // }
+
+            // if(etape < _this.previousEtape){
+            //     console.log("Shifting top");
+
+            //     for(let i = 0; i < _this.options.overheadLines; i++){
+            //         _this.itemContainer.child(0).addBefore(_this.itemContainer.lastChild.set(_this.items[(etape * _this.options.overheadLines) + (_this.options.overheadLines - i - 1)]))
+            //     }
+            // }
+
+            if (etape != _this.previousEtape) {
+                for (let i = 0; i < _this.itemContainer.children.length; i++) {
+                    let location = (etape * _this.options.overheadLines) + i, target = _this.itemContainer.children[i];
+
+                    if (location < _this.items.length) {
+                        target.set(_this.items[location]).class("hidden", 0)
+                    } else {
+                        target.class("hidden")
+                    }
                 }
             }
-            if(this.elements.length>this.drawAmount){
-                //Remove elements if there is too much:
-                for(let i=0;i<this.elements.length-this.drawAmount;i++){
-                    this.elements.pop().remove();
-                    console.log("element removed"+i)
-                }
-            }
+
+            // console.log(_this.scrollY, transform, (Math.floor(_this.scrollY / etapeHeight) * etapeHeight), etapeHeight);
+
+            _this.itemContainer.style.transform = "translateY(" + (-transform) + "px)"
+            _this.previousEtape = etape;
         }
     }
 }
