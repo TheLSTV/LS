@@ -2142,7 +2142,7 @@ ls-timeline-area {
 }
 
 .ls-listItemContainer {
-  line-height: var(--editor-lineHeight, 16px);
+  line-height: var(--ls-list-lineHeight, 16px);
   position: absolute;
   height: 100%;
   overflow: visible;
@@ -2163,9 +2163,8 @@ ls-timeline-area {
 }
 
 .ls-listItem {
-  height: var(--editor-lineHeight, 16px);
+  height: var(--ls-list-lineHeight, 16px);
   width: 100%;
-  /* outline: 1px solid #fff1; */
 }
 
 .ls-listItem.hidden {

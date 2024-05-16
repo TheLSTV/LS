@@ -32,6 +32,25 @@ public class DynamicColorBridge {
         this.context = activity;
     }
 
+    //@Override
+	//public void onConfigurationChanged(Configuration newConfig) {
+
+	//	super.onConfigurationChanged(newConfig);
+	//	if(Build.VERSION.SDK_INT >= 28) {
+
+	//		Application app = this.cordova.getActivity().getApplication();
+	//		Resources resources = app.getResources();
+	//		int nightModeFlags = resources.getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+	//		if(nightModeFlags != currentNightModeFlags) {
+	//			currentNightModeFlags = nightModeFlags;
+	//			PluginResult result = new PluginResult(PluginResult.Status.OK, true);
+	//			result.setKeepCallback(true);
+	//			changeCallbackContext.sendPluginResult(result);
+	//		}
+	//	}
+	//}
+
     public boolean dayNightIsDay() {
 
         if(Build.VERSION.SDK_INT >= 28) {
@@ -234,7 +253,7 @@ public class DynamicColorBridge {
                 palette.put("error99", intColorToHex(ContextCompat.getColor(context, R.color.m3_ref_palette_error99)));
 
                 // DayNight
-                boolean dayNightIsDay = dayNightIsDay();
+                boolean dayNightIsDay = this.dayNightIsDay();
 
                 colors.put("palette", palette);
                 colors.put("theme", dayNightIsDay ? "light" : "dark");
@@ -244,7 +263,6 @@ public class DynamicColorBridge {
         }
 
         return colors.toString();
-
     }
 
     @SuppressLint("PrivateResource")

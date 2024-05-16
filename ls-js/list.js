@@ -70,7 +70,7 @@
         init() {
             _this.itemContainer.clear()
 
-            _this.element.style.setProperty("--editor-lineHeight", _this.options.lineHeight + "px")
+            _this.element.style.setProperty("--ls-list-lineHeight", _this.options.lineHeight + "px")
 
             _this.items = "123\njkhg".split("\n")
 
