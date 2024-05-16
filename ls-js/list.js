@@ -72,17 +72,19 @@
 
             _this.element.style.setProperty("--ls-list-lineHeight", _this.options.lineHeight + "px")
 
-            _this.items = "123\njkhg".split("\n")
-
             _this.scrollY = 0
             _this.scrollContainer.scrollTop = _this.options.scrollArea
 
             _this.itemContainer.set(Array(Math.floor(_this.element.clientHeight / _this.options.lineHeight) + _this.options.overheadLines).fill().map((line, i) => N({
                 class: "ls-listItem",
-                textContent: _this.items[i]
+                inner: _this.getItem(_this.items[i])
             })))
 
             _this.updateList()
+        }
+
+        getItem(item){
+            return _this.options.template? _this.options.template(item) : (typeof item === "string")? N({textContent: item}) : item
         }
 
         scroll(x, y) {
@@ -137,7 +139,7 @@
                     let location = (etape * _this.options.overheadLines) + i, target = _this.itemContainer.children[i];
 
                     if (location < _this.items.length) {
-                        target.set(_this.items[location]).class("hidden", 0)
+                        target.set(_this.getItem(_this.items[location])).class("hidden", 0)
                     } else {
                         target.class("hidden")
                     }

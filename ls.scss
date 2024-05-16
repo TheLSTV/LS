@@ -1307,12 +1307,11 @@ ls-timeline-area {
 
 .ls-listItemContainer {
     line-height: var(--ls-list-lineHeight, 16px);
-    position: absolute;
+    position: sticky;
     height: 100%;
     overflow: visible;
     width: 100%;
     inset: 0;
-    top: 100%;
 }
 
 .ls-listScrollContainer {
