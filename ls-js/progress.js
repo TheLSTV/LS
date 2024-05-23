@@ -16,9 +16,9 @@
             this.element = element = O(element)
             if(!element)throw"No element provided";
 
-            _this=this;
+            _this = this;
 
-            this.options = Object.assign({
+            this.options = LS.Util.defaults({
                 seeker: false,
                 separator: options.seeker? "" : "/"
             }, options)
@@ -38,6 +38,7 @@
             _this._max = this.options.max || +element.attr("max") || 100;
             _this._progress = this.options.progress || 0;
             _this._value = this.options.value || +element.attr("value") || 0;
+            if(!_this.options.metric && element.attr("metric")) _this.options.metric = element.attr("metric");
 
             this.define(this)
             if(this.options.progress && this.options.value)throw("You can't define both the progress and value.")
