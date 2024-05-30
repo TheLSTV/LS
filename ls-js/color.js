@@ -71,6 +71,13 @@
             LS.Color.setTheme(_this.lightModePreffered? "light": amoled? "amoled" : "dark")
         }
 
+        watchScheme(amoled){
+            LS.once("body-available", () => {
+                _this.adaptiveTheme();
+                _this.on("scheme-changed", () => _this.adaptiveTheme())
+            })
+        }
+
         all(){
             return [..._this.default.colors, ...Object.keys(_this.colors)]
         }
