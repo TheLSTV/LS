@@ -24,6 +24,7 @@ body, [ls] {
   --ui-bg-1: #1b1b1b;
   --ui-border: #0c0c0c;
   --ui-overlay: #0c0c0ca3;
+  --elevate: #222;
   --elevate-0: #333;
   --elevate-1: #444;
   --elevate-2: #555;
@@ -46,6 +47,7 @@ body, [ls] {
   --transparent-overlay-strong: #fff3;
   --color: #eee;
   --ui: #333;
+  --elevate-0: #111;
   --elevate-0: #111;
   --elevate-1: #222;
   --elevate-2: #333;
@@ -74,6 +76,7 @@ body, [ls] {
   --ui-bg-1: #eee;
   --ui-border: #727272;
   --ui-overlay: #7272725e;
+  --elevate: #eee;
   --elevate-0: #ddd;
   --elevate-1: #aaa;
   --elevate-2: #777;
