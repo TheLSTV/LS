@@ -23,31 +23,40 @@ if(!LS){
         get CDN(){
             console.warn("[LS Warning] LS.CDN is marked for removal and should not be used anymore");
             return '/*] switch_dev(http://cdn.extragon.test, https://cdn.extragon.cloud) */'
+
+            // Future syntax proposal
+            return _akeno.exec(function (){
+                return backend.dev? "thing": "thing"
+            })
         },
 
         Util:{
-            resolve(...a){
-                return a.flat(Infinity).map(i=>{
-                    if(i?.tagName) return i;
-                    return [...N("temp",i).childNodes];
+            resolve(...array){
+
+                // Takes a list of elements or element-like structure and cleans the array to a definite array of elements
+
+                return array.flat(Infinity).map(element => {
+                    if(element && element.tagName) return element;
+
+                    return [...N("temp", element).childNodes];
                 }).flat();
             },
 
             objectPath(o,s,v,splitter,strict=false){
-                s=s.replace(/\[(\w+)\]/g,splitter+'$1');
-                s=s.replace(new RegExp("^\\"+splitter),'').replace(new RegExp("\\"+splitter+"+","g"),splitter);
-                if(s=="")return o;
-                let a=s.split(splitter);
-                for(let [i,k] of a.entries()){
-                    if(k in o){
-                        o=o[k];
-                    }else{
-                        if(strict)return null;
-                        o[k]=(i==a.length-1)?v||{}:{};o=o[k];
-                        if(i==a.length-1)return o;
-                    }
-                }
-                return o;
+                // s=s.replace(/\[(\w+)\]/g,splitter+'$1');
+                // s=s.replace(new RegExp("^\\"+splitter),'').replace(new RegExp("\\"+splitter+"+","g"),splitter);
+                // if(s=="")return o;
+                // let a=s.split(splitter);
+                // for(let [i,k] of a.entries()){
+                //     if(k in o){
+                //         o=o[k];
+                //     }else{
+                //         if(strict)return null;
+                //         o[k]=(i==a.length-1)?v||{}:{};o=o[k];
+                //         if(i==a.length-1)return o;
+                //     }
+                // }
+                // return o;
             },
 
             params(get = null){
@@ -69,8 +78,16 @@ if(!LS){
                 return get? result[get] : result
             },
 
+            touchHandle(element, options = {}){
+                let legacyHandle = LS.Util.RegisterMouseDrag(element, options.exclude || false, options);
+                return legacyHandle;
+            },
+
             RegisterMouseDrag(handle, exclude = false, options = {}){
                 if(!handle || !O(handle)) throw "Invalid handle!";
+
+                console.warn("Note: You are using LS.Util.RegisterMouseDrag - this has been replaced by LS.Util.touchHandle. It is recommended to migrate. Backwards compatibility so far is supported.")
+
                 let events = new(LS.EventResolver()), cancelled = false;
 
                 options = {
@@ -86,7 +103,10 @@ if(!LS){
                     if(cancelled) return;
 
                     event.preventDefault()
-                    events.invoke("move", event.type == "touchmove"? event.touches[0].clientX : event.clientX, event.type == "touchmove"? event.touches[0].clientY : event.clientY, event)
+
+                    let x = event.type == "touchmove"? event.touches[0].clientX : event.clientX, y = event.type == "touchmove"? event.touches[0].clientY : event.clientY;
+                    events.invoke("move", x, y, event)
+                    if(options.onStart) options.onStart(event, cancel, x, y)
                 }
 
                 function cancel() {
@@ -99,14 +119,19 @@ if(!LS){
     
                     handle.class("is-dragging", 0)
                     events.target.class("ls-drag-target", 0)
-                    D().documentElement.class("ls-dragging",0)
-                    D().removeEventListener("mousemove", move);
-                    D().removeEventListener("mouseup", release);
-                    D().removeEventListener("touchmove", move);
-                    D().removeEventListener("touchend", release);
-                    D().documentElement.style.cursor = "";
+                    document.documentElement.class("ls-dragging",0)
+                    document.removeEventListener("mousemove", move);
+                    document.removeEventListener("mouseup", release);
+                    document.removeEventListener("touchmove", move);
+                    document.removeEventListener("touchend", release);
+                    document.documentElement.style.cursor = "";
     
-                    events.invoke("end", evt)
+                    events.invoke(evt.type == "destroy"? "destroy" : "end", evt)
+
+                    if(evt.type == "destroy")
+                        if(options.onDestroy) options.onDestroy(evt);
+                    else 
+                        if(options.onEnd) options.onEnd(evt);
                 }
 
                 function start(event){
@@ -117,7 +142,11 @@ if(!LS){
                     if(event.type == "mousedown" && !options.buttons.includes(event.button)) return;
                     
                     events.seeking = true;
-                    events.invoke("start", event, cancel, event.type == "touchstart"? event.touches[0].clientX : M.x, event.type == "touchstart"? event.touches[0].clientY : M.y)
+
+                    let x = event.type == "touchstart"? event.touches[0].clientX : M.x, y = event.type == "touchstart"? event.touches[0].clientY : M.y;
+
+                    events.invoke("start", event, cancel, x, y)
+                    if(options.onStart) options.onStart(event, cancel, x, y)
 
                     if(cancelled) return events.seeking = false;
 
@@ -125,12 +154,12 @@ if(!LS){
                     events.target.class("ls-drag-target")
 
                     handle.class("is-dragging")
-                    D().documentElement.class("ls-dragging")
-                    D().addEventListener("mousemove", move);
-                    D().addEventListener("mouseup", release);
-                    D().addEventListener("touchmove", move);
-                    D().addEventListener("touchend", release);
-                    D().documentElement.style.cursor = events.cursor || "grab";
+                    document.documentElement.class("ls-dragging")
+                    document.addEventListener("mousemove", move);
+                    document.addEventListener("mouseup", release);
+                    document.addEventListener("touchmove", move);
+                    document.addEventListener("touchend", release);
+                    document.documentElement.style.cursor = events.cursor || "grab";
                 }
 
                 handle.on("mousedown", "touchstart", ...(options.startEvents || []), start)
@@ -138,7 +167,10 @@ if(!LS){
                 events.destroy = function (){
                     release({type: "destroy"})
                     handle.off("mousedown", "touchstart", start)
-                    events.destroy()
+                    cancelled = true;
+                    events.destroy = () => false;
+                    events.destroyed = true
+                    return true
                 }
 
                 return events
@@ -160,23 +192,26 @@ if(!LS){
             },
 
             copy(text) {
-                return new Promise(r=>{
+                return new Promise(resolve => {
                     if (navigator.clipboard && navigator.clipboard.writeText) {
                         navigator.clipboard.writeText(text)
                             .then(() => {
-                                r()
+                                resolve()
                             })
                             .catch(error => {
-                                r(error)
+                                resolve(error)
                             })
                     } else {
-                        //deprecated
-                        let temporary = N('textarea', {value: text})
-                        O().add(temporary)
-                        temporary.select()
+                        // Old method
+
+                        let temp = N('textarea', {value: text})
+
+                        O().add(temp)
+                        temp.select()
                         document.execCommand('copy')
-                        O().removeChild(temporary)
-                        r()
+                        
+                        O().removeChild(temp)
+                        resolve()
                     }
                 })
             },
@@ -192,7 +227,7 @@ if(!LS){
         },
         /*]part(tiny)*/
         TinyFactory(r){
-            return{
+            return {
                 _affected: true,
                 isElement: true,
 
@@ -303,7 +338,10 @@ if(!LS){
                 },
 
                 // ! Deprecated !
-                move: r.addTo,
+                move(){
+                    console.warn("You are using element.move from LS! This is strongly discouraged and deprecated. Use element.addTo instead.");
+                    return r.addTo
+                },
 
                 wrapIn(e){
                     r.addAfter(e);
@@ -312,7 +350,7 @@ if(!LS){
                 },
 
                 addOnce(a){
-                    console.warn("element.addOnce is deprecated")
+                    console.warn("element.addOnce is deprecated, do not rely on it")
                     if (!O(r, '#' + a.id)) r.add(a)
                 },
 
@@ -322,6 +360,7 @@ if(!LS){
                         if (typeof evt != "string") continue;
                         r.addEventListener(evt, func);
                     }
+
                     return r.self
                 },
 
@@ -331,6 +370,7 @@ if(!LS){
                         if (typeof evt != "string") continue;
                         r.removeEventListener(evt, func);
                     }
+
                     return r.self
                 },
 
@@ -339,12 +379,17 @@ if(!LS){
                 },
 
                 hide(){
+                    r.attrAssign({
+                        "ls-hide-originaldisplay": getComputedStyle(r).display
+                    })
+
                     r.style.display = "none";
                     return r
                 },
 
-                show(c){
-                    r.style.display = c || "inherit"; return r
+                show(displayOverride){
+                    r.style.display = displayOverride || r.attr("ls-hide-originaldisplay") || "inherit";
+                    return r
                 },
 
                 applyStyle(rules){
@@ -384,24 +429,21 @@ if(!LS){
 
                 self: r,
 
-                path:()=>{
-                    let p=[r],
-                        i=0;
-                    while(p[p.length - 1]?.tagName != 'HTML') {
-                        p.push(r.parent(i));
+                findPath () {
+                    let path = [r];
+                    
+                    for(let i = 0; path.at(-1)?.tagName != "HTML"; i++){
+                        path.push(r.parent(i));
                         i++
                     }
-                    return p.reverse()
-                },
 
-                query:()=>r.path().map(r => r.tagName + (r.className ? '.' + r.className.replace(/\s/g, '.') : '') + (r.id ? '#' + r.id : '')).join('>'),
-
-                queryPath: r.query
+                    return path.reverse()
+                }
             }
         },
         Tiny:{
             Q: (e, q) => {
-                let elements = (e?.tagName && !q ? [e] : [...(e?.tagName ? e : D()).querySelectorAll(e?.tagName ? !q ? '*' : q : typeof e == 'string' ? e : '*')])?.map(r => {
+                let elements = (e?.tagName && !q ? [e] : [...(e?.tagName ? e : document).querySelectorAll(e?.tagName ? !q ? '*' : q : typeof e == 'string' ? e : '*')])?.map(r => {
                     if(!r._affected){
 
                         let methods = LS.TinyFactory(r);
@@ -446,7 +488,10 @@ if(!LS){
                 return LS.Tiny.Q(...selector.length < 1? ['body'] : selector)[0]
             },
 
-            D: () => document,
+            D: () => {
+                console.warn("You are using D() which is deprecated and should be removed.");
+                return document
+            },
 
             N(tagName = 'div', content){
                 if(typeof tagName != "string"){
