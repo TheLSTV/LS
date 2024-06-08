@@ -1,8 +1,18 @@
-## Update 6.0 (not released on Github yet)
-- Complete backend rework - With advanced tree-shaking thanks to our new segmenting language
+## Recent changes (3.4.5)
+### 1) Colors
+The color system was updated, with many new presets, new shades in CSS, more customization, and upgraded LS.Color API:
+![Screenshot from 2024-06-08 11-23-38](https://github.com/TheLSTV/LS/assets/62482747/33a132f4-9005-4e36-b389-9f637cab944f)
+### 2) Timeline
+![Screenshot from 2024-06-08 11-28-17](https://github.com/TheLSTV/LS/assets/62482747/197cd03c-a65a-4229-afef-26d8a2392653)
+
+
+
+- CDN backend will get a makeover with version control and new tree-shaking *(not live yet)*
 - Optimisations, bugfixes and cleanups all across the framework
 - Migrated to SCSS and separated components in source
-### New components in 6.0:
+
+
+### New components in 3.4.0:
 ### 1. PatchBay
 ![Screenshot from 2023-11-06 23-47-13](https://github.com/TheLSTV/LS/assets/62482747/d5f9e933-8295-443e-a5c8-a98e62644999)
 
