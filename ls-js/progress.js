@@ -8,18 +8,21 @@
             this.ls.define(this)
         }
     }
+
     customElements.define('ls-seeker', elementClass);
     customElements.define('ls-progress', class extends elementClass{constructor(){super()}});
 
-    return _this=>class ProgressBar{
+    return _this => class ProgressBar{
         constructor(id, element, options = {}){
             this.element = element = O(element)
-            if(!element)throw"No element provided";
+            if(!element) throw "No element provided";
 
             _this = this;
 
             this.options = LS.Util.defaults({
                 seeker: false,
+                styled: true,
+                vertical: false,
                 separator: options.seeker? "" : "/"
             }, options)
 
@@ -27,8 +30,20 @@
             element.attrAssign("chv");
 
             if(this.options.seeker) this.element.class("ls-seek");
+            if(this.options.styled) this.element.class("ls-progress-styled");
 
-            element.add(N({class:"ls-progress-bar"}), this.options.seeker? N({class:"ls-seeker-thumb"}) : "", N({class:"ls-progress-label",inner:[N("span", {class: "ls-progress-label-left"}), N("span", {class: "ls-progress-label-separator"}), N("span", {class: "ls-progress-label-right"})]}))
+            element.add(
+                N({class: "ls-progress-bar"}),
+                this.options.seeker? N({class: "ls-seeker-thumb"}) : "",
+                N({
+                    class: "ls-progress-label",
+                    inner:[
+                        N("span", {class: "ls-progress-label-left"}),
+                        N("span", {class: "ls-progress-label-separator"}),
+                        N("span", {class: "ls-progress-label-right"})
+                    ]
+                })
+            )
 
             this.labelLeft = _this.element.get(".ls-progress-label-left");
             this.labelRight = _this.element.get(".ls-progress-label-right");
@@ -43,13 +58,15 @@
             this.define(this)
             if(this.options.progress && this.options.value)throw("You can't define both the progress and value.")
         }
+
         _init(){
-            _this.bar=_this.element.get(".ls-progress-bar");
-            _this.label=_this.element.get(".ls-progress-label");
+            _this.bar = _this.element.get(".ls-progress-bar");
+            _this.label = _this.element.get(".ls-progress-label");
+
             if(_this.options.seeker){
                 _this.thumb = _this.element.get(".ls-seeker-thumb");
 
-                let handle = LS.Util.RegisterMouseDrag(_this.element, ".ls-progress-label-left");
+                let handle = LS.Util.touchHandle(_this.element, {exclude: ".ls-progress-label-left"});
 
                 _this.labelLeft.style.userSelect = "";
 
@@ -93,10 +110,12 @@
                 })
                 
                 handle.on("move", (x, y, event) => {
+
                     let rect = _this.element.getBoundingClientRect(),
-                        xOffset = x - rect.left,
-                        newValue = Math.round((xOffset / rect.width) * _this.max)
+                        offset = _this.options.vertical? (y - rect.top) : (x - rect.left),
+                        newValue = Math.round(((_this.options.vertical? rect.height - offset : offset) / (_this.options.vertical? rect.height : rect.width)) * _this.max)
                     ;
+
                     if (newValue >= 0 && newValue <= _this.max) {
                         if(LS.Tooltips) {
                             LS.Tooltips.set(String(newValue));
@@ -113,37 +132,39 @@
                     if(LS.Tooltips) LS.Tooltips.hide();
                 })
             }
-            if(_this.options.progress&&!_this.options.value){_this.update(true)}
-            else if(_this.options.value&&!_this.options.progress){_this.update()}
-            else{_this.update()}
+
+            _this.update(_this.options.progress && !_this.options.value);
         }
+
         define(scope){
             Object.defineProperty(scope,"progress",{
                 get(){return _this._progress},
                 set(value){_this._progress=value;_this.update(true)}
             })
+
             Object.defineProperty(scope,"value",{
                 get(){return _this._value},
                 set(value_){_this._value=value_;_this.update()}
             })
+
             Object.defineProperty(scope,"max",{
                 get(){return _this._max},
                 set(value){_this._max=value;_this.update()}
             })
         }
-        update(setPercentage,isSeeking){
+
+        update(setPercentage, isSeeking){
             if(_this.seeking && !isSeeking) return;
-            if(!setPercentage){
-                _this._progress=(_this.value/_this.max) * 100
-            }else{
-                _this._value=(_this._progress*_this.max) / 100
-            }
+
+            if(!setPercentage) _this._progress = (_this.value/_this.max) * 100;
+                          else _this._value=(_this._progress*_this.max) / 100;
+
             if(_this.options.seeker){
-                _this.thumb.style.left=_this.progress+"%"
-                if(isSeeking)_this.invoke("seek",_this._value,_this._max,_this._progress)
+                _this.thumb.style[_this.options.vertical? "bottom": "left"] = _this.progress + "%"
+                if(isSeeking) _this.invoke("seek", _this._value, _this._max, _this._progress)
             }
 
-            _this.bar.style.width = _this.progress+"%"
+            _this.bar.style[_this.options.vertical? "height": "width"] = _this.progress + "%"
 
             _this.labelLeft.set(String(_this.value))
             _this.labelSeparator.set(_this.options.separator)

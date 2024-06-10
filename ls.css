@@ -1797,7 +1797,7 @@ tab > div {
 }
 
 /*]end;part(progress)*/
-.ls-progress {
+.ls-progress-styled {
   width: 100%;
   height: 40px;
   background: var(--ui-bg-0);
@@ -1806,7 +1806,7 @@ tab > div {
   user-select: none;
 }
 
-.ls-progress.style-round {
+.ls-progress-styled.style-round {
   border-radius: var(--br-lg);
   overflow: hidden;
   outline: 8px solid var(--ui-bg-0);
@@ -1815,7 +1815,7 @@ tab > div {
   width: calc(100% - 16px);
 }
 
-.ls-progress-bar {
+.ls-progress-styled .ls-progress-bar {
   position: absolute;
   left: 0;
   top: 0;
@@ -1824,28 +1824,28 @@ tab > div {
   z-index: 0;
 }
 
-.ls-progress-label {
+.ls-progress-styled .ls-progress-label {
   z-index: 1;
   -webkit-user-select: none;
   user-select: none;
 }
 
-.ls-progress.ls-seek {
+.ls-progress-styled.ls-progress.ls-seek {
   border-radius: 1em;
   height: 0.7em;
   margin: 1.5em 20px;
   margin-bottom: 2.5em;
 }
 
-.ls-progress.ls-seek.no-label {
+.ls-progress-styled.ls-progress.ls-seek.no-label {
   margin-top: 0;
 }
 
-.ls-seek .ls-progress-bar {
+.ls-progress-styled.ls-seek .ls-progress-bar {
   border-radius: 1em;
 }
 
-.ls-seek .ls-progress-label {
+.ls-progress-styled.ls-seek .ls-progress-label {
   position: absolute;
   bottom: -200%;
   left: 0;
@@ -1855,7 +1855,7 @@ tab > div {
   height: 1em;
 }
 
-.ls-seeker-thumb {
+.ls-progress-styled .ls-seeker-thumb {
   position: absolute;
   background: var(--ui-bg-0);
   border-radius: 50%;
@@ -1865,7 +1865,7 @@ tab > div {
   cursor: grab;
 }
 
-.ls-seeker-thumb::after {
+.ls-progress-styled .ls-seeker-thumb::after {
   content: "";
   position: absolute;
   top: 0.3em;
@@ -1881,11 +1881,11 @@ tab > div {
   user-select: none;
 }
 
-.ls-seeker-thumb:hover:not(:active)::after {
+.ls-progress-styled .ls-seeker-thumb:hover:not(:active)::after {
   transform: scale(1.1);
 }
 
-.is-dragging .ls-seeker-thumb::after {
+.is-dragging.ls-progress-styled .ls-seeker-thumb::after {
   transform: scale(0.7);
   opacity: 1;
 }
