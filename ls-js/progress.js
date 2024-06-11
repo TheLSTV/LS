@@ -23,6 +23,7 @@
                 seeker: false,
                 styled: true,
                 vertical: false,
+                padding: options.vertical? 16: 0,
                 separator: options.seeker? "" : "/"
             }, options)
 
@@ -156,11 +157,11 @@
         update(setPercentage, isSeeking){
             if(_this.seeking && !isSeeking) return;
 
-            if(!setPercentage) _this._progress = (_this.value/_this.max) * 100;
-                          else _this._value=(_this._progress*_this.max) / 100;
+            if(!setPercentage) _this._progress = (_this.value / _this.max) * 100;
+                          else _this._value = (_this._progress * _this.max) / 100;
 
             if(_this.options.seeker){
-                _this.thumb.style[_this.options.vertical? "bottom": "left"] = _this.progress + "%"
+                _this.thumb.style[_this.options.vertical? "bottom": "left"] = _this.options.padding? `calc(${_this.progress}%)` : (_this.progress + "%")
                 if(isSeeking) _this.invoke("seek", _this._value, _this._max, _this._progress)
             }
 

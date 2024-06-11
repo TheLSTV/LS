@@ -379,8 +379,10 @@ if(!LS){
                 },
 
                 hide(){
+                    let current = getComputedStyle(r).display;
+
                     r.attrAssign({
-                        "ls-hide-originaldisplay": getComputedStyle(r).display
+                        "ls-hide-originaldisplay": current == "none"? "block": current
                     })
 
                     r.style.display = "none";
