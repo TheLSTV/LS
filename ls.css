@@ -803,6 +803,30 @@ ls-option i, .ls-select-label i {
   --color-bg: #222;
 }
 
+[ls-accent=lstv-red] {
+  --accent-raw: 237, 108, 48;
+  --accent-background-raw: 54, 35, 27;
+  --accent-dark-raw: 197, 81, 27;
+  --accent-light-raw: 235, 150, 111;
+  --color-bg: #222;
+}
+
+[ls-accent=lstv-yellow] {
+  --accent-raw: 252, 194, 27;
+  --accent-background-raw: 55, 46, 20;
+  --accent-dark-raw: 206, 156, 12;
+  --accent-light-raw: 246, 207, 94;
+  --color-bg: #222;
+}
+
+[ls-accent=lstv-blue] {
+  --accent-raw: 64, 192, 231;
+  --accent-background-raw: 33, 52, 58;
+  --accent-dark-raw: 35, 160, 198;
+  --accent-light-raw: 125, 207, 232;
+  --color-bg: #222;
+}
+
 [ls-accent=orange] {
   --accent-raw: 255, 140, 32;
   --accent-background-raw: 62, 41, 21;

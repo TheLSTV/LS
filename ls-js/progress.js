@@ -165,6 +165,8 @@
                 if(isSeeking) _this.invoke("seek", _this._value, _this._max, _this._progress)
             }
 
+            _this.invoke("change", _this._value, _this._max, _this._progress)
+
             _this.bar.style[_this.options.vertical? "height": "width"] = _this.progress + "%"
 
             _this.labelLeft.set(String(_this.value))

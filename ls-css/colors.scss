@@ -140,6 +140,36 @@
     --color-bg: #222;
 }
 
+[ls-accent="lstv-red"] {
+    $accent: rgb(237, 108, 48);
+
+    --accent-raw: #{toRaw($accent)};
+    --accent-background-raw: #{toRaw(darken(desaturate($accent, 50%), 40%))};
+    --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
+    --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
+    --color-bg: #222;
+}
+
+[ls-accent="lstv-yellow"] {
+    $accent: rgb(252, 194, 27);
+
+    --accent-raw: #{toRaw($accent)};
+    --accent-background-raw: #{toRaw(darken(desaturate($accent, 50%), 40%))};
+    --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
+    --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
+    --color-bg: #222;
+}
+
+[ls-accent="lstv-blue"] {
+    $accent: rgb(64, 192, 231);
+
+    --accent-raw: #{toRaw($accent)};
+    --accent-background-raw: #{toRaw(darken(desaturate($accent, 50%), 40%))};
+    --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
+    --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
+    --color-bg: #222;
+}
+
 [ls-accent="orange"] {
     $accent: rgb(255, 140, 32);
 
