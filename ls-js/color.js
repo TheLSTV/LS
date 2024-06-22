@@ -90,5 +90,38 @@
             let colors = _this.all();
             return colors[Math.floor(Math.random() * colors.length)];
         }
+
+        getAverageRGB(image, sampleGap = 20){
+            let canvas = N("canvas"),
+                context = canvas.getContext && canvas.getContext("2d"),
+                index = -4,
+                color = [0, 0, 0],
+                sampleCount = 0
+            ;
+
+            if (!context) return C(...color);
+
+            canvas.height = image.naturalHeight || image.offsetHeight || image.height;
+            canvas.width = image.naturalWidth || image.offsetWidth || image.width;
+            
+            context.drawImage(image, 0, 0);
+
+            let imageData;
+            try {
+                imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+            } catch (error) {
+                console.error(error);
+                return C(...color);
+            }
+
+            for (let i = imageData.data.length; (index += sampleGap) < i; ) {
+                ++sampleCount
+                color[0] += imageData.data[index]
+                color[1] += imageData.data[index + 1]
+                color[2] += imageData.data[index + 2]
+            }
+        
+            return (color[0] = ~~(color[0] / sampleCount)), (color[1] = ~~(color[1] / sampleCount)), (color[2] = ~~(color[2] / sampleCount)), C(...color);
+        }
     }
 }
