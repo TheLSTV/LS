@@ -641,28 +641,49 @@ if(!LS){
                     },
 
                     get hsl(){
-                        // Credit: 30secondsofcode.org
-            
-                        let _r = r/255;
-                        let _g = g/255;
-                        let _b = b/255;
+                        let _r = r / 255;
+                        let _g = g / 255;
+                        let _b = b / 255;
 
-                        let l = Math.max(_r, _g, _b),
-                            s = l - Math.min(_r, _g, _b),
-                            h = s
-                                ? l === _r
-                                ? (g - _b) / s
-                                : l === _g
-                                ? 2 + (_b - _r) / s
-                                : 4 + (_r - _g) / s
-                                : 0
-                        ;
-            
-                        return [
-                            60 * h < 0 ? 60 * h + 360 : 60 * h,
-                            100 * (s ? (l <= 0.5 ? s / (2 * l - s) : s / (2 - (2 * l - s))) : 0),
-                            (100 * (2 * l - s)) / 2,
-                        ]
+                        // Find the minimum and maximum values of R, G and B
+                        let max = Math.max(_r, _g, _b);
+                        let min = Math.min(_r, _g, _b);
+
+                        // Calculate the luminance
+                        let l = (max + min) / 2;
+
+                        let h, s;
+
+                        if (max === min) {
+                            // Achromatic case (gray)
+                            h = s = 0;
+                        } else {
+                            let delta = max - min;
+
+                            // Calculate the saturation
+                            s = l > 0.5 ? delta / (2 - max - min) : delta / (max + min);
+
+                            // Calculate the hue
+                            switch (max) {
+                                case _r:
+                                    h = (_g - _b) / delta + (_g < _b ? 6 : 0);
+                                    break;
+                                case _g:
+                                    h = (_b - _r) / delta + 2;
+                                    break;
+                                case _b:
+                                    h = (_r - _g) / delta + 4;
+                                    break;
+                            }
+                            h /= 6;
+                        }
+
+                        // Convert H, S, and L to percentages
+                        h = Math.round(h * 360);
+                        s = Math.round(s * 100);
+                        l = Math.round(l * 100);
+
+                        return [h, s, l]
                     },
             
                     fromHSL(h, s, l){
