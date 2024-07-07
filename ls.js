@@ -802,17 +802,22 @@ if(!LS){
                 return tools;
             },
 
-            M:{
+            M: {
                 x: 0,
                 y: 0,
+
                 _GlobalID: {
                     count: 0,
-                    prefix: Math.round(Math.random()*1e3)
+                    prefix: Math.round(Math.random() * 1e3)
                 },
+
                 lastKey: null,
+
                 ShiftDown: false,
                 ControlDown: false,
+
                 mouseDown: false,
+
                 on(...events){
                     let func = events.find(e => typeof e == "function");
                     for(const evt of events){
@@ -821,11 +826,15 @@ if(!LS){
                     }
                     return M
                 },
+
                 get GlobalIndex(){
                     M._GlobalID.count++;
-                    return +((""+M._GlobalID.prefix)+(""+M._GlobalID.count))
+                    return +(("" + M._GlobalID.prefix) + ("" + M._GlobalID.count))
                 },
-                get GlobalID(){return M.GlobalIndex.toString(36)},
+
+                get GlobalID(){
+                    return M.GlobalIndex.toString(36)
+                },
 
                 Style(url, callback){
                     return new Promise((resolve, reject)=>{
@@ -861,29 +870,42 @@ if(!LS){
                 },
 
                 Component(...list){
-                    list = list.filter(c=>!LS[c])
-                    if(list.length<1)return;
-                    return M.Script(LS.CDN+"/ls/js/2/@Bare,"+list.join(",").replaceAll(/[ \n/?]/g,""))
+                    throw "M.Component is currently deprecated!"
+                    // list = list.filter(c=>!LS[c])
+                    // if(list.length<1)return;
+                    // return M.Script(LS.CDN+"/ls/js/2/@Bare,"+list.join(",").replaceAll(/[ \n/?]/g,""))
                 },
 
                 StyleComponent(...list){
-                    return M.Style(LS.CDN+"/ls/css/2/@Bare,"+list.join(",").replaceAll(/[ \n/?]/g,""))
+                    throw "M.StyleComponent is currently deprecated!"
+                    // return M.Style(LS.CDN+"/ls/css/2/@Bare,"+list.join(",").replaceAll(/[ \n/?]/g,""))
                 },
 
-                Document(url, target){
-                    return new Promise((r,j)=>{
+                Document(){
+                    throw "M.Document is deprecated! Migrate to M.GetDocument"
+                },
+
+                GetDocument(url, callback){
+                    return new Promise((resolve, reject) => {
                         fetch(url)
-                            .then(async q=>{
-                                q = await q.text();
-                                (O(target)||O()).add(q);
-                                r()
+                            .then(async response => {
+                                let data = N("div", await response.text());
+
+                                if(callback) callback(null, data);
+                                resolve(data)
                             })
-                            .catch(e=>j(e.toString()))
+                            .catch(error => {
+                                let message = error.toString();
+
+                                if(callback) callback(message);
+                                reject(message)
+                            })
                     })
                 },
-                loop(t,...f){
-                    for(let i=0;i<t;i++){
-                        for(const fn of f){
+
+                loop(times, ...functions){
+                    for(let i = 0; i < times; i++){
+                        for(const fn of functions){
                             fn(i)
                         }
                     }
@@ -896,7 +918,7 @@ if(!LS){
                 if(!components.hasOwnProperty(name)) continue;
 
                 if(LS[name]) {
-                    console.warn(`[LS Framework] Duplicate component name ${name}, import was ignored`);
+                    console.warn(`[LS Framework] Duplicate component name ${name}, import was ignored!`);
                     continue
                 }
 
@@ -1018,82 +1040,85 @@ if(!LS){
         Globalise(LS.Tiny);
 
         M
-        .on("mousemove", "touchmove", e =>{
+
+        .on("mousemove", "touchmove", "touchstart", e =>{
             let source = (e.type !== "mousemove" ? e.touches[0] : e);
             M.x = source.clientX
             M.y = source.clientY
         })
+
         .on("keydown", e => {
             M.lastKey = e.key;
             if(e.key == "Shift") M.ShiftDown = true;
             if(e.key == "Control") M.ControlDown = true;
         })
+
         .on("keyup", e => {
             M.lastKey = e.key;
             if(e.key == "Shift") M.ShiftDown = false;
             if(e.key == "Control") M.ControlDown = false;
         })
+
         .on("mousedown", () => M.mouseDown = true)
         .on("mouseup", () => M.mouseDown = false);
 
         O(document.documentElement)
 
-        let loading, loaded;
-        M.on("keydown", async(event) => {
-            if(loading || window.LSFrame)return;
-            if (event.ctrlKey && event.altKey && event.key === "c") {
-                if(!LS.ToolBox && !loaded){
-                    loading = true;
-                    LS._debugToolBoxShow = true;
-                    await M.Component("toolbox")
-                    loading = false;
-                    loaded = true
-                    return
-                }
-                LS.ToolBox.toggle();
-            }
-        });
+        // let loading, loaded;
+        // M.on("keydown", async(event) => {
+        //     if(loading || window.LSFrame)return;
+        //     if (event.ctrlKey && event.altKey && event.key === "c") {
+        //         if(!LS.ToolBox && !loaded){
+        //             loading = true;
+        //             LS._debugToolBoxShow = true;
+        //             await M.Component("toolbox")
+        //             loading = false;
+        //             loaded = true
+        //             return
+        //         }
+        //         LS.ToolBox.toggle();
+        //     }
+        // });
 
-        if(global.customElements)
-        customElements.define('ls-group', class extends HTMLElement {
-            constructor(){
-                super();
-            }
-            connectedCallback(){
-                // Temporary solution, of course. Add accessibility later.
+        // if(global.customElements) customElements.define('ls-group', class extends HTMLElement {
+        //     constructor(){
+        //         super();
+        //     }
+        //     connectedCallback(){
+        //         // Temporary solution, of course. Add accessibility later.
 
-                let _this = this;
+        //         let _this = this;
                 
-                if(O(this).hasAttr("radio")){
-                    let _value = null;
-                    Object.defineProperty(this, "value", {
-                        set(value){
-                            let element = _this.getAll('[value="' +value+ '"], [name="' +value+ '"], [id="' +value+ '"]')[0]
-                            if(element){
-                                _value = value
+        //         if(O(this).hasAttr("radio")){
+        //             let _value = null;
+        //             Object.defineProperty(this, "value", {
+        //                 set(value){
+        //                     let element = _this.getAll('[value="' +value+ '"], [name="' +value+ '"], [id="' +value+ '"]')[0]
+        //                     if(element){
+        //                         _value = value
     
-                                _this.attr("value", value);
+        //                         _this.attr("value", value);
                 
-                                _this.getAll("[ls-selected]").all().delAttr("ls-selected");
-                                element.attrAssign("ls-selected")
-                            }
-                        },
-                        get(){
-                            return _value
-                        },
-                        configurable: true
-                    })
+        //                         _this.getAll("[ls-selected]").all().delAttr("ls-selected");
+        //                         element.attrAssign("ls-selected")
+        //                     }
+        //                 },
+        //                 get(){
+        //                     return _value
+        //                 },
+        //                 configurable: true
+        //             })
 
-                    for(let option of [...this.children]){
-                        O(option).on("click", ()=>{
-                            _this.value = option.attr("value") || option.attr("name") || option.id || null;
-                        })
-                    }
+        //             for(let option of [...this.children]){
+        //                 O(option).on("click", ()=>{
+        //                     _this.value = option.attr("value") || option.attr("name") || option.id || null;
+        //                 })
+        //             }
 
-                    if(this.hasAttr("value")) _this.value = this.attr("value")
-                }
-            }
-        });
+        //             if(this.hasAttr("value")) _this.value = this.attr("value")
+        //         }
+        //     }
+        // });
     }
     /*]end*/
 }
@@ -1102,8 +1127,8 @@ if(!LS){
 
 end
 part(manipulator)*/
-String.prototype.manipulate = function(mapper = " *:"){return LS.Util.Manipulate("" + this, mapper)}
-String.prototype.manip = String.prototype.manipulate;
+// String.prototype.manipulate = function(mapper = " *:"){return LS.Util.Manipulate("" + this, mapper)}
+// String.prototype.manip = String.prototype.manipulate;
 /*]end*/
 
 /*] part(EventResolver) {*/
@@ -1276,5 +1301,4 @@ customElements.define('ls-nav', class extends HTMLElement {
 M.on("load", ()=>{
     Q("[ls-not-ready]").all(e=>e.ready())
 })
-
 /*]}*/
