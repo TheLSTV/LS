@@ -135,10 +135,10 @@ body, [ls] {
 [ls] select {
   padding: 0.3125em;
 }
-[ls] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=file]):not([type=reset]):not([type=image])), [ls] textarea {
+[ls] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])), [ls] textarea {
   color: var(--color) !important;
 }
-[ls] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=file]):not([type=reset]):not([type=image]))::selection, [ls] textarea::selection {
+[ls] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image]))::selection, [ls] textarea::selection {
   background-color: rgb(var(--accent-raw), 50%);
 }
 [ls] h1 {
@@ -260,6 +260,10 @@ ls-box.color {
   background: rgb(var(--accent-raw), 10%);
 }
 
+ls-box::selection {
+  background: var(--accent-transparent);
+}
+
 /*
     This function increases specificity x times by repeating the selector.
 
@@ -324,7 +328,7 @@ ls-menu.has-top-handle {
   border-top-right-radius: 0 !important;
 }
 
-[ls] ls-menu > :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=file]):not([type=reset]):not([type=image])) {
+[ls] ls-menu > :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])) {
   margin: 0.5em;
   width: 100%;
   width: -webkit-fill-available;
@@ -369,7 +373,7 @@ ls-option i, .ls-select-label i {
   /*]part(Modal)*/
   /*]end*/
 }
-[ls-style=flat] :is(textarea):focus, [ls-style=flat] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=file]):not([type=reset]):not([type=image])):focus {
+[ls-style=flat] :is(textarea):focus, [ls-style=flat] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])):focus {
   outline: 2px solid var(--accent-focus, var(--accent));
   background: rgb(var(--accent-raw), 10%);
 }
@@ -546,7 +550,7 @@ ls-option i, .ls-select-label i {
   transition-duration: 0.1s;
   transition-property: background;
 }
-[ls-fluent] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=file]):not([type=reset]):not([type=image])), [ls-fluent] textarea, [ls-style=fluent] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=file]):not([type=reset]):not([type=image])), [ls-style=fluent] textarea {
+[ls-fluent] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])), [ls-fluent] textarea, [ls-style=fluent] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])), [ls-style=fluent] textarea {
   color: var(--color);
   background: var(--ui-bg-0, var(--background));
 }
@@ -605,7 +609,7 @@ ls-option i, .ls-select-label i {
   background: var(--elevate-0);
   border-radius: var(--br);
 }
-[ls-style=sharp] ls-menu :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=file]):not([type=reset]):not([type=image])) {
+[ls-style=sharp] ls-menu :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])) {
   background: var(--ui-bg-0);
 }
 [ls-style=sharp] ls-menu {

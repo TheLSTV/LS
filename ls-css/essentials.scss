@@ -191,3 +191,7 @@ ls-box.color {
     color: var(--accent-light);
     background: rgb(var(--accent-raw), 10%);
 }
+
+ls-box::selection {
+    background: var(--accent-transparent);
+}
