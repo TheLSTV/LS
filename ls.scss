@@ -15,26 +15,52 @@ body, [ls] {
 $button: ':is(button, input[type="button"], input[type="submit"], input[type="reset"], .ls-button)';
 $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"]):not([type="color"]):not([type="file"]):not([type="reset"]):not([type="image"]))';
 
-[ls-theme="dark"], [ls-theme="amoled"], body:not([ls-theme]) {
-    --background: #191919;
+[ls-theme="dark"], [ls-theme="amoled"], [ls-theme="default"], body:not([ls-theme]) {
+    --background-raw: 25, 25, 25;
+    --background: rgb(var(--background-raw));
     --background-tr: #222a;
+
     --transparent-overlay: #fff1;
     --transparent-overlay-strong: #fff4;
     --transparent-overlay-dark: #00000018;
     --transparent-overlay-dark-strong: #0005;
-    --color: #eee;
-    --ui: #333;
-    --ui-bg-0: #121212;
-    --ui-bg-1: #1b1b1b;
-    --ui-border: #0c0c0c;
+
+    --color: var(--elevate-8);
+
+    // Deprecated
+    --ui: var(--bg-6);
+    --ui-bg-0: var(--bg-1);
+    --ui-bg-1: var(--bg-4);
+    --ui-border: var(--border-color-0);
     --ui-overlay: #0c0c0ca3;
-    --elevate: #222;
-    --elevate-0: #333;
-    --elevate-1: #444;
-    --elevate-2: #555;
-    --elevate-3: #666;
-    --elevate-4: #aaa;
-    --elevate-5: #ccc;
+
+    // Borders
+    --border-color-0: #0c0c0c;
+    --border-color: var(--border-color-0);
+
+    // Backgrounds
+    --bg-0: #000;
+    --bg-1: #121212;
+    --bg-2: #151515;
+    --bg-3: var(--background);
+    --bg-4: #1c1c1c;
+    --bg-5: #202020;
+    --bg-6: #232323;
+    --bg-7: #272727;
+    --bg-8: #333;
+    --bg: var(--background);
+
+    // Elevate
+    --elevate-0: #222;
+    --elevate-1: #333;
+    --elevate-2: #444;
+    --elevate-3: #555;
+    --elevate-4: #666;
+    --elevate-5: #aaa;
+    --elevate-6: #ccc;
+    --elevate-7: #ddd;
+    --elevate-8: #eee;
+    --elevate: var(--elevate-0);
 
     [ls-accent = "auto"] {
         --accent-raw: 225, 225, 225;
@@ -46,48 +72,62 @@ $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"])
 }
 
 [ls-theme="amoled"] {
-    --background: #000;
-    --background-tr: #000a;
-    --transparent-overlay: #ffffff08;
-    --transparent-overlay-strong: #fff3;
-    --color: #eee;
-    --ui: #333;
-    --elevate-0: #111;
-    --elevate-0: #111;
+    --background-raw: 0, 0, 0;
+
+    // Elevate
+    --elevate-0: #151515;
     --elevate-1: #222;
     --elevate-2: #333;
     --elevate-3: #444;
-    --elevate-4: #555;
-    --elevate-5: #666;
-
-    [ls-accent = "auto"] {
-        --accent-raw: 225, 225, 225;
-        --accent-dark-raw: 190, 190, 190;
-        --accent-light-raw: 245, 245, 245;
-        --accent-background-raw: 25, 25, 25;
-        --color-bg: #222
-    }
+    --elevate-4: #585858;
 }
 
 [ls-theme="light"] {
-    --background: #fff;
+    --background-raw: 255, 255, 255;
+    --background: rgb(var(--background-raw));
     --background-tr: #fffa;
+
     --transparent-overlay: #0001;
     --transparent-overlay-strong: #0004;
     --transparent-overlay-dark: #0001;
     --transparent-overlay-dark-strong: #0003;
-    --color: #222;
-    --ui: #f1f1f1;
-    --ui-bg-0: #e4e4e4;
-    --ui-bg-1: #eee;
-    --ui-border: #727272;
+
+    --color: var(--elevate-8);
+
+    // Deprecated
+    --ui: var(--bg-6);
+    --ui-bg-0: var(--bg-1);
+    --ui-bg-1: var(--bg-4);
+    --ui-border: var(--border-color-0);
     --ui-overlay: #7272725e;
-    --elevate: #eee;
-    --elevate-0: #ddd;
-    --elevate-1: #aaa;
-    --elevate-2: #777;
-    --elevate-3: #444;
-    --elevate-4: #333;
+
+    // Borders
+    --border-color-0: #727272;
+    --border-color: var(--border-color-0);
+    
+    // Backgrounds
+    --bg-0: #b4b4b4;
+    --bg-1: #e4e4e4;
+    --bg-2: #f3f3f3;
+    --bg-3: var(--background);
+    --bg-4: #f1f1f1;
+    --bg-5: #ececec;
+    --bg-6: #e4e4e4;
+    --bg-7: #dadada;
+    --bg-8: #c7c7c7;
+    --bg: var(--background);
+
+    // Elevate
+    --elevate-0: #eee;
+    --elevate-1: #ddd;
+    --elevate-2: #bbb;
+    --elevate-3: #aaa;
+    --elevate-4: #888;
+    --elevate-5: #666;
+    --elevate-6: #555;
+    --elevate-7: #444;
+    --elevate-8: #222;
+    --elevate: var(--elevate-0);
 
     [ls-accent = "auto"] {
         --accent-raw: 21, 21, 21;
@@ -120,14 +160,12 @@ ls-label {
 
 
 #{$button}.pill, ls-select.pill {
-    --br: 2em;
-    --br-lg: 4em;
+    border-radius: var(--br-round);
     padding: .4em 1.2em;
 }
 
 #{$button}.circle {
-    --br: 50%;
-    --br-lg: 50%;
+    border-radius: 50%;
     padding: .7em;
     line-height: 0;
 }
@@ -179,11 +217,11 @@ ls-option {
 }
 
 ls-option:hover, ls-option.submenu-visible {
-    background: var(--elevate-0)
+    background: var(--elevate-1)
 }
 
 ls-option:active:not(.submenu-visible) {
-    background: var(--elevate-1)
+    background: var(--elevate-2)
 }
 
 ls-option i, .ls-select-label i {
@@ -226,36 +264,22 @@ ls-option i, .ls-select-label i {
 
 @import 'ls-css/colors.scss';
 
-::-webkit-scrollbar{width:var(--scrollbar-size,4px);height:var(--scrollbar-size,4px)}
-::-webkit-scrollbar-track{background:#0000}
-::-webkit-scrollbar-thumb{border-radius:var(--scrollbar-radius,8px);background:var(--scrollbar-color,#0004)}
-::-webkit-scrollbar-thumb:hover{background:var(--scrollbar-color-hover,#fff3)}
-
-[ns],[load] *,[load]{pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
-
-
-// Legacy purposes only
-.fl, [fl], right, left {
-    display: flex
+::-webkit-scrollbar {
+    width: var(--scrollbar-size, 4px);
+    height: var(--scrollbar-size, 4px)
 }
 
-// Legacy purposes only
-.chv, [chv], .cvh, [cvh], .ls-steps-item {
-    display: flex;
-    justify-content: center;
-    align-items: center
+::-webkit-scrollbar-track {
+    background: #0000
 }
 
-// Legacy purposes only
-.ch, [ch] {
-    display: flex;
-    justify-content: center
+::-webkit-scrollbar-thumb {
+    border-radius: var(--scrollbar-radius, 8px);
+    background: var(--scrollbar-color, #0004)
 }
 
-// Legacy purposes only
-.cv, [cv] {
-    display: flex;
-    align-items: center
+::-webkit-scrollbar-thumb:hover {
+    background: var(--scrollbar-color-hover, #fff3)
 }
 
 // Legacy purposes only
@@ -274,7 +298,7 @@ ls-group[join] > #{$button} {
 }
 
 ls-group[join] > :is(#{$button}, input):last-child, ls-group[join] > label:last-child > #{$button} {
-    border-radius: 0 var(--br-lg) var(--br-lg) 0
+    border-radius: 0 var(--br-small) var(--br-small) 0
 }
 
 ls-group[join] > :is(#{$button}, input), ls-group[join] > label > #{$button} {
@@ -282,7 +306,7 @@ ls-group[join] > :is(#{$button}, input), ls-group[join] > label > #{$button} {
 }
 
 ls-group[join] > :is(#{$button}, input):first-child, ls-group[join] > label:first-child > #{$button} {
-    border-radius: var(--br-lg) 0 0 var(--br-lg);
+    border-radius: var(--br-small) 0 0 var(--br-small);
     border-right: 0;
 }
 
@@ -360,14 +384,6 @@ button#{priority(".ls-toast-close", 2)} {
     margin-left: -0.4em;
 }
 
-/*]end;part(chips)*/
-[ls-chip][selected]{background:#fff4;border:1px solid #fff4}
-[ls-chip]:last-child{margin-right:0}
-[ls-chip]{border-radius:90px;background:#ddd1;display:inline-block;padding:4px 15px;border:1px solid #fff2;cursor:pointer;margin-right:5px}
-[ls] chips{display:block}
-[ls-sharp] [ls-chip]{border-radius:4px}
-
-
 /*]end;part(present)*/
 .ls-present-container{
     background-color: #000;
@@ -392,8 +408,6 @@ button#{priority(".ls-toast-close", 2)} {
     background-color: #000;
     padding: 0;
     margin: 0;
-    // position: fixed;
-    // inset: 0;
 }
 
 :is(.ls-present-body, .ls-present-responsive) {
@@ -965,10 +979,11 @@ tab>div{height:calc(100% - 34px);overflow:auto}
     position: relative;
     -webkit-user-select: none;
     user-select: none;
+    display: block;
 }
 
 .ls-progress-styled.style-round {
-    border-radius: var(--br-lg);
+    border-radius: var(--br-small);
     overflow: hidden;
     outline: 8px solid var(--ui-bg-0);
     height: 28px;
@@ -1638,6 +1653,25 @@ ls-knob[knob-preset="default"] {
     right: 0;
     cursor: se-resize;
     transform: translate(50%, 50%);
+}
+
+/*]end;part(sheet)*/
+
+.ls-sheet-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    inset: 0;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.ls-sheet-container {
+    width: 45%;
+    background: var(--ui);
+    border-radius: 20px 20px 0 0;
+    pointer-events: auto;
 }
 
 /*]end*/

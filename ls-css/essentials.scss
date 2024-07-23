@@ -103,7 +103,7 @@
 :is(#{$button}, input, textarea){
     color: var(--color-bg, var(--color));
     border: 0;
-    border-radius: var(--br-lg);
+    border-radius: var(--br-small);
     padding: .3125em .625em;
     margin: .3125em .1875em;
     outline: none;
@@ -168,10 +168,10 @@
 }
 
 ls-box {
-    background: var(--elevate-0);
+    background: var(--elevate-1);
     padding: .5em 1em;
     display: block;
-    border-radius: var(--br-lg);
+    border-radius: var(--br-small);
     margin: .4em;
 }
 
@@ -182,7 +182,7 @@ ls-box:not(.contained, .color, .inline) {
 
 ls-box.inline {
     display: inline-block;
-    border-radius: var(--br);
+    border-radius: var(--br-small-inside);
     padding: .1em .5em;
     margin: 0 .2em;
 }

@@ -46,7 +46,7 @@
                 class: "ls-resize-bar ls-resize-bar-" + direction
             });
 
-            let handle = LS.Util.RegisterMouseDrag(handleElement, null, {buttons: [0]}), initialX, initialY, initialBox, top, left;
+            let handle = LS.Util.touchHandle(handleElement, {buttons: [0]}), initialX, initialY, initialBox, top, left;
 
             handle.on("move", (x, y)=>{
 

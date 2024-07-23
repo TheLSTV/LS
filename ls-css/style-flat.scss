@@ -1,6 +1,46 @@
 [ls-style="flat"] {
-    --br: 5px;
-    --br-lg: 9px;
+
+
+
+
+
+    // Variables
+    --br: 6px;
+    --br-lg: 8px;
+    
+    --br-tiny: 5px;
+    --br-tiny-inside: 4px;
+    
+    --br-small: 8px;
+    --br-small-inside: 5px;
+
+    --br-medium: 14px;
+    --br-medium-inside: 10px;
+
+    --br-big: 18px;
+    --br-big-inside: 15px;
+
+    --br-round: 24px;
+    --br-round-inside: 20px;
+
+    --br-extra: 34px;
+    --br-extra-inside: 30px;
+
+    --shadow-overlay-0: 0 12px 32px 0 #0004;
+    --shadow-overlay-1: 0 12px 24px 0 #0006;
+    --shadow-overlay: var(--shadow-overlay-0);
+
+    --shadow-float-0: 0 4px 16px -5px #0008;
+    --shadow-float-1: 0 6px 18px -5px #000a;
+    --shadow-float-box: 0 10px 20px 0 #0002;
+    --shadow-float: var(--shadow-float-0);
+    
+    --shadow-elevate-0: 0 1px 4px 0 #0004, inset 0 1px 0 0 #fff2;
+    --shadow-elevate-1: 0 2px 8px 0 #0004, inset 0 1px 0 0 #fff3;
+    --shadow-elevate-3: 0 4px 12px 4px #0004, inset 0 1px 0 0 #fff4;
+    --shadow-elevate: var(--shadow-elevate-0);
+    
+
 
     :is(textarea):focus, #{$input}:focus {
         outline: 2px solid var(--accent-focus, var(--accent));
@@ -84,38 +124,38 @@
         overflow: hidden;
         padding: 0.2em 1.2em;
         padding-right: 2.4em;
-        background: var(--elevate-0);
-        border-radius: var(--br-lg);
+        background: var(--elevate-1);
+        border-radius: var(--br-small);
     }
 
     .ls-tooltip-content {
         border: .05em solid #00000038;
         box-shadow: inset 0 .0625em 0 0 #fff2;
         background: var(--ui-bg-1);
-        border-radius: var(--br)
+        border-radius: var(--br-small-inside)
     }
 
     ls-menu {
-        border-radius: var(--br-lg);
+        border-radius: var(--br-small);
         box-shadow: 0px 3px 20px -4px #00000069;
         padding: 0 0 4px;
     }
 
     ls-option {
-        border-radius: var(--br-lg);
+        border-radius: var(--br-small);
         margin: 3px 6px;
         padding: 5px 12px;
     }
 
     .ls-checkbox > span, .ls-radio > span {
         border: 2px solid var(--elevate-3);
-        border-radius: var(--br);
+        border-radius: var(--br-small-inside);
         transition: background .2s;
     }
 
-    .ls-checkbox > span {
-        border-radius: var(--br);
-    }
+    // .ls-checkbox > span {
+    //     border-radius: var(--br-small-inside);
+    // }
 
     .ls-radio > span {
         border-radius: 50%;

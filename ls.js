@@ -79,14 +79,14 @@ if(!LS){
             },
 
             touchHandle(element, options = {}){
-                let legacyHandle = LS.Util.RegisterMouseDrag(element, options.exclude || false, options);
+                let legacyHandle = LS.Util.RegisterMouseDrag(element, options.exclude || false, options, false);
                 return legacyHandle;
             },
 
-            RegisterMouseDrag(handle, exclude = false, options = {}){
+            RegisterMouseDrag(handle, exclude = false, options = {}, old = true){
                 if(!handle || !O(handle)) throw "Invalid handle!";
 
-                console.warn("Note: You are using LS.Util.RegisterMouseDrag - this has been replaced by LS.Util.touchHandle. It is recommended to migrate. Backwards compatibility so far is supported.")
+                if(old) console.warn("Note: You are using LS.Util.RegisterMouseDrag - this has been replaced by LS.Util.touchHandle. It is recommended to migrate. Backwards compatibility so far is supported.")
 
                 let events = new(LS.EventResolver()), cancelled = false;
 
@@ -1230,10 +1230,13 @@ LS.LoadComponents({
 
         ls-js/toast.js
         : Toast $type,
+        
+        ls-js/sheet.js
+        : Sheet $type,
 
         ls-js/native.js
         : Native $type,
-
+        
         ls-js/toolbox.js
         : ToolBox $type,
 
