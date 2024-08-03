@@ -406,9 +406,10 @@ if(!LS){
                     return getComputedStyle(r)
                 },
 
-                set:(...a)=>{
+                set(...elements){
                     r.innerHTML = '';
-                    return r.add(...a)
+
+                    return r.add(...elements)
                 },
 
                 clear(){r.innerHTML='';return r},
@@ -443,8 +444,9 @@ if(!LS){
                 }
             }
         },
+
         Tiny:{
-            Q: (e, q) => {
+            Q(e, q) {
                 let elements = (e?.tagName && !q ? [e] : [...(e?.tagName ? e : document).querySelectorAll(e?.tagName ? !q ? '*' : q : typeof e == 'string' ? e : '*')])?.map(r => {
                     if(!r._affected){
 
@@ -454,36 +456,45 @@ if(!LS){
 
                         if(r.tagName == "BR") r.removeAttribute("clear"); // Fixes a bug (i think?)
 
-                        Object.defineProperty(r, "loading", {
-                            get(){
-                                return r.hasAttribute("load")
-                            },
-                            set(v){
-                                r[v?"setAttribute":"removeAttribute"]("load","")
-                            }
-                        });
+                        // Object.defineProperty(r, "loading", {
+                        //     get(){
+                        //         return r.hasAttribute("load")
+                        //     },
+                        //     set(v){
+                        //         r[v?"setAttribute":"removeAttribute"]("load","")
+                        //     }
+                        // });
                     }
                     return r.self
-                }),
-                bulk = {
-                    all(prop){
-                        if(prop)for(const [i,a] of elements.entries()){
-                            prop(a,i)
-                        }
-                        if(!prop){
-                            function each(func,...attr){
-                                elements.forEach(e=>e[func](...attr))
-                            }
-                            let r={};
-                            for(const name of ['class','attr','add','set','clear','applyStyle','attrAssign','delAttr','on']){
-                                r[name]=function(...attr){each(name,...attr)}
-                            }
-                            return r;
-                        }
-                    }
-                };
+                })
 
-                return Object.assign(elements, bulk)
+                return Object.assign(elements, {
+                    all(callback){
+                        if(callback) {
+                            for(const [i, a] of elements.entries()) {
+                                callback(a, i)
+                            }
+
+                            return
+                        }
+
+                        function each(func,...attr){
+                            for(const element of elements) {
+                                element[func](...attr)
+                            }
+                        }
+
+                        return new Proxy({}, {
+                            get(target, key){
+                                return (...attr) => each(key, ...attr)
+                            }
+                        })
+                    },
+
+                    allChildern(){
+
+                    }
+                })
             },
 
             O(...selector){
@@ -585,26 +596,26 @@ if(!LS){
 
             T: (fn, fb, onerror = e => {}) => {
                 console.warn("LS.Tiny.T is deprecated")
-                let r;
-                try {
-                    r = fn()
-                } catch (e) {
-                    r = fb;
-                    onerror(e)
-                }
-                return r
+                // let r;
+                // try {
+                //     r = fn()
+                // } catch (e) {
+                //     r = fb;
+                //     onerror(e)
+                // }
+                // return r
             },
 
-            U(url=location.href){
+            U(url=location.href) {
                 console.warn("LS.Tiny.U is deprecated")
-                return Object.assign(new URL(url),{
-                    goTo(){location.href=url},
-                    open(){open(url)},
-                    get segments(){return location.pathname.split("/").filter(s=>s)},
-                    async fetch(opt){return await fetch(url,opt)},
-                    reload(){location.replace(url)},
-                    params(specific=!1){if(!url.includes('?')){return specific?null:{}}let o={};url.replaceAll(/(.*?)\?/gi,'').split('&').forEach(e=>{e=e.split('=');o[e[0]]=decodeURIComponent(e?.[1]).replace(/#(.*)/g,"")});return specific?o[specific]:o}
-                })
+                // return Object.assign(new URL(url),{
+                //     goTo(){location.href=url},
+                //     open(){open(url)},
+                //     get segments(){return location.pathname.split("/").filter(s=>s)},
+                //     async fetch(opt){return await fetch(url,opt)},
+                //     reload(){location.replace(url)},
+                //     params(specific=!1){if(!url.includes('?')){return specific?null:{}}let o={};url.replaceAll(/(.*?)\?/gi,'').split('&').forEach(e=>{e=e.split('=');o[e[0]]=decodeURIComponent(e?.[1]).replace(/#(.*)/g,"")});return specific?o[specific]:o}
+                // })
             },
 
             C(r, g, b, a = 1){
@@ -931,6 +942,11 @@ if(!LS){
                     if(id instanceof Element) {
                         attributes.unshift(id);
                         id = id.id || "default"
+                    }
+
+                    if(typeof id === "object" && id !== null) {
+                        attributes.unshift(id);
+                        id = (id && id.id) || "default"
                     }
 
                     if(attributes[0] instanceof Element){
@@ -1283,8 +1299,11 @@ customElements.define('ls-knob', class extends HTMLElement {
     constructor(){
         super();
     }
+
     connectedCallback(){
-        if(O(this).hasClass("manual-init"))return this.class("manual-init", 0);
+        if(O(this).attr("ls-component")) return;
+        if(O(this).hasClass("manual-init")) return this.class("manual-init", false);
+
         this.ls = LS.Knob(this.id || M.GlobalID, this)
     }
 });
@@ -1295,8 +1314,11 @@ customElements.define('ls-nav', class extends HTMLElement {
     constructor(){
         super();
     }
+
     connectedCallback(){
-        if(O(this).hasClass("manual-init"))return this.class("manual-init", 0);
+        if(O(this).attr("ls-component")) return;
+        if(O(this).hasClass("manual-init"))return this.class("manual-init", false);
+
         this.ls = LS.Nav(this.id || M.GlobalID, this)
     }
 });

@@ -27,6 +27,7 @@
         arc: true,
         arcSpread: 0,
         arcWidth: 15,
+        arcRounded: true,
         pointerGlow: false,
         arcBackground: false,
         arcFill: true,
@@ -80,7 +81,7 @@
             }
 
             if(!this.element.has("svg")){
-                this.element.add(O(D().createElementNS("http://www.w3.org/2000/svg", "svg")))
+                this.element.add(O(document.createElementNS("http://www.w3.org/2000/svg", "svg")))
             }
             
             this.svg = this.element.get("svg");
@@ -99,8 +100,6 @@
                 this.element.add(N({class:"ls-knob-stator"}))
             }
 
-            let _value = 0;
-
             Object.defineProperties(this, {
                 value: {
                     get(){
@@ -114,7 +113,10 @@
                 }
             })
 
-            let handle = LS.Util.RegisterMouseDrag(this.element),
+
+            let _value = _this.options.value || 0;
+
+            let handle = LS.Util.touchHandle(this.element),
                 isDragging = false
             ;
 
@@ -186,7 +188,7 @@
 
             if(_this.style.arc){
                 if(!_this.arc){
-                    _this.arc = O(D().createElementNS("http://www.w3.org/2000/svg", "path"))
+                    _this.arc = O(document.createElementNS("http://www.w3.org/2000/svg", "path"))
                     _this.arc.class("ls-knob-arc")
                     _this.svg.add(_this.arc)
                 }
@@ -202,7 +204,7 @@
                     _this.arc.attrAssign({
                         fill: "transparent",
                         stroke: "var(--accent)",
-                        "stroke-linecap": "round",
+                        "stroke-linecap": _this.style.arcRounded? "round": "butt",
                         "stroke-width": _this.style.arcWidth + "%"
                     })
                     _this.element.style.setProperty("--knob-stroke-width", _this.element.getBoundingClientRect().height * (_this.style.arcWidth/100) + "px")
@@ -214,7 +216,7 @@
             }
 
             if(_this.style.arcBackground && !_this.back){
-                _this.back = O(D().createElementNS("http://www.w3.org/2000/svg", "path"));
+                _this.back = O(document.createElementNS("http://www.w3.org/2000/svg", "path"));
                 _this.back.setAttribute("fill", "transparent")
                 _this.arc.addBefore(_this.back)
             }
@@ -251,7 +253,7 @@
             _this.drawInit()
             _this.draw()
 
-            setTimeout(() => _this.drawInit(), 10)
+            setTimeout(() => {_this.drawInit(); _this.draw()}, 4)
         }
 
         Arc(fill = true, ang = _this.arcAngle){

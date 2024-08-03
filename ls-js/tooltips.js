@@ -98,10 +98,10 @@
         setup(element){
             element._tt = true;
             element.on("mouseenter", ()=>{
-                if(!element.hasTooltip)return;
+                if(!element.hasTooltip) return;
                 _this.invoke("set", element.tooltip_value);
 
-                if(element.tooltip_hint)return;
+                if(element.tooltip_hint) return;
 
                 _this.set(element.tooltip_value)
                 _this.show()
