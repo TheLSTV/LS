@@ -11,6 +11,7 @@
             this.listeners = [];
             this.events = {};
             _this = this;
+
             if(target){
                 Object.assign(target, {
                     emit: this.invoke,
