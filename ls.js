@@ -135,9 +135,10 @@ if(!LS){
                 }
 
                 function start(event){
-                    event.preventDefault()
                     if(typeof exclude == "string" && event.target.matches(exclude)) return;
                     if(!exclude && event.target !== handle) return;
+
+                    event.preventDefault()
 
                     if(event.type == "mousedown" && !options.buttons.includes(event.button)) return;
                     
