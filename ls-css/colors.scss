@@ -333,11 +333,6 @@
     --color-bg: #000;
 }
 
-[ls-invert] *,
-[ls-invert] {
-    color: rgb(var(--accent-raw))
-}
-
 *:not([ls-invert], [ls-invert] *) {
     --accent: rgb(var(--accent-raw));
     --accent-transparent: rgb(var(--accent-raw), 50%);
