@@ -20,6 +20,7 @@
                 this.hide(null, id == source, menu)
             })
         }
+
         contextMenu(target, menu){
             let id = _this.virtualMenu(menu, null, ()=>{
                 return [M.x, M.y]
@@ -30,10 +31,12 @@
                 _this.show(id)
             })
         }
+
         virtualMenu(menuElement, id, virtualHandle = ()=>[0,0]){
             if(!menuElement)throw "Invalid menu element";
             return _this.addMenu(null, menuElement, id, virtualHandle)
         }
+
         addMenu(handle, menuElement, _id = null, virtualHandle = null){
             let id = _id || (menuElement && menuElement.id) || M.GlobalID;
 
@@ -53,8 +56,10 @@
             this.setup(handle, id, virtualHandle)
             return id;
         }
+
         setup(trigger, id, virtualHandle = null){
             let hasMenu = !!_this.menu[id];
+
             if(!hasMenu){
                 trigger
                     .on("mouseenter", ()=>{
@@ -62,7 +67,8 @@
                     })
                 return
             }
-            if(trigger)trigger
+
+            if(trigger) trigger
                 .on("mouseenter", ()=>{
                     if(_this.active) _this.show(id)
                 })
@@ -73,18 +79,21 @@
                         case 13: _this.toggle(id); break
                     }
                 });
+
             O().on("mousedown", (e)=>{
                 if(_this.menu[id].shown && e.target !== _this.menu[id].handle){
                     let r = _this.menu[id].element.getBoundingClientRect();
                     if(!(M.x>r.left&&M.x<r.right&&M.y>r.top&&M.y<r.bottom)) _this.hide(id)
                 }
             })
+
             M.on("resize", ()=>{if(_this.menu[id].shown) _this.position(_this.menu[id].handle, _this.menu[id].element)})
-            M.on("scroll", ()=>{if(_this.menu[id].shown) _this.position(_this.menu[id].handle, _this.menu[id].element)}, true)
+            // M.on("scroll", ()=>{if(_this.menu[id].shown) _this.position(_this.menu[id].handle, _this.menu[id].element)}, true)
 
             _this.menu[id].sub = [];
             _this.menu[id].element.getAll("ls-option").all(option =>{
                 let subMenu = option.get(":scope > ls-menu")
+
                 if(subMenu){
                     _this.menu[id].sub.push({menu: subMenu, handle: option});
                     option.class("has-submenu");
@@ -101,34 +110,61 @@
                 }
             })
         }
+
         clearSubmenus(id){
             for(let a of _this.menu[id].sub){
                 a.menu.hide()
                 a.handle.class("submenu-visible", 0)
             }
         }
+
         toggle(menu){
             _this[_this.menu[menu].shown?"hide":"show"](menu)
         }
+
         show(id){
             let menu = _this.menu[id];
             if(!menu || menu.shown)return;
             _this.clearSubmenus(id);
             _this.active = true;
+
             gl.invoke("nav-open", _this.id, id);
-            _this.position(menu.handle, menu.element);
+
             menu.element.show()
             menu.shown = true;
+            
+            _this.position(menu.handle, menu.element);
+
             if(typeof menu.handle !== "function") menu.handle.class("open")
         }
+
         position(handle, menu, sub){
             if(typeof handle === "function") handle = handle();
+
+            let left, top, right;
+
             if(Array.isArray(handle)){
                 return menu.style = `left:${handle[0]}px;top:${handle[1]}px`;
             }
-            let r = handle.getBoundingClientRect()
-            menu.style = `left:${sub? r.right : r.left}px;top:${sub? r.top : r.top + r.height}px;max-height:${Math.min(innerHeight-(r.top+r.height+20),600)}px`;
+
+            menu.show()
+            menu.applyStyle({
+                left: `0`,
+                top: `0`,
+                maxHeight: `unset`,
+                opacity: "0"
+            })
+
+            let handleRect = handle.getBoundingClientRect(), menuRect = menu.getBoundingClientRect();
+
+            menu.applyStyle({
+                left: `${sub? handleRect.right : Math.max(handleRect.left + menuRect.width > innerWidth? innerWidth - menuRect.width : handleRect.left, 0)}px`,
+                top: `${sub? handleRect.top : handleRect.top + handleRect.height}px`,
+                maxHeight: `${Math.min(innerHeight-(handleRect.top + handleRect.height+20),600)}px`,
+                opacity: "1"
+            })
         }
+
         hide(id, own, source){
             if(!id){
                 for(let m in this.menu){
