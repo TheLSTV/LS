@@ -716,7 +716,24 @@ ls-option i, .ls-select-label i {
   box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.5333333333), inset 0 -6px 10px -5px rgba(0, 0, 0, 0.8);
 }
 
-/*]end;part(base)*/
+/*]end*/
+@keyframes ls-rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ls-rotateCentered {
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+/*]part(base)*/
 .ls-dragging {
   overflow: hidden;
 }
@@ -1267,22 +1284,6 @@ button.ls-toast-close.ls-toast-close {
 }
 
 /*]end;part(Loader)*/
-@keyframes rotate {
-  0% {
-    transform: rotate(0);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-@keyframes rotateCentered {
-  0% {
-    transform: translate(-50%, -50%) rotate(0);
-  }
-  100% {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
 [load]:not(.load-noBackground)::before {
   content: "";
   z-index: 900;
@@ -1310,7 +1311,7 @@ button.ls-toast-close.ls-toast-close {
   position: absolute;
   left: 50%;
   top: 50%;
-  animation: rotateCentered 2s linear infinite both;
+  animation: ls-rotateCentered 2s linear infinite both;
 }
 
 [load]::after, [ls-load] {
@@ -1338,7 +1339,7 @@ button[load]::before {
 }
 
 [ls-rotate], [ls-load] {
-  animation: rotate 2s linear infinite both;
+  animation: ls-rotate 2s linear infinite both;
 }
 
 /*]end;part(Modal)*/
@@ -2052,6 +2053,86 @@ ls-timeline-area {
   display: flex;
   flex-direction: column;
   position: relative;
+}
+
+/*]end;part(AutomationGraphEditor)*/
+.ls-automationgraph {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.ls-automationgraph-container {
+  position: relative;
+  background: linear-gradient(var(--bg-1) 0, var(--bg-0) 100%);
+  /* background: var(--bg-0); */
+  display: inline-block;
+}
+
+.ls-automationgraph-container svg {
+  stroke-width: 2px;
+}
+
+.ls-automationgraph-point-handle, .ls-automationgraph-curve-handle {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ls-automationgraph-point-handle {
+  outline: 2px solid var(--accent);
+  padding: 4px;
+  background: var(--bg);
+  cursor: grab;
+  opacity: 0.8;
+}
+
+.ls-automationgraph-curve-handle {
+  width: 5px;
+  height: 5px;
+  background: var(--accent-transparent);
+  outline: 1px solid var(--accent);
+  cursor: ns-resize;
+}
+
+.ls-automationgraph-point-handle.active, .ls-automationgraph-point-handle:hover {
+  outline: 2px solid var(--accent-light);
+}
+
+.ls-automationgraph-point-handle::after {
+  content: "";
+  opacity: 0;
+  transform: rotate(0deg);
+  scale: 1.2;
+  transform-origin: center;
+  border-radius: 50%;
+  outline: 8px dashed var(--accent);
+  outline-offset: -6px;
+  position: absolute;
+  inset: -10px;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in;
+  animation: ls-rotate 2s linear infinite;
+}
+
+.ls-automationgraph-point-handle.active::after {
+  opacity: 0.2;
+  transform: rotate(0deg);
+  scale: 1;
+}
+
+.ls-automationgraph-point-handle::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  height: var(--bottom);
+  width: 2px;
+  background: linear-gradient(rgb(var(--accent-raw), 25%) 0%, rgb(var(--accent-raw), 0) 100%);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ls-automationgraph-point-handle.active {
+  cursor: none;
 }
 
 /*]end;part(graphgl)*/
