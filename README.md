@@ -145,9 +145,3 @@ Result:<br>
 ![image](https://user-images.githubusercontent.com/62482747/225993488-c81a587c-d9af-415f-ad82-2331ecc8950f.png)<br>
 (Same applies to steps, but with `<steps>` and `<step>`, and you can also set an "if" attribute on a `<step>` element to add a condition under which it will be visible, like if="field=value" only displays that step if a field "field" is equal to "value")<br>
 Those are all designed to be as simple to use and use as little boilerplate as possible.
-
-
-<br><br>
-## There is also more, like global custom events and such, but i'll need to make a proper documentation for them.<br>This readme serves more as a showcase that i put together half-asleep at 3AM rather than a tutorial, so if you need to explain something, do not hesitate to contact me. Or wait till i finish puredocs and then this documentation.
-## Also, this isn't the main source - i do not update the source that often on GitHub (that may change when i automate that in WSDK), overall almost none of my work is on GitHub or is not updated here, so to make sure you are using the latest, check the CDN, where there's always the most recent version.
-More stuff is about to come, too.
