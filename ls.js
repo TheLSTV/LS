@@ -88,7 +88,7 @@ if(!LS){
 
                 if(old) console.warn("Note: You are using LS.Util.RegisterMouseDrag - this has been replaced by LS.Util.touchHandle. It is recommended to migrate. Backwards compatibility so far is supported.")
 
-                let events = new(LS.EventResolver()), cancelled = false;
+                let events = new LS.EventHandler, cancelled = false;
 
                 options = {
                     buttons: [0, 1, 2],
@@ -1016,7 +1016,7 @@ if(!LS){
 
                     let ClassInstance = new((LS[name].class)({})) (id, ...attributes);
 
-                    if(LS[name].conf.events) ClassInstance.Events = new (LS.EventResolver())(ClassInstance);
+                    if(LS[name].conf.events) ClassInstance.Events = new LS.EventHandler(ClassInstance);
 
                     if(id) {
                         ClassInstance.id = id;
@@ -1056,7 +1056,7 @@ if(!LS){
                     ... LS[name].conf
                 };
 
-                if(LS[name].conf.events) LS[name].Events = new (LS.EventResolver()) (LS[name]);
+                if(LS[name].conf.events) LS[name].Events = new LS.EventHandler(LS[name]);
 
                 if(LS[name].conf.singular){
 
@@ -1210,7 +1210,115 @@ LS.LoadComponents({
     )
     */
 })
-LS.GlobalEvents = new(LS.EventResolver())(LS)
+
+LS.EventHandler = function (target, options) {
+    return ((_this) => new class EventClass {
+        constructor(){
+            this.listeners = [];
+            this.events = {};
+
+            _this = this;
+
+            if(target){
+                for(let key of ["invoke", "on", "once", "off"]){
+                    if(!target.hasOwnProperty(key)) target[key] = this[key]
+                }
+
+                this.target = target
+            }
+        }
+
+        prepare(event){
+            if(typeof event == "string"){
+                event = {name: event}
+            }
+
+            let name = event.name;
+            delete event.name;
+
+            _this.events[name] = {...(_this.events[name]||{}), ...event};
+
+            return event
+        }
+
+        async invoke(name, ...data){
+            _this.prepare(name);
+
+            if(typeof name !== "string") name = name.name;
+
+            let ReturnValues = [];
+
+            for(const listener of _this.listeners){
+                if(!listener || listener.for !== name) continue;
+
+                ReturnValues.push(await listener.f(...data));
+
+                if(listener.once) delete _this.listeners[listener.i];
+            }
+
+            return ReturnValues
+        }
+
+        on(type, callback, extra){
+            let index = _this.listeners.length;
+
+            _this.invoke("event-listener-added", index)
+
+            if(_this.events[type]){
+                let evt = _this.events[type];
+                if(evt.completed)callback();
+            }
+
+            _this.listeners.push({
+                for: type,
+                f: callback,
+                i: index,
+                id: M.GlobalID,
+                ...extra
+            })
+
+            return _this.target || _this
+        }
+
+        once(type, callback, extra){
+            _this.on(type, callback, {
+                once: true,
+                ...extra
+            })
+
+            return _this.target || _this
+        }
+
+        off(type, evt){
+            for(const e of _this.listeners){
+                if(e.f == evt) return delete _this.listeners[e.i];
+            }
+
+            return false
+        }
+
+        onChain(...events){
+            let func = events.find(event => typeof event === "function");
+
+            for(const event of events){
+                _this.on(event, func);
+            }
+
+            return _this.target || _this
+        }
+
+        destroy(){
+            _this.on = _this.off = _this.invoke = () => {}
+            _this.listeners = []
+            _this.events = []
+            delete _this.target
+            delete _this.listeners
+            delete _this.events
+        }
+    })()
+}
+
+LS.GlobalEvents = new LS.EventHandler(LS)
 
 ;(()=>{
 
@@ -1237,6 +1345,109 @@ LS.GlobalEvents = new(LS.EventResolver())(LS)
 
     if(document.body) LS.invoke("body-available"); else M.on("load", () => LS.invoke("body-available"));
 })();
+/*]}*/
+
+
+/*] part(websocket) {*/
+LS.WebSocket = class {
+
+    // LS.WebSocket is a WebSocket client wrapper that modifies the API to be easier to use. It replaces addEventListener with "on" and adds some helper features, allows for much easier auto-reconnection etc.
+    // It is backwards-compatible and allows to persist event handlers even after the socket has been closed or re-connected.
+
+    constructor(url, options = {}){
+        if(!url) throw "No URL specified";
+
+        if(!url.startsWith("ws://") || !url.startsWith("wss://")) url = (location.protocol === "https:"? "wss://": "ws://") + url;
+
+        this.events = new LS.EventHandler(this);
+
+        this.addEventListener = this.on;
+        this.removeEventListener = this.off;
+
+        if(Array.isArray(options) || typeof options === "string"){
+            options = {protocols: options}
+        }
+
+        if(typeof options !== "object" || options === null || typeof options === "undefined") options = {};
+
+        this.options = LS.Util.defaults({
+            autoReconnect: true,
+            autoConnect: true,
+            delayMessages: true,
+            protocols: null
+        }, options)
+
+        this.waiting = [];
+
+        Object.defineProperty(this, "readyState", {
+            get(){
+                return this.socket.readyState
+            }
+        })
+
+        Object.defineProperty(this, "bufferedAmount", {
+            get(){
+                return this.socket.bufferedAmount
+            }
+        })
+
+        Object.defineProperty(this, "protocol", {
+            get(){
+                return this.socket.protocol
+            }
+        })
+
+        this.url = url;
+        if(this.options.autoConnect) this.connect();
+    }
+
+    connect(){
+        if(this.socket && this.socket.readyState === 1) return;
+
+        this.socket = new WebSocket(this.url, this.options.protocols || null);
+
+        this.socket.addEventListener("open", event => {
+            if(this.waiting.length > 0){
+                for(let message of this.waiting) this.socket.send(message);
+                this.waiting = []
+            }
+
+            this.invoke("open", event)
+        })
+
+        this.socket.addEventListener("message", event => {
+            this.invoke("message", event)
+        })
+
+        this.socket.addEventListener("close", async event => {
+            let prevent = false;
+
+            this.invoke("close", event, () => {
+                prevent = true
+            })
+
+            if(!prevent && this.options.autoReconnect) this.connect();
+        })
+
+        this.socket.addEventListener("error", event => {
+            this.invoke("error", event)
+        })
+    }
+
+    send(data){
+        if(!this.socket || this.socket.readyState !== 1) {
+            if(this.options.delayMessages) this.waiting.push(data)
+            return false
+        }
+
+        this.socket.send(data)
+        return true
+    }
+
+    close(code, message){
+        this.socket.close(code, message)
+    }
+}
 /*]}*/
 
 LS.LoadComponents({
@@ -1306,6 +1517,9 @@ LS.LoadComponents({
 
         ls-js/native.js
         : Native $type,
+
+        ls-js/automationgraph.js
+        : AutomationGraphEditor $type,
         
         ls-js/toolbox.js
         : ToolBox $type,
