@@ -37,7 +37,7 @@
                     rightClickToCreate: true,
 
                     defaultNewPoint: {
-                        type: "curve"
+                        type: "square"
                     },
 
                     values: {
