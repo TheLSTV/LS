@@ -1,3 +1,10 @@
+## Update 3.5
+### Welcome a new component - AutomationGraphEditor!
+![Screenshot from 2024-08-22 22-47-28](https://github.com/user-attachments/assets/175c8ab3-d00f-4467-bb96-066df234c46b)<br>
+This new component allows you to easily include a beautiful and fully customizeable graph editor, primarily intended for automations (eg. gain on an audio oscillator), but is great for any other possible usage scenarios.<br>
+It uses SVG for rendering, offers an easy way to scale, has a simple API with efficient instancing etc.<br><br>
+In this update, LS.EventResolver (as component) was deprecated in favor of LS.EventHandler (as a standalone class) - compatibility is retained at this moment.
+
 ## Recent changes (3.4.5)
 ### 1) Colors
 The color system was updated, with many new presets, new shades in CSS, more customization, and upgraded LS.Color API:
