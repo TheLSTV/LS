@@ -1,3 +1,10 @@
+## Update 3.5
+### Welcome a new component - AutomationGraphEditor!
+![Screenshot from 2024-08-22 22-47-28](https://github.com/user-attachments/assets/175c8ab3-d00f-4467-bb96-066df234c46b)<br>
+This new component allows you to easily include a beautiful and fully customizeable graph editor, primarily intended for automations (eg. gain on an audio oscillator), but is great for any other possible usage scenarios.<br>
+It uses SVG for rendering, offers an easy way to scale, has a simple API with efficient instancing etc.<br><br>
+In this update, LS.EventResolver (as component) was deprecated in favor of LS.EventHandler (as a standalone class) - compatibility is retained at this moment.
+
 ## Recent changes (3.4.5)
 ### 1) Colors
 The color system was updated, with many new presets, new shades in CSS, more customization, and upgraded LS.Color API:
@@ -14,7 +21,7 @@ The color system was updated, with many new presets, new shades in CSS, more cus
 
 ### New components in 3.4.0:
 ### 1. PatchBay
-![Screenshot from 2023-11-06 23-47-13](https://github.com/TheLSTV/LS/assets/62482747/d5f9e933-8295-443e-a5c8-a98e62644999)
+![Screenshot from 2024-08-22 22-54-44](https://github.com/user-attachments/assets/304e3c10-fd38-482a-afcb-fe62487fe7ca)
 
 An extensive component adding the full functionality of a patch bay, with an infinite workspace.
 ### 2. MultiSelect
@@ -39,32 +46,27 @@ A full-on bash simulator and debugger, instantly accessible on any website with 
 ### 6. Resize
 ![Screenshot from 2023-11-06 23-57-18](https://github.com/TheLSTV/LS/assets/62482747/8408a217-ae4a-4c50-9227-58cffb02926c)
 
-With this component, you can easily add resizing functionality to any element.
+With this component, you can easily add resizing functionality to any element in all 8 directions. Supports absolute and static modes for different position types, or can be used just for value reporting for an entirely custom implementation.
 ### 7. GraphGL
 ![Screenshot from 2023-11-07 00-00-17](https://github.com/TheLSTV/LS/assets/62482747/c621ceb4-6dac-4962-b6f7-71eee46c5256)
 
 A beautiful linear graph renderer
 ### 7. Progress & Seeker
 ![Screenshot from 2023-11-07 00-03-43](https://github.com/TheLSTV/LS/assets/62482747/8603819c-ff94-49d5-9d8f-b0e1c166b0ec)
+![Screenshot from 2024-08-22 22-58-12](https://github.com/user-attachments/assets/37b07c21-4451-4e41-84d2-647436421c3c)
 
 Progress & range components.
 
 ..and almost every other component was greatly improved.
 
-# Old content;
-
-
-# LS "Framework"
-LS is a powerful "framework", "component manager", and what not.<br>It improoves your efficiency and offers many great tools for you to use in your web development journey, all in a singular, clean object.
-
-In just 21kb (all components!) it contains a big set of useful utilities, a full UI library with 3 styles and a color scheme system, tabs, modal & dialog, steps (wizzard system), navbar, select (improoved \<select>), chips, tree, notification ui, and a full-blown terminal emulator, console, and a code editor components. And there is way more to come.<br>
-All this, while being super lightweight - it is being served on a dynamic CDN with segments, aka you can simply just choose which components to include and which not, other simply won't be sent to save bandwidth and speed. This is both for CSS and JS.
+# Following is old / outdated content;
 
 ## Component system
 LS has a rich component system that allows you to create, manage and use components with ease.<br>
 It automatically adds things like events and takes care of managing instances.<br>
 ![image](https://user-images.githubusercontent.com/62482747/225786140-c0a25483-f230-4529-80c1-33a5bc0d47ed.png)
 
+### Warning: The following text about Tiny is very out of date and mostly deprecated. Many of the methods below no longer exist in the latest releases.
 ## Tiny
 Tiny was originally it's own thing, but was later merged into LS.<br>
 Tiny is a set of single-letter super-helpful and efficiency-improoving utilities.<br>
@@ -131,21 +133,15 @@ Will result in:<br>
 ![image](https://user-images.githubusercontent.com/62482747/225992611-9abfb49f-dddd-4946-9300-2b158a5fd0e9.png)<br><br>
 Tabs are also super simple to setup:
 ```html
-<tabs>
-  <tab tab-title="my tab">
+<ls-tabs>
+  <ls-tab tab-title="my tab">
     ...
-  </tab>
-  <tab tab-title="hello world"> ... </tab>
+  </ls-tab>
+  <ls-tab tab-title="hello world"> ... </ls-tab>
   ...
-</tabs>
+</ls-tabs>
 ```
 Result:<br>
 ![image](https://user-images.githubusercontent.com/62482747/225993488-c81a587c-d9af-415f-ad82-2331ecc8950f.png)<br>
 (Same applies to steps, but with `<steps>` and `<step>`, and you can also set an "if" attribute on a `<step>` element to add a condition under which it will be visible, like if="field=value" only displays that step if a field "field" is equal to "value")<br>
 Those are all designed to be as simple to use and use as little boilerplate as possible.
-
-
-<br><br>
-## There is also more, like global custom events and such, but i'll need to make a proper documentation for them.<br>This readme serves more as a showcase that i put together half-asleep at 3AM rather than a tutorial, so if you need to explain something, do not hesitate to contact me. Or wait till i finish puredocs and then this documentation.
-## Also, this isn't the main source - i do not update the source that often on GitHub (that may change when i automate that in WSDK), overall almost none of my work is on GitHub or is not updated here, so to make sure you are using the latest, check the CDN, where there's always the most recent version.
-More stuff is about to come, too.
