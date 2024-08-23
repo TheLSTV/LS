@@ -2080,9 +2080,14 @@ ls-timeline-area {
 
 .ls-automationgraph-point-handle {
   outline: 2px solid var(--accent);
-  padding: 4px;
   background: var(--bg);
   cursor: grab;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+  padding: 4px;
+}
+
+.ls-automationgraph-container:hover .ls-automationgraph-point-handle {
   opacity: 0.8;
 }
 
@@ -2115,7 +2120,7 @@ ls-timeline-area {
 }
 
 .ls-automationgraph-point-handle.active::after {
-  opacity: 0.2;
+  opacity: 0.25;
   transform: rotate(0deg);
   scale: 1;
 }

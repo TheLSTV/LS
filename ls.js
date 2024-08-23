@@ -30,8 +30,8 @@ if(!LS){
             })
         },
 
-        Util:{
-            resolve(...array){
+        Util: {
+            resolveElements(...array){
 
                 // Takes a list of elements or element-like structure and cleans the array to a definite array of elements
 
@@ -40,23 +40,6 @@ if(!LS){
 
                     return [...N("temp", element).childNodes];
                 }).flat();
-            },
-
-            objectPath(o,s,v,splitter,strict=false){
-                // s=s.replace(/\[(\w+)\]/g,splitter+'$1');
-                // s=s.replace(new RegExp("^\\"+splitter),'').replace(new RegExp("\\"+splitter+"+","g"),splitter);
-                // if(s=="")return o;
-                // let a=s.split(splitter);
-                // for(let [i,k] of a.entries()){
-                //     if(k in o){
-                //         o=o[k];
-                //     }else{
-                //         if(strict)return null;
-                //         o[k]=(i==a.length-1)?v||{}:{};o=o[k];
-                //         if(i==a.length-1)return o;
-                //     }
-                // }
-                // return o;
             },
 
             params(get = null){
@@ -99,19 +82,49 @@ if(!LS){
                 
                 events.target = handle //The target will change based on the event target!
 
+                let [pointerLockPreviousX, pointerLockPreviousY] = [0, 0];
+
                 function move(event) {
                     if(cancelled) return;
 
-                    event.preventDefault()
+                    let x, y, isTouchEvent = event.type == "touchmove";
 
-                    let x = event.type == "touchmove"? event.touches[0].clientX : event.clientX, y = event.type == "touchmove"? event.touches[0].clientY : event.clientY;
-                    events.invoke("move", x, y, event)
-                    if(options.onStart) options.onStart(event, cancel, x, y)
+                    if(!isTouchEvent) event.preventDefault()
+
+                    if(!events.pointerLockActive) {
+                        x = isTouchEvent? event.touches[0].clientX : event.clientX
+                        y = isTouchEvent? event.touches[0].clientY : event.clientY
+                    }
+
+                    if(options.pointerLock){
+                        // The following adds seamles fallback for pointerlock on touch devices and emulates absolute mouse position for pointerlock!
+                        // This allows you to easily enable/disable pointerlock without losing any functionality or having to write custom fallbacks, on both touch and mouse devices!
+
+                        if(events.pointerLockActive){
+                            x = pointerLockPreviousX += !isNaN(event.movementX)? event.movementX: 0
+                            y = pointerLockPreviousY += !isNaN(event.movementY)? event.movementY: 0
+                        } else if(isTouchEvent){
+                            event.movementX = Math.round(x - pointerLockPreviousX)
+                            event.movementY = Math.round(y - pointerLockPreviousY)
+                            pointerLockPreviousX = x
+                            pointerLockPreviousY = y
+                        }
+                    }
+
+                    if(options.onMove) options.onMove(x, y, event, cancel)
+
+                    events.invoke("move", x, y, event, cancel)
                 }
 
                 function cancel() {
                     cancelled = true
                 }
+
+                function pointerLockChangeWatch(){
+                    events.pointerLockActive = document.pointerLockElement === handle;
+                }
+
+                document.addEventListener('pointerlockchange',  pointerLockChangeWatch);
     
                 function release(evt) {
                     events.seeking = false;
@@ -127,6 +140,10 @@ if(!LS){
                     document.documentElement.style.cursor = "";
     
                     events.invoke(evt.type == "destroy"? "destroy" : "end", evt)
+
+                    if(events.pointerLockActive){
+                        document.exitPointerLock();
+                    }
 
                     if(evt.type == "destroy")
                         if(options.onDestroy) options.onDestroy(evt);
@@ -151,6 +168,14 @@ if(!LS){
 
                     if(cancelled) return events.seeking = false;
 
+                    if(options.pointerLock && event.type !== "touchstart") {
+
+                        pointerLockPreviousX = M.x
+                        pointerLockPreviousY = M.y
+
+                        if (event.type !== "touchstart") handle.requestPointerLock();
+                    }
+
                     events.target = O(event.target);
                     events.target.class("ls-drag-target")
 
@@ -168,6 +193,7 @@ if(!LS){
                 events.destroy = function (){
                     release({type: "destroy"})
                     handle.off("mousedown", "touchstart", start)
+                    document.removeEventListener('pointerlockchange',  pointerLockChangeWatch);
                     cancelled = true;
                     events.destroy = () => false;
                     events.destroyed = true
@@ -228,6 +254,8 @@ if(!LS){
         },
         /*]part(tiny)*/
         TinyFactory(r){
+            let __variablesProxyObject
+
             return {
                 _affected: true,
                 isElement: true,
@@ -314,17 +342,17 @@ if(!LS){
                 },
 
                 add(...a){
-                    r.append(...LS.Util.resolve(...a));
+                    r.append(...LS.Util.resolveElements(...a));
                     return r.self
                 },
 
                 addBefore(a){
-                    LS.Util.resolve(a).forEach(e=>r.parentNode.insertBefore(e,r))
+                    LS.Util.resolveElements(a).forEach(e=>r.parentNode.insertBefore(e,r))
                     return r
                 },
 
                 addAfter(a){
-                    LS.Util.resolve(a).forEach(e=>r.parentNode.insertBefore(e,r.nextSibling))
+                    LS.Util.resolveElements(a).forEach(e=>r.parentNode.insertBefore(e,r.nextSibling))
                     return r
                 },
 
@@ -338,14 +366,8 @@ if(!LS){
                     return r
                 },
 
-                // ! Deprecated !
-                move(){
-                    console.warn("You are using element.move from LS! This is strongly discouraged and deprecated. Use element.addTo instead.");
-                    return r.addTo
-                },
-
                 wrapIn(e){
-                    r.addAfter(e);
+                    r.addAfter(O(e));
                     e.appendChild(r);
                     return r
                 },
@@ -391,19 +413,42 @@ if(!LS){
                 },
 
                 show(displayOverride){
+                    // "ls-hide-originaldisplay" is kind of ugly, is there a better way?
+
                     r.style.display = displayOverride || r.attr("ls-hide-originaldisplay") || "inherit";
                     return r
                 },
 
                 applyStyle(rules){
                     if(typeof rules !== "object") throw new Error("First attribute of \"applyStyle\" must be an object");
-                    for(const rule in rules){
-                        if(!rules.hasOwnProperty(rule))continue;
-                        r.style[rule] = rules[rule]
+
+                    for(let rule in rules){
+                        if(!rules.hasOwnProperty(rule)) continue;
+
+                        let value = rules[rule];
+
+                        if(!rule.startsWith("--")) rule = rule.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+                        r.style.setProperty(rule, value)
                     }
                 },
 
+                get cssVariables(){
+                    if(!__variablesProxyObject) __variablesProxyObject = new Proxy({}, {
+                        get(target, key){
+                            return r.style.getPropertyValue(`--${key}`)
+                        },
+    
+                        set(target, key, value){
+                            return r.style.setProperty(`--${key}`, value)
+                        }
+                    })
+
+                    return __variablesProxyObject
+                },
+
                 getStyle(){
+                    throw ".getStyle should not be used, use getComputedStyle(element) instead."
                     return getComputedStyle(r)
                 },
 
@@ -413,23 +458,17 @@ if(!LS){
                     return r.add(...elements)
                 },
 
-                clear(){r.innerHTML='';return r},
+                clear(){
+                    r.innerHTML = '';
 
-                setText:(a)=>{
-                    r.innerText=a
+                    return r
                 },
 
                 has(...a){
                     return !!a.find(l => r.get(l))
                 },
 
-                watch:c => E(r, c),
-
                 parent: (n = 0) => r.tagName == 'BODY' ? r.parentElement : (n > 0 ? O(r.parentElement).parent(n - 1) : r.parentElement),
-
-                findParent(match,limit='html'){
-                    return r.path().reverse().find(e=>e.matches(match)||e.matches(limit))
-                },
 
                 self: r,
 
@@ -563,7 +602,7 @@ if(!LS){
             },
 
             S(e,s){
-                console.warn("LS.Tiny.S is deprecated")
+                console.warn("[WARNING] LS.Tiny.S is deprecated and will be removed soon! Please stop using it as soon as possible - use .applyStyle instead")
 
                 return !s?!e?O():(e.id!==void 0)?getComputedStyle(e):
                 typeof e=='string'?O(e):Object.keys(e).map(f => f + ':' + e[f]).join(';'):
@@ -572,51 +611,6 @@ if(!LS){
                     m = typeof m == 'string' ? O(m) : m;
                     Object.assign(m.style, s)
                 })
-            },
-
-            E: (b, c) => {
-                console.warn("LS.Tiny.E is deprecated")
-                if (typeof c != 'function') {
-                    let _c=c,
-                        _b=b;
-                    c=()=>{
-                        try {
-                            O(Q(_b), _c)
-                        }catch(e){}
-                    };
-                    b = O()
-                }
-                new(window.MutationObserver || window.WebKitMutationObserver)(r => {
-                    c([...r[0].addedNodes].map(n => O(n)), [...r[0].removedNodes].map(n => O(n)))
-                }).observe(b, {
-                    childList: !0,
-                    subtree: !0
-                });
-                return O(b)
-            },
-
-            T: (fn, fb, onerror = e => {}) => {
-                console.warn("LS.Tiny.T is deprecated")
-                // let r;
-                // try {
-                //     r = fn()
-                // } catch (e) {
-                //     r = fb;
-                //     onerror(e)
-                // }
-                // return r
-            },
-
-            U(url=location.href) {
-                console.warn("LS.Tiny.U is deprecated")
-                // return Object.assign(new URL(url),{
-                //     goTo(){location.href=url},
-                //     open(){open(url)},
-                //     get segments(){return location.pathname.split("/").filter(s=>s)},
-                //     async fetch(opt){return await fetch(url,opt)},
-                //     reload(){location.replace(url)},
-                //     params(specific=!1){if(!url.includes('?')){return specific?null:{}}let o={};url.replaceAll(/(.*?)\?/gi,'').split('&').forEach(e=>{e=e.split('=');o[e[0]]=decodeURIComponent(e?.[1]).replace(/#(.*)/g,"")});return specific?o[specific]:o}
-                // })
             },
 
             C(r, g, b, a = 1){
@@ -1083,18 +1077,7 @@ if(!LS){
                     LS[name].registerGroup = LS[name].batch;
 
                     LS[name].observe = function (selector, previous, parent = O()) {
-                        if(previous) LS[name].batch(selector);
-
-                        // Deprecated here! To be updated
-                        E(parent, async(elements, r)=>{
-                            for(const element of elements){
-                                if(element.matches(selector)){
-                                    LS[name].new((await LS[name].invoke("observer_element_added", element)).filter(h=>h)[0]||m.id||"observed_"+M.GlobalID, element)
-                                }
-                            }
-                        })
-
-                        return "Observer added for \""+ name +"\" looking for any "+selector;
+                        throw "LS.Component.observe has been removed"
                     }
 
                     if(LS.invoke){

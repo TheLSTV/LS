@@ -1,22 +1,6 @@
 {
 
     return _this => {
-        function TranslatePointY(point){
-            return (100 - point) * _this.options.scaleY
-        }
-    
-        function TranslatePointX(point){
-            return point * _this.options.scaleX
-        }
-    
-        function ReverseTranslatePointY(point){
-            return 100 - (point / _this.options.scaleY)
-        }
-    
-        function ReverseTranslatePointX(point){
-            return point / _this.options.scaleX
-        }
-
         return class AutomationGraphEditor {
             constructor(id, element, options = {}){
                 _this = this;
@@ -37,7 +21,7 @@
                     rightClickToCreate: true,
 
                     defaultNewPoint: {
-                        type: "square"
+                        type: "linear"
                     },
 
                     values: {
@@ -60,13 +44,17 @@
                     if(_this.options.rightClickToCreate){
                         event.preventDefault()
 
-                        let box = this.containerElement.getBoundingClientRect()
+                        if(O(event.target).hasClass("ls-automationgraph-point-handle")) return;
 
+                        let box = this.containerElement.getBoundingClientRect()
+                        
                         let point = {
                             ..._this.options.defaultNewPoint,
                             offset: ReverseTranslatePointX(event.clientX - box.x),
                             value: ReverseTranslatePointY(event.clientY - box.y)
                         }
+
+                        if(_this.values.points.find(_point => _point.offset === point.offset)) return;
 
                         _this.values.points.push(point)
                         _this.currentView.updateScale()
@@ -78,16 +66,49 @@
                 this.startRenderer(this.options.values)
             }
 
-            updateValues(graph = this.options.values){
-                this.startRenderer(graph)
+            addPoint(point = {}, updateScreen = true){
+                _this.values.points.push({
+                    ..._this.options.defaultNewPoint,
+                    value: _this.values.start,
+                    offset: 0,
+                    ...point
+                })
+
+                if(updateScreen) _this.currentView.updateScale()
             }
 
-            startRenderer(graph){
+            removePoint(index, updateScreen = true){
+                if(typeof index === "string"){
+                    index = _this.values.points.findIndex(point => point.id === index)
+                }
+
+                _this.values.points[index] = null
+
+                if(updateScreen) _this.currentView.updateScale()
+            }
+
+            destroy(){
+                if(_this.currentView) _this.currentView.destroy()
+            }
+
+            updateScale(x, y){
+                if(_this.currentView) _this.currentView.updateScale(x, y)
+            }
+
+            updateSize(newWidth, newHeight){
+                if(_this.currentView) _this.currentView.updateSize(newWidth, newHeight)
+            }
+
+            restartRenderer(){
+                _this.startRenderer()
+            }
+
+            startRenderer(graph = _this.options.values){
                 if(_this.currentView){
                     _this.currentView.destroy()
                 }
 
-                let handles = {};
+                let handles = {}, uniquePoints = new Set;
 
                 _this.currentView = {
                     get values(){
@@ -96,8 +117,10 @@
 
                     destroy(){
                         for(let handle in handles){
-                            handles[handle].destroy()
-                            delete handles[handle]
+                            if(handles[handle] && handles[handle].destroy){
+                                handles[handle].destroy()
+                                delete handles[handle]
+                            }
                         }
 
                         handles = null;
@@ -181,15 +204,23 @@
 
                     return pointSegments[i]
                 }
-                
+
                 function redrawAllPoints(){
                     let j = -1;
+
+                    graph.points = graph.points.filter(_ => _).sort((a, b) => a.offset - b.offset)
+
                     for (const point of graph.points) {
                         j++;
-                        
+
+                        if(!point.id) {
+                            point.id = M.uid()
+                            uniquePoints.add(point.id)
+                        }
+
                         generatePoint(j)
                         
-                        if(!handles.hasOwnProperty(j)){
+                        if(!handles.hasOwnProperty(point.id)){
                             let i = +j;
 
                             let value = TranslatePointY(point.value)
@@ -207,21 +238,25 @@
                             updateHandle()
 
                             let handle = LS.Util.touchHandle(handleElement, {
-                                cursor: "none"
+                                cursor: "none",
+                                buttons: [0]
                             })
 
                             let controlPointHandle = LS.Util.touchHandle(controlPointHandleElement, {
-                                cursor: "none"
+                                cursor: "none",
+                                buttons: [0]
                             })
             
-                            handles[i] = handle;
-                            handles[i + "_control"] = controlPointHandle;
+                            handles[point.id] = handle;
+                            handles[point.id + "_control"] = controlPointHandle;
             
-                            function updateHandle(valuesChanged){
+                            function updateHandle(valuesChanged, updatedIndex){
 
                                 if(!valuesChanged){
                                     value = TranslatePointY(point.value)
                                     offset = TranslatePointX(point.offset)
+
+                                    i = updatedIndex || graph.points.findIndex(_point => _point.id === point.id)
                                 }
 
                                 handleElement.style.setProperty("--bottom", (svgHeight - value) + "px")
@@ -229,14 +264,14 @@
                                 handleElement.style.top = value + "px";
 
 
-                                if(_this.options.editableCurvature && (point.type === "curve" || point.type === "linear")){
+                                if(_this.options.editableCurvature && (point.type === "curve")){
 
                                     const prevValue = i === 0 ? start : TranslatePointY(graph.points[i - 1].value);
                                     const prevOffset = i === 0 ? 0 : TranslatePointX(graph.points[i - 1].offset);
                                     const controlPointX = offset - (offset - prevOffset) / 2;
                                     const controlPointY = prevValue + (point.curvature || 0) * (value - prevValue) / 100;
         
-                                    let center = _this.calculateCenterPoint(prevOffset, prevValue, controlPointX, controlPointY, offset, value)
+                                    let center = _this.calculatePathPoint(prevOffset, prevValue, controlPointX, controlPointY, offset, value)
         
                                     controlPointHandleElement.style.left = center.x + "px";
                                     controlPointHandleElement.style.top = center.y + "px";
@@ -245,7 +280,7 @@
                                 } else controlPointHandleElement.style.display = "none";
                             }
 
-                            handles[i].updateHandle = updateHandle;
+                            handles[point.id].updateHandle = updateHandle;
             
                             handle.on("start", () => {
                                 handleElement.class("active")
@@ -263,10 +298,11 @@
             
                                 offset = newX;
                                 value = newY;
-            
+
                                 updateHandle(true)
-                                if(handles[i + 1] && handles[i + 1].updateHandle) handles[i + 1].updateHandle(true)
-            
+
+                                if(graph.points[i + 1] && handles[graph.points[i + 1].id] && handles[graph.points[i + 1].id].updateHandle) handles[graph.points[i + 1].id].updateHandle(true)
+
                                 graph.points[i].offset = ReverseTranslatePointX(offset);
                                 graph.points[i].value = ReverseTranslatePointY(value);
             
@@ -283,13 +319,11 @@
 
                             controlPointHandle.on("start", () => {
                                 _initialY = M.y
-                                _initialValue = graph.points[i].curvature
+                                _initialValue = graph.points[i].curvature || 0
                             })
 
                             controlPointHandle.on("move", (x, y) => {
                                 graph.points[i].curvature = _initialValue + (y - _initialY);
-
-                                console.log(graph.points[i].curvature);
 
                                 updateHandle(true)
                                 generatePoint(i)
@@ -300,7 +334,25 @@
                             _this.containerElement.add(handleElement, controlPointHandleElement)
 
                         } else {
-                            handles[j].updateHandle()
+                            handles[point.id].updateHandle(null, j)
+                        }
+                    }
+
+                    let currentSet = new Set(graph.points.map(point => point.id));
+
+                    for(let id of uniquePoints){
+                        if(!currentSet.has(id)){
+                            // Point removed!
+
+                            if(handles[id]) {
+                                handles[id].target.remove()
+                                handles[id].destroy()
+                            }
+
+                            if(handles[id + "_control"]) {
+                                handles[id + "_control"].target.remove()
+                                handles[id + "_control"].destroy()
+                            }
                         }
                     }
                 }
@@ -322,10 +374,27 @@
                 return this.currentView
             }
 
-            calculateCenterPoint(x1, y1, x2, y2, x3, y3) {
-                const t = .5;
-                return { x: (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * x2 + t * t * x3, y: (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * y2 + t * t * y3 };
+            calculatePathPoint(x1, y1, x2, y2, x3, y3, t = .5) {
+                return {
+                    x: (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * x2 + t * t * x3, y: (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * y2 + t * t * y3
+                }
             }
+        }
+
+        function TranslatePointY(point){
+            return (100 - point) * _this.options.scaleY
+        }
+    
+        function TranslatePointX(point){
+            return point * _this.options.scaleX
+        }
+    
+        function ReverseTranslatePointY(point){
+            return 100 - (point / _this.options.scaleY)
+        }
+    
+        function ReverseTranslatePointX(point){
+            return point / _this.options.scaleX
         }
     }
 }

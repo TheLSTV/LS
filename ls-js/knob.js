@@ -113,12 +113,11 @@
                 }
             })
 
-
             let _value = _this.options.value || 0;
 
-            let handle = LS.Util.touchHandle(this.element),
-                isDragging = false
-            ;
+            let handle = LS.Util.touchHandle(this.element, {
+                pointerLock: true
+            });
 
             this.handle = handle;
             handle.cursor = "none";
@@ -129,26 +128,13 @@
             handle.on("start", ()=>{
                 _this.drawInit();
                 _this.draw();
-
-                this.element.requestPointerLock();
             })
 
             handle.on("move", (x, y, e) => _this.event(e))
             
-            handle.on("end", ()=>{
-                if (isDragging) {
-                    document.exitPointerLock();
-                    isDragging = false;
-                }
-            })
-            
-            document.addEventListener('pointerlockchange', () => {
-                if (document.pointerLockElement === this.element) {
-                    isDragging = true;
-                } else {
-                    isDragging = false;
-                }
-            });
+            // handle.on("end", ()=>{
+
+            // })
         }
 
         event(event) {
