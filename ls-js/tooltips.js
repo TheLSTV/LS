@@ -35,11 +35,10 @@
 
         position(x, y){
             let box;
-            
+
             if(x instanceof Element) {
                 box = x.getBoundingClientRect()
-                // console.log(box);
-            } else if(typeof x == "number") box = {x, y}
+            } else if(typeof x == "number") box = {x}
 
             let cbox = _this.contentElement.getBoundingClientRect(),
                 pos_top = box.top - cbox.height,
@@ -53,7 +52,7 @@
 
                 maxWidth:(innerWidth - 8)+"px",
 
-                top: `calc(${pos_top < 20? pos_bottom : pos_top}px ${pos_top < 0? "+" : "-"} var(--ui-tooltip-rise, 5px))`
+                top: typeof y === "number"? y + "px": `calc(${pos_top < 20? pos_bottom : pos_top}px ${pos_top < 0? "+" : "-"} var(--ui-tooltip-rise, 5px))`
             })
         }
 

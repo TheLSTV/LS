@@ -325,6 +325,7 @@
             relative = _this.workspace.relativePoint(x1, y1);
             x1 = relative.canvasXr
             y1 = relative.canvasYr
+
             relative = _this.workspace.relativePoint(x2, y2);
             x2 = relative.canvasXr
             y2 = relative.canvasYr

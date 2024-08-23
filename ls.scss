@@ -1282,7 +1282,6 @@ ls-timeline-area {
 
 .ls-automationgraph-point-handle, .ls-automationgraph-curve-handle {
 	position: absolute;
-	border-radius: 50%;
 	transform: translate(-50%, -50%);
 }
 
@@ -1293,18 +1292,21 @@ ls-timeline-area {
     opacity: .4;
     transition: opacity .2s;
 	padding: 4px;
+	border-radius: 50%;
 }
 
-.ls-automationgraph-container:hover .ls-automationgraph-point-handle {
+.ls-automationgraph-container:hover .ls-automationgraph-point-handle, .ls-automationgraph-container:hover .ls-automationgraph-curve-handle {
     opacity: .8;
 }
 
 .ls-automationgraph-curve-handle {
-    width: 5px;
+    width: 10px;
     height: 5px;
     background: var(--accent-transparent);
     outline: 1px solid var(--accent);
-    cursor: ns-resize;
+    cursor: pointer;
+	border-radius: 20px;
+    opacity: 0;
 }
 
 .ls-automationgraph-point-handle.active, .ls-automationgraph-point-handle:hover {

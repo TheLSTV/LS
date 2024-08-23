@@ -14,14 +14,15 @@
                     scaleY: 1,
 
                     width: 460,
-                    height: 200,
+                    height: 100,
 
                     editableCurvature: true,
+                    switcherTypes: ["square", "linear", "curve"],
 
                     rightClickToCreate: true,
 
                     defaultNewPoint: {
-                        type: "linear"
+                        type: "square"
                     },
 
                     values: {
@@ -36,7 +37,12 @@
 
                 Object.defineProperty(this, "values", {
                     get() {
-                        return _this.currentView? _this.currentView.values: _this.options.values || {}
+                        return _this.options.values || {start: 0, points: []}
+                    },
+
+                    set(newValues) {
+                        _this.options.values = newValues
+                        _this.redrawPoints()
                     }
                 })
 
@@ -63,7 +69,7 @@
 
                 this.element.add(this.containerElement)
 
-                this.startRenderer(this.options.values)
+                this.startRenderer()
             }
 
             addPoint(point = {}, updateScreen = true){
@@ -103,18 +109,24 @@
                 _this.startRenderer()
             }
 
-            startRenderer(graph = _this.options.values){
+            redrawPoints(){
+                if(_this.currentView) _this.currentView.redrawPoints()
+            }
+
+            startRenderer(){
                 if(_this.currentView){
                     _this.currentView.destroy()
                 }
 
                 let handles = {}, uniquePoints = new Set;
 
-                _this.currentView = {
+                let current = {
                     get values(){
-                        return graph
-                    },
+                        return _this.options.values
+                    }
+                }
 
+                _this.currentView = {
                     destroy(){
                         for(let handle in handles){
                             if(handles[handle] && handles[handle].destroy){
@@ -129,6 +141,11 @@
                         _this.currentView = null
                     },
 
+                    redrawPoints(){
+                        redrawAllPoints()
+                        draw()
+                    },
+
                     updateScale(x, y){
                         _this.options.scaleX = x || _this.options.scaleX
                         _this.options.scaleY = y || _this.options.scaleY
@@ -141,8 +158,7 @@
                             height: svgHeight +"px",
                         })
 
-                        redrawAllPoints()
-                        draw()
+                        _this.currentView.redrawPoints()
                     },
 
                     updateSize(newWidth, newHeight){
@@ -157,7 +173,7 @@
 
                 _this.containerElement.set(`<svg width="${svgWidth}" height="${svgHeight}"><defs><linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:var(--accent);stop-opacity:12%" /><stop offset="100%" style="stop-color:var(--accent);stop-opacity:4%" /></linearGradient></defs><path class="ls-graph-stroke" fill="none" stroke="var(--accent)" /><path class="ls-graph-fill" fill="url(#lineGradient)" /></svg>`)
 
-                let start = TranslatePointY(graph.start);
+                let start = TranslatePointY(current.values.start);
 
                 let pointSegments = []; // Move to the starting point
 
@@ -166,23 +182,21 @@
                 }
         
                 function generatePoint(i){
-                    let point = graph.points[i];
+                    let point = current.values.points[i];
                     
                     let value = TranslatePointY(point.value)
                     let offset = TranslatePointX(point.offset)
-                    let curvature = point.curvature || 0;
+                    if(!point.curvature) point.curvature = 0;
 
-                    const prevValue = i === 0 ? start : TranslatePointY(graph.points[i - 1].value);
-                    const prevOffset = i === 0 ? 0 : TranslatePointX(graph.points[i - 1].offset);
+                    const previousPoint = getPreviousPoint(i)
 
                     switch(point.type){
                         case "curve":
                             // Curved line
 
-                            const controlPointX = offset - (offset - prevOffset) / 2;
-                            const controlPointY = prevValue + curvature * (value - prevValue) / 100;
+                            let controlPoints = _this.calculateCurvatureControlPoint(point.curvature, offset, value, previousPoint.x, previousPoint.y)
             
-                            pointSegments[i] = `Q${controlPointX},${controlPointY} ${offset},${value}`
+                            pointSegments[i] = `Q${controlPoints.x},${controlPoints.y} ${offset},${value}`
                         break;
 
                         case "linear":
@@ -193,24 +207,38 @@
 
                         default:
                             // Straight jump
-                            pointSegments[i] = `L${offset},${prevValue} L${offset},${value}`;
-                            // console.log(pointSegments[i]);
-
+                            pointSegments[i] = `L${offset},${previousPoint.y} L${offset},${value}`;
                     }
 
-                    if (i === graph.points.length -1){
+                    if (i === current.values.points.length -1){
                         pointSegments[i] += ` L${_this.options.width * _this.options.scaleX},${value}`
                     }
 
                     return pointSegments[i]
                 }
 
+                function getPreviousPoint(i){
+                    return {
+                        x: i === 0 ? 0 : TranslatePointX(current.values.points[i - 1].offset),
+                        y: i === 0 ? TranslatePointY(current.values.start) : TranslatePointY(current.values.points[i - 1].value)
+                    }
+                }
+
+                function getNextPoint(i){
+                    return {
+                        x: i === current.values.points.length - 1 ? svgWidth : TranslatePointX(current.values.points[i + 1].offset),
+                        y: TranslatePointY(current.values.points[i].value)
+                    }
+                }
+
                 function redrawAllPoints(){
                     let j = -1;
 
-                    graph.points = graph.points.filter(_ => _).sort((a, b) => a.offset - b.offset)
+                    current.values.points = current.values.points.filter(_ => _).sort((a, b) => a.offset - b.offset)
 
-                    for (const point of graph.points) {
+                    pointSegments = []
+
+                    for (const point of current.values.points) {
                         j++;
 
                         if(!point.id) {
@@ -244,7 +272,8 @@
 
                             let controlPointHandle = LS.Util.touchHandle(controlPointHandleElement, {
                                 cursor: "none",
-                                buttons: [0]
+                                buttons: [0],
+                                pointerLock: true
                             })
             
                             handles[point.id] = handle;
@@ -256,26 +285,49 @@
                                     value = TranslatePointY(point.value)
                                     offset = TranslatePointX(point.offset)
 
-                                    i = updatedIndex || graph.points.findIndex(_point => _point.id === point.id)
+                                    i = typeof updatedIndex === "number"? updatedIndex: current.values.points.findIndex(_point => _point.id === point.id)
                                 }
 
                                 handleElement.style.setProperty("--bottom", (svgHeight - value) + "px")
                                 handleElement.style.left = offset + "px";
                                 handleElement.style.top = value + "px";
 
+                                if(_this.options.editableCurvature){
+                                    let center, previousPoint, nextPoint;
 
-                                if(_this.options.editableCurvature && (point.type === "curve")){
+                                    switch(point.type){
+                                        case "curve":
+                                            previousPoint = getPreviousPoint(i)
+                                            
+                                            let controlPoints = _this.calculateCurvatureControlPoint(point.curvature, offset, value, previousPoint.x, previousPoint.y)
 
-                                    const prevValue = i === 0 ? start : TranslatePointY(graph.points[i - 1].value);
-                                    const prevOffset = i === 0 ? 0 : TranslatePointX(graph.points[i - 1].offset);
-                                    const controlPointX = offset - (offset - prevOffset) / 2;
-                                    const controlPointY = prevValue + (point.curvature || 0) * (value - prevValue) / 100;
-        
-                                    let center = _this.calculatePathPoint(prevOffset, prevValue, controlPointX, controlPointY, offset, value)
-        
+                                            center = _this.calculatePathPoint(previousPoint.x, previousPoint.y, controlPoints.x, controlPoints.y, offset, value)
+                                            break
+
+                                        case "linear":
+                                            previousPoint = getPreviousPoint(i)
+
+                                            center = {
+                                                x: (previousPoint.x + offset) / 2,
+                                                y: (previousPoint.y + value) / 2,
+                                                r: Math.atan2(previousPoint.y - value, previousPoint.x - offset) * 180 / Math.PI
+                                            }
+                                            break
+
+                                        default:
+                                            previousPoint = getPreviousPoint(i)
+
+                                            center = {
+                                                x: offset + ((previousPoint.x - offset) / 2),
+                                                y: previousPoint.y
+                                            }
+                                    }
+
+                                    // controlPointHandleElement.style.opacity = Math.abs(center.x - offset) < 20? ".1": ".5"
                                     controlPointHandleElement.style.left = center.x + "px";
                                     controlPointHandleElement.style.top = center.y + "px";
                                     controlPointHandleElement.style.display = "block";
+                                    controlPointHandleElement.style.transform = `translate(-50%, -50%) rotate(${center.r || 0}deg)`;
 
                                 } else controlPointHandleElement.style.display = "none";
                             }
@@ -284,6 +336,7 @@
             
                             handle.on("start", () => {
                                 handleElement.class("active")
+                                _this.invoke("handle.grab", i, ReverseTranslatePointX(offset), ReverseTranslatePointY(value))
                             })
 
                             handle.on("move", (x, y) => {
@@ -291,44 +344,58 @@
             
                                 let [newX, newY] = [x - box.x, y - box.y];
             
-                                newX = Math.max(i === 0? 0: TranslatePointX(graph.points[i - 1].offset), Math.min(i === graph.points.length -1? svgWidth: TranslatePointX(graph.points[i + 1].offset), newX))
+                                let prev = getPreviousPoint(i), next = getNextPoint(i);
+
+                                newX = Math.max(prev.x, Math.min(next.x, newX))
                                 newY = Math.max(0, Math.min(svgHeight, newY))
-            
-                                // if((i === 0? true: (newX >= TranslatePointX(graph.points[i - 1].offset))) && (i === graph.points.length -1? true: (newX <= TranslatePointX(graph.points[i + 1].offset)))) offset = newX;
             
                                 offset = newX;
                                 value = newY;
 
                                 updateHandle(true)
 
-                                if(graph.points[i + 1] && handles[graph.points[i + 1].id] && handles[graph.points[i + 1].id].updateHandle) handles[graph.points[i + 1].id].updateHandle(true)
+                                if(current.values.points[i + 1] && handles[current.values.points[i + 1].id] && handles[current.values.points[i + 1].id].updateHandle) handles[current.values.points[i + 1].id].updateHandle(true)
+                                if(_this.options.editableCurvature && current.values.points[i - 1] && handles[current.values.points[i - 1].id] && handles[current.values.points[i - 1].id].updateHandle) handles[current.values.points[i - 1].id].updateHandle(true)
 
-                                graph.points[i].offset = ReverseTranslatePointX(offset);
-                                graph.points[i].value = ReverseTranslatePointY(value);
-            
+                                current.values.points[i].offset = ReverseTranslatePointX(offset);
+                                current.values.points[i].value = ReverseTranslatePointY(value);
+                                _this.invoke("handle.change", i, current.values.points[i].offset, current.values.points[i].value)
+                                    
                                 generatePoint(i)
-                                if(i !== graph.points.length -1) generatePoint(i +1)
+                                if(i !== current.values.points.length -1) generatePoint(i +1)
                                 draw()
                             })
             
                             handle.on("end", () => {
                                 handleElement.class("active", false)
+                                _this.invoke("handle.release", i, offset, value)
                             })
 
                             let _initialY = null, _initialValue;
 
-                            controlPointHandle.on("start", () => {
-                                _initialY = M.y
-                                _initialValue = graph.points[i].curvature || 0
-                            })
+                            // controlPointHandle.on("start", () => {
+                            //     _initialY = M.y
+                            //     _initialValue = current.values.points[i].curvature || 0
+                            // })
 
-                            controlPointHandle.on("move", (x, y) => {
-                                graph.points[i].curvature = _initialValue + (y - _initialY);
+                            // controlPointHandle.on("move", (x, y) => {
+                            //     current.values.points[i].curvature = _initialValue + (y - _initialY);
 
-                                updateHandle(true)
-                                generatePoint(i)
+                            //     updateHandle(true)
+                            //     generatePoint(i)
 
-                                draw()
+                            //     draw()
+                            // })
+
+                            controlPointHandle.on("start", (x, y) => {
+                                let index = _this.options.switcherTypes.indexOf(point.type || "square") + 1
+
+                                if(index < 0) index = 0;
+                                if(index > _this.options.switcherTypes.length) index = 0;
+
+                                _this.values.points[i].type = _this.options.switcherTypes[index]
+
+                                _this.redrawPoints()
                             })
 
                             _this.containerElement.add(handleElement, controlPointHandleElement)
@@ -338,7 +405,7 @@
                         }
                     }
 
-                    let currentSet = new Set(graph.points.map(point => point.id));
+                    let currentSet = new Set(current.values.points.map(point => point.id));
 
                     for(let id of uniquePoints){
                         if(!currentSet.has(id)){
@@ -374,9 +441,17 @@
                 return this.currentView
             }
 
+            calculateCurvatureControlPoint(curvature, x1, y1, x2, y2) {
+                return {
+                    x: x1 - (x1 - x2) / 2,
+                    y: y2 + (curvature || 0) * (x1 - x2) / 100
+                }
+            }
+
             calculatePathPoint(x1, y1, x2, y2, x3, y3, t = .5) {
                 return {
-                    x: (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * x2 + t * t * x3, y: (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * y2 + t * t * y3
+                    x: (1 - t) * (1 - t) * x1 + 2 * (1 - t) * t * x2 + t * t * x3, y: (1 - t) * (1 - t) * y1 + 2 * (1 - t) * t * y2 + t * t * y3,
+                    r: Math.atan2(y3 - y1, x3 - x1) * 180 / Math.PI
                 }
             }
         }
