@@ -196,8 +196,6 @@ ls-label {
     display: block;
 }
 
-
-
 #{$button}.pill, ls-select.pill {
     border-radius: var(--br-round);
     padding: .4em 1.2em;
@@ -329,11 +327,6 @@ ls-option i, .ls-select-label i {
 
 ::-webkit-scrollbar-thumb:hover {
     background: var(--scrollbar-color-hover, #fff3)
-}
-
-// Legacy purposes only
-ls-select:active, [ls-box-i]:active{
-    background: var(--ui-bg-0)
 }
 
 ls-group[join] {
@@ -699,26 +692,30 @@ ls-modal-body :is(h1, h2, h3, h4) {
 
 
 /*]end;part(Select)*/
-ls-select {
+ls-select:not(.plain) {
     cursor: pointer;
     display: inline-block;
-    padding: .2em 10px;
-    padding-right: 2.4em;
     min-width: 8em;
     position: relative;
     -webkit-user-select: none;
     user-select: none;
+    position: relative;
 }
 
 ls-select * {
     pointer-events: none;
 }
 
+ls-select.open {
+    border-bottom-left-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+}
+
 [ls-theme="light"] ls-select::after {
     filter: brightness(0.2);
 }
 
-ls-select::after {
+ls-select:not(.plain)::after {
     content: "";
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-caret-down-fill' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
     position: absolute;
@@ -730,18 +727,9 @@ ls-select::after {
     bottom: 0;
 }
 
-ls-select.open::after {
+ls-select:not(.plain).open::after {
     transform: rotate(180deg)
 }
-
-ls-select:focus {
-    outline: 2px solid var(--accent)
-}
-
-ls-select.open {
-    border-radius: var(--br) var(--br) 0 0 !important
-}
-
 
 /*]end;part(Tree)*/
 .ls-tree-expandable:before{border:5px solid transparent;border-left-color:currentColor;border-radius:3px;content:"";position:absolute;left:calc(calc(var(--ls-tree-indent) * 20px) - 12px);top:calc(50% - 5px)}

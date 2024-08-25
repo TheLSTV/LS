@@ -3,45 +3,74 @@
         constructor(){
             super();
         }
+
         connectedCallback(){
             if(this.hasAttribute("compatibility"))return;
             this.setAttribute("ls-not-ready", "")
             let isReady = false;
+
             this.ready = () => {
                 if(isReady) return;
                 isReady = true;
                 this.ls = LS.Select(this.id || M.GlobalID, this)
                 this.delAttr("ls-not-ready")
             }
+
             setTimeout(() => {
                 if(!isReady)console.warn("[ LS Note ] You are using the ls-select custom element. Due to browser limitations, you have to call .ready() on the element after your options are available!")
             }, 2000);
         }
     });
 
-    return(_this) => class Select{ 
-        constructor(id, e, values, options = {}){
-            if(!e)e=O("select");
-            if(!e)throw "[ LS Error ] No element provided for the select component";
 
-            e = O(e);
+    /*
+
+        LS Code quality rating: 3/10
+        This component needs major changes
+    
+    */
+
+
+    gl.fromNative = function (selectElement) {
+        let select = LS.Select(N("ls-select", {attr: ["compatibility"]}))
+
+        select.loadFromElements(selectElement)
+        select.updateElements()
+        select.set(select.getOptions().find(option => option.value === selectElement.value))
+
+        if(selectElement.onchange){
+            select.on("change", selectElement.onchange)
+        }
+
+        selectElement.remove()
+
+        return select
+    }
+
+    return(_this) => class Select {
+        constructor(id, element, values, options = {}){
+            element = O(element);
+
+            if(!element) throw "No element provided for the select component";
 
             _this = this;
             this.id = id;
             this.options = []
             this.value = null
 
-            let native = e.tagName=="SELECT";
-            this.element = native? N("ls-select", {attr:["compatibility"]}) : e;
+            let isNative = element.tagName == "SELECT";
 
-            this.element.attrAssign({tabindex: 2, title: e.attr("title"), "ls-h-scroll": ''})
+            this.element = isNative? N("ls-select", {attr: ["compatibility"]}) : element;
 
-            if(native){
+            this.element.attrAssign({tabindex: 2, title: element.attr("title"), "ls-h-scroll": ''})
+
+            if(isNative){
                 // Backwards compatibility with <select>
-                e.style.display="none";
-                e.addAfter(this.element)
-                e.on("change",() => this.set(this.options.find(o=> o.value = e.value)));
+                element.style.display = "none";
+                element.addAfter(this.element)
+                element.on("change", () => this.set(this.options.find(o=> o.value = element.value)));
             }
+
             this.menu = N("ls-menu", {
                 class: "has-top-handle",
                 inner: [
@@ -61,6 +90,7 @@
 
             M.on("resize",()=>{if(this.shown) this.position()})
             M.on("scroll",()=>{if(this.shown) this.position()}, !0)
+
             this.shown = false;
             this.element
                 .on("mousedown", () => this.toggle())
@@ -71,23 +101,30 @@
                         case 40:case 9: this.show(); this.getOptions()[0].element.focus(); break
                     }
                 });
+
             O(options.root || O()).on("mousedown", (e)=>{
                 if(this.shown && e.target !== this.element){
                     let r = this.menu.getBoundingClientRect();
                     if(!(M.x>r.left&&M.x<r.right&&M.y>r.top&&M.y<r.bottom))this.hide()
                 }
             })
+
             if(!values){
-                this.loadFromElements(native?e:this.element);
+                this.loadFromElements(isNative? element : this.element);
                 this.updateElements()
             }else{
                 this.updateElements(values)
             }
-            if(this.options.length > 0) this.set(this.getOptions()[0])
+
+            this.selectFirst()
         }
 
         get(){
             return _this.value
+        }
+
+        selectFirst(){
+            if(this.options.length > 0) this.set(this.getOptions()[0])
         }
 
         set(opt){
@@ -172,9 +209,8 @@
                     }
                 ;
                 if(opt.tagName=="LS-OPTION") option.element = opt;
-                this.options.push(option)
+                _this.options.push(option)
             }
-            console.log(this.options);
         }
 
         toggle(){

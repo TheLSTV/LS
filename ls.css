@@ -190,9 +190,6 @@ body, [ls] {
 :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), input, textarea) {
   color: var(--color-bg, var(--color));
   border: 0;
-  border-radius: var(--br-small);
-  padding: 0.3125em 0.625em;
-  margin: 0.3125em 0.1875em;
   outline: none;
   position: relative;
   background: var(--ui-bg-0);
@@ -256,10 +253,7 @@ body, [ls] {
 
 ls-box {
   background: var(--elevate-1);
-  padding: 0.5em 1em;
   display: block;
-  border-radius: var(--br-small);
-  margin: 0.4em;
 }
 
 ls-box:not(.contained, .color, .inline) {
@@ -424,8 +418,20 @@ ls-option i, .ls-select-label i {
   background: var(--accent);
   color: var(--color-bg, #fff);
 }
-[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(.pill, .circle) {
-  padding: 8px 20px;
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(.pill, .circle), [ls-style=flat] input, [ls-style=flat] textarea {
+  border-radius: var(--br-small);
+  padding: 6px 18px;
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), [ls-style=flat] input, [ls-style=flat] textarea {
+  margin: 4px 0;
+}
+[ls-style=flat] input, [ls-style=flat] textarea {
+  padding: 0.3125em 0.625em;
+}
+[ls-style=flat] ls-box {
+  border-radius: var(--br-small);
+  padding: 0.5em 1em;
+  margin: 0.4em;
 }
 [ls-style=flat] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).elevated {
   outline: none;
@@ -433,10 +439,6 @@ ls-option i, .ls-select-label i {
   color: var(--accent-light);
   transition-duration: 0.1s;
   transition-property: background;
-}
-[ls-style=flat] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).plain {
-  background: none;
-  outline: none;
 }
 [ls-style=flat] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).outlined {
   outline: none;
@@ -459,7 +461,7 @@ ls-option i, .ls-select-label i {
 [ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):hover:not([disabled]) {
   filter: brightness(1.1);
 }
-[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):active:not([disabled]) {
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):is(.active, :active):not([disabled]) {
   background: var(--accent-light);
 }
 [ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:hover:not([disabled]) {
@@ -474,13 +476,20 @@ ls-option i, .ls-select-label i {
 [ls-style=flat] ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:first-child, [ls-style=flat] ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:not(:first-child, :last-child) {
   border-right: 1px solid var(--accent);
 }
-[ls-style=flat] ls-select {
-  outline: 0.1em solid var(--elevate-1);
+[ls-style=flat] ls-select:not(.plain) {
   overflow: hidden;
   padding: 0.2em 1.2em;
   padding-right: 2.4em;
   background: var(--elevate-1);
+}
+[ls-style=flat] ls-select:not(.pill) {
   border-radius: var(--br-small);
+}
+[ls-style=flat] ls-select:not(.plain):focus {
+  outline: 2px solid var(--accent);
+}
+[ls-style=flat] ls-select:not(.plain).open {
+  border-radius: var(--br) var(--br) 0 0 !important;
 }
 [ls-style=flat] .ls-tooltip-content {
   border: 0.05em solid rgba(0, 0, 0, 0.2196078431);
@@ -693,27 +702,190 @@ ls-option i, .ls-select-label i {
 
 /*]end;part(LS-Elevated)*/
 [ls-style=elevated] {
-  --br: .4375em;
-  --br-lg: .5625em;
+  --elevate-shadow: 0 2px 0 0 #0002, inset 0 1px 0 0 #fff2, inset 0 -1px 0 0 #0002;
+  /*]part(tabs)*/
+  /*]end*/
+  /*]part(Modal)*/
+  /*]end*/
 }
-[ls-style=elevated] :is(input, select, textarea):focus {
-  outline: 0.125em solid var(--accent-focus, var(--accent));
+[ls-style=elevated] :is(textarea):focus, [ls-style=elevated] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])):focus {
+  outline: 2px solid var(--accent-focus, var(--accent));
+  background: rgb(var(--accent-raw), 10%);
 }
-[ls-style=elevated] :is(button, input, select, textarea) {
-  color: var(--color-bg, #fff);
-  background: var(--accent);
-  border: 0.8px solid rgba(0, 0, 0, 0.7411764706);
-  box-shadow: inset 0px 1px 1px 0px rgba(255, 255, 255, 0.3333333333), inset 0 -6px 10px -5px #000;
-}
-[ls-style=elevated] :is(input, select, textarea) {
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
   color: var(--color);
-  background: var(--ui-bg-0, var(--background));
+  box-shadow: var(--elevate-shadow);
+  border: 1px solid var(--bg-1);
 }
-[ls-style=elevated] button:active {
-  background: var(--accent-dark);
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).colored {
+  background: linear-gradient(var(--accent) 0%, var(--accent-dark) 100%);
   color: var(--color-bg, #fff);
-  border: 0.8px solid rgba(0, 0, 0, 0.7411764706);
-  box-shadow: inset 0px 0px 1px 1px rgba(0, 0, 0, 0.5333333333), inset 0 -6px 10px -5px rgba(0, 0, 0, 0.8);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(.pill, .circle), [ls-style=elevated] input, [ls-style=elevated] textarea {
+  border-radius: var(--br-tiny);
+  padding: 4px 12px;
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), [ls-style=elevated] input, [ls-style=elevated] textarea {
+  margin: 4px;
+}
+[ls-style=elevated] input, [ls-style=elevated] textarea {
+  padding: 0.3125em 0.625em;
+}
+[ls-style=elevated] ls-box {
+  border-radius: var(--br-small);
+  padding: 0.5em 1em;
+  margin: 0.4em;
+}
+[ls-style=elevated] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).elevated {
+  outline: none;
+  background: rgb(var(--accent-raw), 10%);
+  color: var(--accent-light);
+  transition-duration: 0.1s;
+  transition-property: background;
+}
+[ls-style=elevated] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).outlined {
+  outline: none;
+  background: none;
+  color: var(--accent-light);
+  border: 1px solid var(--accent-light);
+  transition-duration: 0.1s;
+  transition-property: background;
+}
+[ls-style=elevated] :not(ls-group) > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):focus {
+  box-shadow: 0 0 0 3px var(--transparent-overlay-dark);
+}
+[ls-style=elevated] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select):focus-visible {
+  outline: 2px solid var(--accent-light);
+  opacity: 1;
+}
+[ls-style=elevated] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select):not(.elevated, .outlined):focus-visible {
+  outline: 2px solid var(--color);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):is(.active, :active):not([disabled]) {
+  background: linear-gradient(var(--elevate) 0%, var(--elevate) 100%);
+  box-shadow: 0px 2px 0 0 rgba(0, 0, 0, 0.1333333333), inset 0 0 2px 2px rgba(0, 0, 0, 0.2666666667);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).active {
+  text-shadow: 0 0 7px currentColor;
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:hover:not([disabled]) {
+  background: rgb(var(--accent-raw), 15%);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:active:not([disabled]) {
+  background: rgb(var(--accent-raw), 25%);
+}
+[ls-style=elevated] button.outlined:active:not([disabled]) {
+  background: rgb(var(--accent-raw), 10%);
+}
+[ls-style=elevated] ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:first-child, [ls-style=elevated] ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:not(:first-child, :last-child) {
+  border-right: 1px solid var(--accent);
+}
+[ls-style=elevated] ls-select:not(.plain) {
+  overflow: hidden;
+  padding: 0.2em 1.2em;
+  padding-right: 2.4em;
+  outline: 1px solid var(--border-color-0);
+  background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
+  box-shadow: var(--elevate-shadow);
+}
+[ls-style=elevated] ls-select:not(.pill) {
+  border-radius: var(--br-tiny);
+}
+[ls-style=elevated] .ls-tooltip-content {
+  border: 0.05em solid rgba(0, 0, 0, 0.2196078431);
+  box-shadow: inset 0 0.0625em 0 0 rgba(255, 255, 255, 0.1333333333);
+  background: var(--ui-bg-1);
+  border-radius: var(--br-small-inside);
+}
+[ls-style=elevated] ls-menu {
+  border-radius: var(--br-small-inside);
+  box-shadow: 0px 3px 20px -4px rgba(0, 0, 0, 0.5333333333), inset 0 -2px 0 0 rgba(0, 0, 0, 0.1333333333);
+  padding: 0;
+  outline: 1px solid var(--border-color-0);
+}
+[ls-style=elevated] ls-option {
+  border-radius: 0;
+  margin: 0;
+  padding: 4px 12px;
+}
+[ls-style=elevated] .ls-checkbox > span, [ls-style=elevated] .ls-radio > span {
+  border: 2px solid var(--elevate-3);
+  border-radius: var(--br-small-inside);
+  transition: background 0.2s;
+}
+[ls-style=elevated] .ls-radio > span {
+  border-radius: 50%;
+}
+[ls-style=elevated] :is(.ls-checkbox, .ls-radio) > span::before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  inset: -0.8em;
+  transition: background 0.2s, transform 0.2s;
+  transform: scale(0.8);
+}
+[ls-style=elevated] .ls-radio > span::after {
+  background: var(--accent);
+  border-radius: 50%;
+}
+[ls-style=elevated] :is(.ls-checkbox, .ls-radio) > input:disabled ~ span::before {
+  display: none;
+}
+[ls-style=elevated] :is(.ls-checkbox, .ls-radio):active > span::before {
+  background: rgb(var(--accent-raw), 20%);
+  transform: scale(1);
+}
+[ls-style=elevated] .ls-checkbox > input:checked ~ span {
+  background: var(--accent);
+  border: none;
+}
+[ls-style=elevated] .ls-radio > input:checked ~ span {
+  border-color: var(--accent);
+}
+[ls-style=elevated] :is(.ls-checkbox, .ls-radio) > input:disabled ~ span {
+  opacity: 0.8;
+  --elevate-3: var(--elevate-1);
+  cursor: not-allowed;
+}
+[ls-style=elevated] ._tab_style {
+  padding: 2px 20px;
+  background: linear-gradient(var(--elevate) 0%, var(--elevate) 100%);
+  border: 1px solid var(--bg-1);
+}
+[ls-style=elevated] ._tab_style.active:not(.ls-held) {
+  padding: 2px 20px;
+  border: none;
+  box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+  background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
+  border-radius: 5px 5px 0 0;
+}
+[ls-style=elevated] .tablist {
+  min-height: unset;
+}
+[ls-style=elevated] ls-modal {
+  background: var(--ui);
+  border-radius: 1rem;
+  outline: 1px solid var(--transparent-overlay-strong);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+  flex-direction: column;
+  overflow: hidden;
+}
+[ls-style=elevated] ls-modal-body {
+  padding: 1.4rem;
+}
+[ls-style=elevated] ls-modal-footer > button {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  border-left: 1px solid var(--transparent-overlay);
+  color: var(--accent);
+  transition: background 0.1s;
+  background: transparent !important;
+}
+[ls-style=elevated] ls-modal-footer > button:active:not([disabled]) {
+  background: var(--elevate-1) !important;
 }
 
 /*]end*/
@@ -1025,7 +1197,7 @@ ls-option i, .ls-select-label i {
   --color-bg: #000;
 }
 
-*:not([ls-invert], [ls-invert] *) {
+[ls-accent] {
   --accent: rgb(var(--accent-raw));
   --accent-transparent: rgb(var(--accent-raw), 50%);
   --accent-background: rgb(var(--accent-background-raw));
@@ -1051,10 +1223,6 @@ ls-option i, .ls-select-label i {
 
 ::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-color-hover, rgba(255, 255, 255, 0.2));
-}
-
-ls-select:active, [ls-box-i]:active {
-  background: var(--ui-bg-0);
 }
 
 ls-group[join] {
@@ -1411,26 +1579,30 @@ ls-modal-body :is(h1, h2, h3, h4) {
   }
 }
 /*]end;part(Select)*/
-ls-select {
+ls-select:not(.plain) {
   cursor: pointer;
   display: inline-block;
-  padding: 0.2em 10px;
-  padding-right: 2.4em;
   min-width: 8em;
   position: relative;
   -webkit-user-select: none;
   user-select: none;
+  position: relative;
 }
 
 ls-select * {
   pointer-events: none;
 }
 
+ls-select.open {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
 [ls-theme=light] ls-select::after {
   filter: brightness(0.2);
 }
 
-ls-select::after {
+ls-select:not(.plain)::after {
   content: "";
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-caret-down-fill' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
   position: absolute;
@@ -1442,16 +1614,8 @@ ls-select::after {
   bottom: 0;
 }
 
-ls-select.open::after {
+ls-select:not(.plain).open::after {
   transform: rotate(180deg);
-}
-
-ls-select:focus {
-  outline: 2px solid var(--accent);
-}
-
-ls-select.open {
-  border-radius: var(--br) var(--br) 0 0 !important;
 }
 
 /*]end;part(Tree)*/

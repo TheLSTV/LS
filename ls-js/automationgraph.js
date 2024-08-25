@@ -16,6 +16,8 @@
                     width: 460,
                     height: 100,
 
+                    valueOffset: 0,
+
                     editableCurvature: true,
                     switcherTypes: ["square", "linear", "curve"],
 
@@ -30,6 +32,8 @@
                         points: []
                     }
                 }, options)
+
+                this.uid = M.uid()
 
                 this.containerElement = N({
                     class: "ls-automationgraph-container"
@@ -130,6 +134,7 @@
                     destroy(){
                         for(let handle in handles){
                             if(handles[handle] && handles[handle].destroy){
+                                handles[handle].target.remove()
                                 handles[handle].destroy()
                                 delete handles[handle]
                             }
@@ -171,14 +176,12 @@
 
                 let [svgWidth, svgHeight] = [_this.options.width * _this.options.scaleX, _this.options.height * _this.options.scaleY]
 
-                _this.containerElement.set(`<svg width="${svgWidth}" height="${svgHeight}"><defs><linearGradient id="lineGradient" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:var(--accent);stop-opacity:12%" /><stop offset="100%" style="stop-color:var(--accent);stop-opacity:4%" /></linearGradient></defs><path class="ls-graph-stroke" fill="none" stroke="var(--accent)" /><path class="ls-graph-fill" fill="url(#lineGradient)" /></svg>`)
-
-                let start = TranslatePointY(current.values.start);
+                _this.containerElement.set(`<svg width="${svgWidth}" height="${svgHeight}"><defs><linearGradient id="lineGradient_${_this.uid}" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" style="stop-color:var(--accent);stop-opacity:12%" /><stop offset="100%" style="stop-color:var(--accent);stop-opacity:4%" /></linearGradient></defs><path class="ls-graph-stroke" fill="none" stroke="var(--accent)" /><path class="ls-graph-fill" fill="url(#lineGradient_${_this.uid})" /></svg>`)
 
                 let pointSegments = []; // Move to the starting point
 
                 function getPath(){
-                    return `M 0 ${start} ${pointSegments.join(" ")}`
+                    return `M 0 ${TranslatePointY(current.values.start)} ${pointSegments.join(" ")}`
                 }
         
                 function generatePoint(i){
@@ -335,6 +338,12 @@
                             handles[point.id].updateHandle = updateHandle;
             
                             handle.on("start", () => {
+                                if(!current.values.points[i]){
+                                    handle.target.remove()
+                                    handle.destroy()
+                                    return
+                                }
+
                                 handleElement.class("active")
                                 _this.invoke("handle.grab", i, ReverseTranslatePointX(offset), ReverseTranslatePointY(value))
                             })
@@ -407,18 +416,22 @@
 
                     let currentSet = new Set(current.values.points.map(point => point.id));
 
-                    for(let id of uniquePoints){
-                        if(!currentSet.has(id)){
+                    for(let id in handles){
+                        if(!currentSet.has(id) && !id.endsWith("_control")){
                             // Point removed!
+
+                            // uniquePoints.delete(id)
 
                             if(handles[id]) {
                                 handles[id].target.remove()
                                 handles[id].destroy()
+                                delete handles[id]
                             }
 
                             if(handles[id + "_control"]) {
                                 handles[id + "_control"].target.remove()
                                 handles[id + "_control"].destroy()
+                                delete handles[id + "_control"]
                             }
                         }
                     }
@@ -442,6 +455,15 @@
             }
 
             calculateCurvatureControlPoint(curvature, x1, y1, x2, y2) {
+
+                if(y1 > y2){
+                    let _x = x1, _y = y1;
+                    y1 = y2
+                    x1 = x2
+                    y2 = _y
+                    x2 = _x
+                }
+
                 return {
                     x: x1 - (x1 - x2) / 2,
                     y: y2 + (curvature || 0) * (x1 - x2) / 100
@@ -457,6 +479,7 @@
         }
 
         function TranslatePointY(point){
+            point = point - _this.options.valueOffset
             return (100 - point) * _this.options.scaleY
         }
     
@@ -465,7 +488,7 @@
         }
     
         function ReverseTranslatePointY(point){
-            return 100 - (point / _this.options.scaleY)
+            return (100 - (point / _this.options.scaleY)) +  _this.options.valueOffset
         }
     
         function ReverseTranslatePointX(point){

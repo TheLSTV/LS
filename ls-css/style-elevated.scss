@@ -1,25 +1,232 @@
 [ls-style="elevated"] {
-    --br: .4375em;
-    --br-lg: .5625em;
-    :is(input, select, textarea):focus {
-        outline: .125em solid var(--accent-focus, var(--accent))
-    }
-    :is(button, input, select, textarea){
-        color: var(--color-bg, #fff);
-        background: var(--accent);
-        border: 0.8px solid #000000bd;
-        box-shadow: inset 0px 1px 1px 0px #ffffff55, inset 0 -6px 10px -5px #000;
+    --elevate-shadow: 0 2px 0 0 #0002, inset 0 1px 0 0 #fff2, inset 0 -1px 0 0 #0002;
+
+    :is(textarea):focus, #{$input}:focus {
+        outline: 2px solid var(--accent-focus, var(--accent));
+        background: rgb(var(--accent-raw), 10%);
     }
 
-    :is(input, select, textarea) {
+    #{$button} {
+        background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
         color: var(--color);
-        background: var(--ui-bg-0, var(--background))
+        box-shadow: var(--elevate-shadow);
+        border: 1px solid var(--bg-1);
     }
 
-    button:active {
-        background: var(--accent-dark);
+    #{$button}.colored {
+        background: linear-gradient(var(--accent) 0%, var(--accent-dark) 100%);
         color: var(--color-bg, #fff);
-        border: 0.8px solid #000000bd;
-        box-shadow: inset 0px 0px 1px 1px #00000088, inset 0 -6px 10px -5px #000c;
     }
+
+    #{$button}:not(.pill, .circle), input, textarea {
+        border-radius: var(--br-tiny);
+        padding: 4px 12px;
+    }
+
+    #{$button}, input, textarea {
+        margin: 4px;
+    }
+
+    input, textarea {
+        padding: 0.3125em 0.625em;
+    }
+
+    ls-box {
+        border-radius: var(--br-small);
+        padding: .5em 1em;
+        margin: .4em;
+    }
+
+    :is(#{$button}, ls-select).elevated {
+        outline: none;
+        background: rgb(var(--accent-raw), 10%);
+        color: var(--accent-light);
+        transition-duration: .1s;
+        transition-property: background;
+    }
+
+    :is(#{$button}, ls-select).outlined {
+        outline: none;
+        background: none;
+        color: var(--accent-light);
+        border: 1px solid var(--accent-light);
+        transition-duration: .1s;
+        transition-property: background;
+    }
+
+    :not(ls-group) > #{$button}:focus {
+        // Elements focused standard way
+        box-shadow: 0 0 0 3px var(--transparent-overlay-dark);
+    }
+
+    :is(#{$button}, ls-select):focus-visible {
+        // Elements focused via keyboard
+        outline: 2px solid var(--accent-light);
+        opacity: 1;
+    }
+
+    :is(#{$button}, ls-select):not(.elevated, .outlined):focus-visible {
+        // Elements focused via keyboard
+        outline: 2px solid var(--color);
+    }
+
+    #{$button}:is(.active, :active):not([disabled]) {
+        background: linear-gradient(var(--elevate) 0%, var(--elevate) 100%);
+        box-shadow: 0px 2px 0 0 #0002, inset 0 0 2px 2px #0004;
+    }
+
+    #{$button}.active {
+        text-shadow: 0 0 7px currentColor;
+    }
+
+    #{$button}.elevated:hover:not([disabled]) {
+        background: rgb(var(--accent-raw), 15%);
+    }
+
+    #{$button}.elevated:active:not([disabled]) {
+        background: rgb(var(--accent-raw), 25%);
+    }
+
+    button.outlined:active:not([disabled]) {
+        background: rgb(var(--accent-raw), 10%);
+    }
+
+    ls-group[join] > #{$button}.elevated:first-child, ls-group[join] > #{$button}.elevated:not(:first-child, :last-child) {
+        border-right: 1px solid var(--accent);
+    }
+
+    ls-select:not(.plain) {
+        overflow: hidden;
+        padding: 0.2em 1.2em;
+        padding-right: 2.4em;
+        outline: 1px solid var(--border-color-0);
+        background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
+        box-shadow: var(--elevate-shadow);
+    }
+    
+    ls-select:not(.pill) {
+        border-radius: var(--br-tiny);
+    }
+
+    .ls-tooltip-content {
+        border: .05em solid #00000038;
+        box-shadow: inset 0 .0625em 0 0 #fff2;
+        background: var(--ui-bg-1);
+        border-radius: var(--br-small-inside)
+    }
+
+    ls-menu {
+        border-radius: var(--br-small-inside);
+        box-shadow: 0px 3px 20px -4px #0008, inset 0 -2px 0 0 #0002;
+        padding: 0;
+        outline: 1px solid var(--border-color-0);
+    }
+
+    ls-option {
+        border-radius: 0;
+        margin: 0;
+        padding: 4px 12px;
+    }
+
+    .ls-checkbox > span, .ls-radio > span {
+        border: 2px solid var(--elevate-3);
+        border-radius: var(--br-small-inside);
+        transition: background .2s;
+    }
+
+    .ls-radio > span {
+        border-radius: 50%;
+    }
+    
+    :is(.ls-checkbox, .ls-radio) > span::before {
+        content: "";
+        border-radius: 50%;
+        position: absolute;
+        inset: -.8em;
+        transition: background .2s, transform .2s;
+        transform: scale(.8);
+    }
+    
+    .ls-radio > span::after {
+        background: var(--accent);
+        border-radius: 50%;
+    }
+
+    :is(.ls-checkbox, .ls-radio) > input:disabled ~ span::before {
+        display: none;
+    }
+
+    :is(.ls-checkbox, .ls-radio):active > span::before {
+        background: rgb(var(--accent-raw), 20%);
+        transform: scale(1);
+    }
+
+    .ls-checkbox > input:checked ~ span {
+        background: var(--accent);
+        border: none;
+    }
+
+    .ls-radio > input:checked ~ span {
+        border-color: var(--accent);
+    }
+
+    :is(.ls-checkbox, .ls-radio) > input:disabled ~ span {
+        opacity: .8;
+        --elevate-3: var(--elevate-1);
+        cursor: not-allowed;
+    }
+
+    /*]part(tabs)*/
+
+    ._tab_style {
+        // clip-path: polygon(5px 0%, calc(100% - 5px) 0%, 100% 100%, 0% 100%);
+        padding: 2px 20px;
+        background: linear-gradient(var(--elevate) 0%, var(--elevate) 100%);
+        border: 1px solid var(--bg-1);
+    }
+
+    ._tab_style.active:not(.ls-held) {
+        padding: 2px 20px;
+        border: none;
+        box-shadow: 0 2px 0 0 #fff3, inset 0 1px 0 0 #fff3, inset 0 -1px 0 0 #0003;
+        background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
+        border-radius: 5px 5px 0 0;
+    }
+
+    .tablist {
+        min-height: unset;
+    }
+
+    /*]end*/
+
+    /*]part(Modal)*/
+    ls-modal {
+        background: var(--ui);
+        border-radius: 1rem;
+        outline: 1px solid var(--transparent-overlay-strong);
+        box-shadow: 0 10px 20px 0 #0002;
+        flex-direction: column;
+        overflow: hidden;
+    }
+    
+    ls-modal-body {
+        padding: 1.4rem;
+    }
+
+    ls-modal-footer > button {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border-radius: 0;
+        border-left: 1px solid var(--transparent-overlay);
+        color: var(--accent);
+        transition: background .1s;
+        background: transparent !important;
+    }
+
+    
+    ls-modal-footer > button:active:not([disabled]) {
+        background: var(--elevate-1) !important;
+    }
+    /*]end*/
 }

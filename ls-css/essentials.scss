@@ -103,9 +103,6 @@
 :is(#{$button}, input, textarea){
     color: var(--color-bg, var(--color));
     border: 0;
-    border-radius: var(--br-small);
-    padding: .3125em .625em;
-    margin: .3125em .1875em;
     outline: none;
     position: relative;
     background: var(--ui-bg-0);
@@ -169,10 +166,7 @@
 
 ls-box {
     background: var(--elevate-1);
-    padding: .5em 1em;
     display: block;
-    border-radius: var(--br-small);
-    margin: .4em;
 }
 
 ls-box:not(.contained, .color, .inline) {
