@@ -372,6 +372,23 @@ if(!LS){
                     return r
                 },
 
+                isInView(){
+                    var rect = r.getBoundingClientRect();
+
+                    return rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.bottom > 0 && rect.right > 0
+                },
+
+                isEntirelyInView(){
+                    var rect = r.getBoundingClientRect();
+
+                    return (
+                        rect.top >= 0 &&
+                        rect.left >= 0 &&
+                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                    );
+                },
+
                 addOnce(a){
                     console.warn("element.addOnce is deprecated, do not rely on it")
                     if (!O(r, '#' + a.id)) r.add(a)

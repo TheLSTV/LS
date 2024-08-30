@@ -66,6 +66,7 @@ $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"])
         --accent-raw: 225, 225, 225;
         --accent-dark-raw: 190, 190, 190;
         --accent-light-raw: 245, 245, 245;
+        --accent-text-raw: 26, 26, 26;
         --accent-background-raw: 60, 60, 60;
         --color-bg: #222
     }
@@ -133,6 +134,7 @@ $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"])
         --accent-raw: 21, 21, 21;
         --accent-light-raw: 41, 41, 41;
         --accent-dark-raw: 11, 11, 11;
+        --accent-text-raw: 215, 215, 215;
         --accent-background-raw: 120, 120, 120;
         --color-bg: #eee
     }

@@ -52,6 +52,7 @@ body, [ls] {
   --accent-raw: 225, 225, 225;
   --accent-dark-raw: 190, 190, 190;
   --accent-light-raw: 245, 245, 245;
+  --accent-text-raw: 26, 26, 26;
   --accent-background-raw: 60, 60, 60;
   --color-bg: #222 ;
 }
@@ -106,6 +107,7 @@ body, [ls] {
   --accent-raw: 21, 21, 21;
   --accent-light-raw: 41, 41, 41;
   --accent-dark-raw: 11, 11, 11;
+  --accent-text-raw: 215, 215, 215;
   --accent-background-raw: 120, 120, 120;
   --color-bg: #eee ;
 }
@@ -937,6 +939,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 0, 0, 0;
   --accent-dark-raw: 0, 0, 0;
   --accent-light-raw: 19, 4, 92;
+  --accent-text-raw: 54, 27, 187;
   --color-bg: #7d65f0;
 }
 
@@ -945,6 +948,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 14, 13, 21;
   --accent-dark-raw: 24, 18, 56;
   --accent-light-raw: 64, 48, 149;
+  --accent-text-raw: 134, 124, 190;
   --color-bg: #d3cfeb;
 }
 
@@ -953,6 +957,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 13, 26, 38;
   --accent-dark-raw: 8, 101, 186;
   --accent-light-raw: 69, 162, 247;
+  --accent-text-raw: 0, 40, 77;
   --color-bg: white;
 }
 
@@ -961,6 +966,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 60,72,89;
   --accent-dark-raw: 61, 90, 129;
   --accent-light-raw: 120, 151, 192;
+  --accent-text-raw: 20, 34, 52;
   --color-bg: #222;
 }
 
@@ -969,6 +975,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 0, 0, 0;
   --accent-dark-raw: 28, 75, 99;
   --accent-light-raw: 55, 148, 194;
+  --accent-text-raw: 11, 37, 50;
   --color-bg: #cee3ed;
 }
 
@@ -977,6 +984,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 7, 20, 20;
   --accent-dark-raw: 3, 64, 64;
   --accent-light-raw: 8, 182, 182;
+  --accent-text-raw: 0, 0, 0;
   --color-bg: #222;
 }
 
@@ -985,6 +993,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 69,100,103;
   --accent-dark-raw: 54, 151, 159;
   --accent-light-raw: 124, 205, 211;
+  --accent-text-raw: 20, 71, 75;
   --color-bg: #222;
 }
 
@@ -993,6 +1002,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 35, 55, 48;
   --accent-dark-raw: 48, 109, 88;
   --accent-light-raw: 95, 184, 154;
+  --accent-text-raw: 24, 66, 52;
   --color-bg: #222;
 }
 
@@ -1001,6 +1011,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 49, 167, 123;
   --accent-dark-raw: 60, 223, 162;
   --accent-light-raw: 165, 240, 212;
+  --accent-text-raw: 14, 126, 84;
   --color-bg: #222;
 }
 
@@ -1009,6 +1020,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 24, 34, 29;
   --accent-dark-raw: 19, 79, 52;
   --accent-light-raw: 43, 178, 115;
+  --accent-text-raw: 9, 49, 30;
   --color-bg: #fff;
 }
 
@@ -1017,6 +1029,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 28, 32, 24;
   --accent-dark-raw: 80, 114, 44;
   --accent-light-raw: 163, 213, 108;
+  --accent-text-raw: 42, 67, 15;
   --color-bg: #222;
 }
 
@@ -1025,6 +1038,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 28, 44, 15;
   --accent-dark-raw: 124, 187, 76;
   --accent-light-raw: 225, 253, 204;
+  --accent-text-raw: 59, 136, 0;
   --color-bg: #222;
 }
 
@@ -1033,6 +1047,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 62, 59, 21;
   --accent-dark-raw: 217, 199, 9;
   --accent-light-raw: 255, 248, 175;
+  --accent-text-raw: 109, 99, 0;
   --color-bg: #222;
 }
 
@@ -1041,6 +1056,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 54, 35, 27;
   --accent-dark-raw: 197, 81, 27;
   --accent-light-raw: 235, 150, 111;
+  --accent-text-raw: 98, 37, 9;
   --color-bg: #222;
 }
 
@@ -1049,6 +1065,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 55, 46, 20;
   --accent-dark-raw: 206, 156, 12;
   --accent-light-raw: 246, 207, 94;
+  --accent-text-raw: 99, 74, 1;
   --color-bg: #222;
 }
 
@@ -1057,6 +1074,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 33, 52, 58;
   --accent-dark-raw: 35, 160, 198;
   --accent-light-raw: 125, 207, 232;
+  --accent-text-raw: 13, 82, 103;
   --color-bg: #222;
 }
 
@@ -1065,6 +1083,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 62, 41, 21;
   --accent-dark-raw: 217, 110, 9;
   --accent-light-raw: 249, 172, 100;
+  --accent-text-raw: 109, 53, 0;
   --color-bg: #222;
 }
 
@@ -1073,6 +1092,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 77, 41, 26;
   --accent-dark-raw: 236, 77, 10;
   --accent-light-raw: 249, 157, 119;
+  --accent-text-raw: 129, 38, 0;
   --color-bg: #222;
 }
 
@@ -1081,6 +1101,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 62, 26, 26;
   --accent-dark-raw: 157, 33, 33;
   --accent-light-raw: 242, 112, 112;
+  --accent-text-raw: 108, 5, 5;
   --color-bg: #222;
 }
 
@@ -1089,6 +1110,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 42, 27, 29;
   --accent-dark-raw: 172, 40, 52;
   --accent-light-raw: 222, 112, 123;
+  --accent-text-raw: 81, 14, 20;
   --color-bg: #222;
 }
 
@@ -1097,6 +1119,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 61, 42, 54;
   --accent-dark-raw: 188, 33, 130;
   --accent-light-raw: 230, 113, 187;
+  --accent-text-raw: 92, 11, 62;
   --color-bg: #222;
 }
 
@@ -1105,6 +1128,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 97, 44, 69;
   --accent-dark-raw: 232, 52, 138;
   --accent-light-raw: 245, 162, 201;
+  --accent-text-raw: 156, 10, 80;
   --color-bg: #222;
 }
 
@@ -1113,6 +1137,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 54, 43, 56;
   --accent-dark-raw: 113, 66, 125;
   --accent-light-raw: 175, 126, 187;
+  --accent-text-raw: 45, 22, 51;
   --color-bg: #eee;
 }
 
@@ -1121,6 +1146,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 145, 119, 178;
   --accent-dark-raw: 178, 149, 215;
   --accent-light-raw: 243, 238, 248;
+  --accent-text-raw: 116, 58, 189;
   --color-bg: #222;
 }
 
@@ -1129,6 +1155,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 37, 43, 86;
   --accent-dark-raw: 33, 57, 233;
   --accent-light-raw: 144, 156, 244;
+  --accent-text-raw: 7, 24, 141;
   --color-bg: #eee;
 }
 
@@ -1138,6 +1165,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 22, 22, 22;
   --accent-dark-raw: 42, 42, 42;
   --accent-light-raw: 104, 104, 104;
+  --accent-text-raw: 0, 0, 0;
   --color-bg: #eee;
 }
 
@@ -1146,6 +1174,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 43, 43, 43;
   --accent-dark-raw: 76, 76, 76;
   --accent-light-raw: 138, 138, 138;
+  --accent-text-raw: 31, 31, 31;
   --color-bg: #222;
 }
 
@@ -1154,6 +1183,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 123, 123, 123;
   --accent-dark-raw: 194, 194, 194;
   --accent-light-raw: 255, 255, 255;
+  --accent-text-raw: 136, 136, 136;
   --color-bg: #222;
 }
 
@@ -1162,6 +1192,7 @@ ls-option i, .ls-select-label i {
   --accent-background-raw: 42, 42, 42;
   --accent-dark-raw: 0, 0, 0;
   --accent-light-raw: 47, 47, 47;
+  --accent-text-raw: 255, 255, 255;
   --color-bg: #fff;
 }
 
@@ -1193,6 +1224,7 @@ ls-option i, .ls-select-label i {
   --accent-raw: 246, 66, 35;
   --accent-dark-raw: 94, 221, 9;
   --accent-light-raw: 150, 248, 84;
+  --accent-text-raw: 150, 248, 84;
   --accent-background-raw: 39, 52, 4;
   --color-bg: #000;
 }
@@ -1205,6 +1237,8 @@ ls-option i, .ls-select-label i {
   --accent-dark-transparent: rgb(var(--accent-dark-raw), 50%);
   --accent-light: rgb(var(--accent-light-raw));
   --accent-light-transparent: rgb(var(--accent-light-raw), 50%);
+  --accent-text: rgb(var(--accent-text-raw));
+  --accent-text-transparent: rgb(var(--accent-text-raw), 50%);
 }
 
 ::-webkit-scrollbar {
