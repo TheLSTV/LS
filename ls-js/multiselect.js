@@ -4,7 +4,7 @@
             _this = this;
             if(!element || !O(element))throw new Error("No element provided");
             this.element = O(element)
-            let handle = LS.Util.RegisterMouseDrag(this.element, options.passthrough || false, {buttons: [0]});
+            let handle = LS.Util.touchHandle(this.element, {exclude: options.passthrough || false, buttons: [0]});
             handle.cursor = "none";
             this.handle = handle;
             this.enabled = true;

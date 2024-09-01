@@ -13,7 +13,7 @@
             this.element = options.element || N();
             this.element.class("ls-bay-node")
 
-            let handle = LS.Util.RegisterMouseDrag(this.element, ".ls-patch-source-hitbox, .ls-patch-source-hitbox *");
+            let handle = LS.Util.touchHandle(this.element, {exclude: ".ls-patch-source-hitbox, .ls-patch-source-hitbox *"});
             handle.cursor = "none";
 
             let _this = this,
@@ -68,7 +68,7 @@
             let hitbox = N({class: "ls-patch-source-hitbox"});
             element.wrapIn(hitbox)
 
-            let handle = LS.Util.RegisterMouseDrag(hitbox);
+            let handle = LS.Util.touchHandle(hitbox);
             handle.cursor = "none";
             handle.drawTarget = element;
 

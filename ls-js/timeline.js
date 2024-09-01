@@ -134,7 +134,7 @@
 
             O(this.areaElement).class("ls-timeline")
 
-            let handle = LS.Util.RegisterMouseDrag(this.areaElement, ".ls-timeline-item, .ls-timeline-item *", {buttons: [0]}), prevSeek;
+            let handle = LS.Util.touchHandle(this.areaElement, {exclude: ".ls-timeline-item, .ls-timeline-item *", buttons: [0]}), prevSeek;
             this.handle = handle;
 
             handle.on("start", ()=>{

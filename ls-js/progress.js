@@ -24,7 +24,8 @@
                 styled: true,
                 vertical: false,
                 padding: options.vertical? 16: 0,
-                separator: options.seeker? "" : "/"
+                separator: options.seeker? "" : "/",
+                label: true
             }, options)
 
             element.class("ls-progress");
@@ -35,7 +36,8 @@
 
             element.add(
                 N({class: "ls-progress-bar"}),
-                this.options.seeker? N({class: "ls-seeker-thumb"}) : "",
+                this.options.seeker? N({class: "ls-seeker-thumb"}) : null,
+                this.options.label?
                 N({
                     class: "ls-progress-label",
                     inner:[
@@ -43,12 +45,14 @@
                         N("span", {class: "ls-progress-label-separator"}),
                         N("span", {class: "ls-progress-label-right"})
                     ]
-                })
+                }): null
             )
 
-            this.labelLeft = _this.element.get(".ls-progress-label-left");
-            this.labelRight = _this.element.get(".ls-progress-label-right");
-            this.labelSeparator = _this.element.get(".ls-progress-label-separator");
+            if(this.options.label){
+                this.labelLeft = _this.element.get(".ls-progress-label-left");
+                this.labelRight = _this.element.get(".ls-progress-label-right");
+                this.labelSeparator = _this.element.get(".ls-progress-label-separator");
+            }
 
             _this._min = this.options.min || +element.attr("min") || 0;
             _this._max = this.options.max || +element.attr("max") || 100;
@@ -62,44 +66,47 @@
 
         _init(){
             _this.bar = _this.element.get(".ls-progress-bar");
-            _this.label = _this.element.get(".ls-progress-label");
+
+            if(_this.options.label) _this.label = _this.element.get(".ls-progress-label");
 
             if(_this.options.seeker){
                 _this.thumb = _this.element.get(".ls-seeker-thumb");
 
                 let handle = LS.Util.touchHandle(_this.element, {exclude: ".ls-progress-label-left"});
 
-                _this.labelLeft.style.userSelect = "";
-
-                _this.labelLeft.on("dblclick", ()=>{
-                    _this.labelLeft.attrAssign({"contenteditable": "true", "tabindex": "5"})
-                    _this.labelLeft.focus()
-                    // if (document.selection) {
-                    //     let range = document.body.createTextRange();
-                    //     range.moveToElementText(_this.labelLeft);
-                    //     range.select();
-                    // } else if (window.getSelection) {
-                    //     var range = document.createRange();
-                    //     range.selectNode(_this.labelLeft);
-                    //     window.getSelection().removeAllRanges();
-                    //     window.getSelection().addRange(range);
-                    // }
-                })
-
-                _this.labelLeft.on("blur", ()=>{
-                    _this.labelLeft.delAttr("contenteditable")
-                    let value = Math.max(_this._min, Math.min(_this._max, +_this.labelLeft.innerText));
-                    console.log(value);
-
-                    if(isNaN(value))return _this.labelLeft.set(_this._value);
-
-                    _this._value = value;
-                    _this.update(false, true);
-                })
-
-                _this.labelLeft.on("keypress", (e) => {
-                    if(e.key == "Enter") _this.labelLeft.blur()
-                })
+                if(_this.options.label) {
+                    _this.labelLeft.style.userSelect = "";
+    
+                    _this.labelLeft.on("dblclick", ()=>{
+                        _this.labelLeft.attrAssign({"contenteditable": "true", "tabindex": "5"})
+                        _this.labelLeft.focus()
+                        // if (document.selection) {
+                        //     let range = document.body.createTextRange();
+                        //     range.moveToElementText(_this.labelLeft);
+                        //     range.select();
+                        // } else if (window.getSelection) {
+                        //     var range = document.createRange();
+                        //     range.selectNode(_this.labelLeft);
+                        //     window.getSelection().removeAllRanges();
+                        //     window.getSelection().addRange(range);
+                        // }
+                    })
+    
+                    _this.labelLeft.on("blur", ()=>{
+                        _this.labelLeft.delAttr("contenteditable")
+                        let value = Math.max(_this._min, Math.min(_this._max, +_this.labelLeft.innerText));
+                        console.log(value);
+    
+                        if(isNaN(value))return _this.labelLeft.set(_this._value);
+    
+                        _this._value = value;
+                        _this.update(false, true);
+                    })
+    
+                    _this.labelLeft.on("keypress", (e) => {
+                        if(e.key == "Enter") _this.labelLeft.blur()
+                    })
+                }
 
                 _this.handle = handle;
 
@@ -169,9 +176,11 @@
 
             _this.bar.style[_this.options.vertical? "height": "width"] = _this.progress + "%"
 
-            _this.labelLeft.set(String(_this.value))
-            _this.labelSeparator.set(_this.options.separator)
-            _this.labelRight.set(String(_this.max) + (_this.options.metric? " " + _this.options.metric : ""))
+            if(_this.options.label){
+                _this.labelLeft.set(String(_this.value))
+                _this.labelSeparator.set(_this.options.separator)
+                _this.labelRight.set(String(_this.max) + (_this.options.metric? " " + _this.options.metric : ""))
+            }
         }
     }
 }
