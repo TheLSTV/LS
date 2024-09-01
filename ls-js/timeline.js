@@ -96,7 +96,7 @@
                 }
             })
 
-            if(!_this.options.minZoom) _this.options.minZoom = .005;
+            if(!_this.options.minZoom) _this.options.minZoom = .004;
             if(!_this.options.maxZoom) _this.options.maxZoom = 15;
 
             Object.defineProperty(this, "zoom", {
@@ -109,13 +109,13 @@
                     let i = 0;
 
                     // TODO:FIXME: I mean, just look at this
-                    _this.zoomMultiplier = _this.zoom < .01 ? 256 : _this.zoom < .015 ? 128 : _this.zoom < .02 ? 64 : _this.zoom < .05 ? 32 : _this.zoom < .10 ? 16 : _this.zoom < .25 ? 8 : _this.zoom < .5 ? 4 : _this.zoom < 10 ? 1 : .5;
+                    _this.zoomMultiplier = _this.zoom < .005 ? 512 : _this.zoom < .01 ? 256 : _this.zoom < .015 ? 128 : _this.zoom < .02 ? 64 : _this.zoom < .05 ? 32 : _this.zoom < .10 ? 16 : _this.zoom < .25 ? 8 : _this.zoom < .5 ? 4 : _this.zoom < 10 ? 1 : .5;
 
                     _this.areaElement.style.setProperty("--column-width", (_this.zoom * (_this.options.baseValue || 10) * _this.zoomMultiplier) +"px")
 
                     for(const object of Object.values(_this.timeline.items)){
-                        object.start = object.start * _this.zoom;
-                        object.length = object.length * _this.zoom;
+                        object.start = object.start;
+                        object.length = object.length;
                     }
 
                     updatePointer()
@@ -294,25 +294,43 @@
                 element,
 
                 get start(){
+                    return start
+                },
+
+                get zoomedStart(){
                     return start / _this.zoom
                 },
+
                 set start(value){
                     start = value;
                     element.style.left = start * _this.zoom + "px"
                 },
+
                 get end(){
+                    return (_this.options.singlePoint? start : (start + length))
+                },
+
+                get zoomedEnd(){
                     return (_this.options.singlePoint? start : (start + length)) / _this.zoom
                 },
+
                 get length(){
+                    return length
+                },
+
+                get zoomedLength(){
                     return length / _this.zoom
                 },
+
                 set length(value){
                     length = value;
                     if(!_this.options.singlePoint) element.style.width = length * _this.zoom + "px"
                 },
+
                 get row(){
                     return Array.prototype.indexOf.call(element.parentElement.parentElement.children, element.parentElement)
                 },
+
                 set row(value){
                     if(value < 0) return;
 
@@ -330,7 +348,7 @@
         }
 
         intersectingAt(time){
-            time = time / _this.zoom;
+            time = time;
 
             let result = [];
             for(const id in _this.timeline.items){
