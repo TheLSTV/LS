@@ -1,17 +1,4 @@
 {
-    let elementClass = class extends HTMLElement {
-        constructor(){
-            super();
-        }
-        connectedCallback(){
-            this.ls = LS.Progress(this.id || M.GlobalID, this, {seeker: this.tagName == "LS-SEEKER"})
-            this.ls.define(this)
-        }
-    }
-
-    customElements.define('ls-seeker', elementClass);
-    customElements.define('ls-progress', class extends elementClass{constructor(){super()}});
-
     return _this => class ProgressBar{
         constructor(id, element, options = {}){
             this.element = element = O(element)
@@ -20,11 +7,11 @@
             _this = this;
 
             this.options = LS.Util.defaults({
-                seeker: false,
+                seeker: element.tagName == "LS-SEEKER",
                 styled: true,
                 vertical: false,
                 padding: options.vertical? 16: 0,
-                separator: options.seeker? "" : "/",
+                separator: element.tagName == "LS-SEEKER"? "" : "/",
                 label: true
             }, options)
 
@@ -36,8 +23,10 @@
 
             element.add(
                 N({class: "ls-progress-bar"}),
+
                 this.options.seeker? N({class: "ls-seeker-thumb"}) : null,
                 this.options.label?
+
                 N({
                     class: "ls-progress-label",
                     inner:[
@@ -56,11 +45,15 @@
 
             _this._min = this.options.min || +element.attr("min") || 0;
             _this._max = this.options.max || +element.attr("max") || 100;
+            _this.step = this.options.step || +element.attr("step") || 1;
+
             _this._progress = this.options.progress || 0;
-            _this._value = this.options.value || +element.attr("value") || 0;
+            _this._value = Math.min(_this._max, Math.max(_this._min, this.options.value || +element.attr("value") || 0));
+
             if(!_this.options.metric && element.attr("metric")) _this.options.metric = element.attr("metric");
 
             this.define(this)
+
             if(this.options.progress && this.options.value)throw("You can't define both the progress and value.")
         }
 
@@ -80,16 +73,6 @@
                     _this.labelLeft.on("dblclick", ()=>{
                         _this.labelLeft.attrAssign({"contenteditable": "true", "tabindex": "5"})
                         _this.labelLeft.focus()
-                        // if (document.selection) {
-                        //     let range = document.body.createTextRange();
-                        //     range.moveToElementText(_this.labelLeft);
-                        //     range.select();
-                        // } else if (window.getSelection) {
-                        //     var range = document.createRange();
-                        //     range.selectNode(_this.labelLeft);
-                        //     window.getSelection().removeAllRanges();
-                        //     window.getSelection().addRange(range);
-                        // }
                     })
     
                     _this.labelLeft.on("blur", ()=>{
@@ -118,25 +101,30 @@
                 })
                 
                 handle.on("move", (x, y, event) => {
-
                     let rect = _this.element.getBoundingClientRect(),
-                        offset = _this.options.vertical? (y - rect.top) : (x - rect.left),
-                        newValue = Math.round(((_this.options.vertical? rect.height - offset : offset) / (_this.options.vertical? rect.height : rect.width)) * _this.max)
+                        offset = (_this.options.vertical ? (y - rect.top) : (x - rect.left)) / _this.step,
+                        range = _this.max - _this._min,
+                        newValue = Math.round(((_this.options.vertical ? rect.height - offset : offset) / (_this.options.vertical ? rect.height : rect.width)) * range)
                     ;
 
-                    if (newValue >= 0 && newValue <= _this.max) {
-                        if(LS.Tooltips) {
+                    newValue = Math.floor(newValue * _this.step) + _this._min;
+
+                    if (newValue >= _this._min && newValue <= _this.max) {
+                        if (LS.Tooltips) {
                             LS.Tooltips.set(String(newValue));
                             LS.Tooltips.position(_this.thumb);
                         }
+                
                         _this._value = newValue;
-                        _this.update(false, true)
+                        _this.update(false, true);
                     }
-                })
+                });                
 
                 handle.on("end", ()=>{
                     _this.seeking = false;
+
                     _this.invoke("seekend", _this._value, _this._max, _this._progress)
+
                     if(LS.Tooltips) LS.Tooltips.hide();
                 })
             }
@@ -145,42 +133,87 @@
         }
 
         define(scope){
-            Object.defineProperty(scope,"progress",{
-                get(){return _this._progress},
-                set(value){_this._progress=value;_this.update(true)}
-            })
 
-            Object.defineProperty(scope,"value",{
-                get(){return _this._value},
-                set(value_){_this._value=value_;_this.update()}
-            })
+            Object.defineProperties(scope, {
+                progress: {
+                    get(){
+                        return _this._progress
+                    },
 
-            Object.defineProperty(scope,"max",{
-                get(){return _this._max},
-                set(value){_this._max=value;_this.update()}
+                    set(value){
+                        _this._progress = value
+                        _this.update(true)
+                    }
+                },
+                value: {
+                    get(){
+                        return _this._value
+                    },
+
+                    set(value){
+                        _this._value = value
+                        _this.update()
+                    }
+                },
+                max: {
+                    get(){
+                        return _this._max
+                    },
+
+                    set(value){
+                        _this._max = value
+                        _this.update()
+                    }
+                },
+                min: {
+                    get(){
+                        return _this._min
+                    },
+
+                    set(value){
+                        _this._min = value
+                        _this.update()
+                    }
+                }
             })
         }
 
-        update(setPercentage, isSeeking){
-            if(_this.seeking && !isSeeking) return;
-
-            if(!setPercentage) _this._progress = (_this.value / _this.max) * 100;
-                          else _this._value = (_this._progress * _this.max) / 100;
-
-            if(_this.options.seeker){
-                _this.thumb.style[_this.options.vertical? "bottom": "left"] = _this.options.padding? `calc(${_this.progress}%)` : (_this.progress + "%")
-                if(isSeeking) _this.invoke("seek", _this._value, _this._max, _this._progress)
+        update(setPercentage, isSeeking) {
+            if (_this.seeking && !isSeeking) return;
+        
+            // Adjust calculations to account for _this._min
+            const range = _this.max - _this._min; // The range between min and max
+        
+            if (!setPercentage) {
+                // Calculate progress considering the minimum value
+                _this._progress = ((_this.value - _this._min) / range) * 100;
+            } else {
+                // Calculate value considering the progress and minimum value
+                _this._value = (_this._progress * range) / 100 + _this._min;
             }
-
-            _this.invoke("change", _this._value, _this._max, _this._progress)
-
-            _this.bar.style[_this.options.vertical? "height": "width"] = _this.progress + "%"
-
-            if(_this.options.label){
-                _this.labelLeft.set(String(_this.value))
-                _this.labelSeparator.set(_this.options.separator)
-                _this.labelRight.set(String(_this.max) + (_this.options.metric? " " + _this.options.metric : ""))
+        
+            if (_this.options.seeker) {
+                // Set the thumb position based on progress
+                _this.thumb.style[_this.options.vertical ? "bottom" : "left"] = _this.options.padding 
+                    ? `calc(${_this.progress}%)` 
+                    : (_this.progress + "%");
+        
+                // Invoke "seek" event if the user is seeking
+                if (isSeeking) _this.invoke("seek", _this._value, _this._max, _this._progress);
             }
-        }
+        
+            // Invoke "change" event whenever the value changes
+            _this.invoke("change", _this._value, _this._max, _this._progress);
+        
+            // Update the progress bar width/height based on progress
+            _this.bar.style[_this.options.vertical ? "height" : "width"] = _this.progress + "%";
+        
+            // Update labels if label options are enabled
+            if (_this.options.label) {
+                _this.labelLeft.set(String(_this.value));
+                _this.labelSeparator.set(_this.options.separator);
+                _this.labelRight.set(String(_this.max) + (_this.options.metric ? " " + _this.options.metric : ""));
+            }
+        }        
     }
 }
