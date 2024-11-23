@@ -1,5 +1,5 @@
 {
-    return _this=>class LS_WorkSpace{
+    return _this => class LS_WorkSpace{
         constructor (id, element, options = {}) {
             _this = this;
             this.id = id || M.GlobalID;
@@ -64,6 +64,7 @@
 
             })
         }
+
         define(scope){
             Object.defineProperty(scope, "mousePoint",{
                 get(){ return _this.relativePoint(M.x, M.y) }
@@ -91,14 +92,17 @@
                 }
             })
         }
+
         move(x = _this.x, y = _this.y){
             _this.x = x
             _this.y = y
         }
+
         correctPosition(){
             this.content.style.left = this.__x - _this.originCorrection[0] + "px"
             this.content.style.top = this.__y - _this.originCorrection[1] + "px"
         }
+
         relativePoint(ax = M.x, ay = M.y){
             // Gives you relative positions from an absolute one
             let rect = _this.element.getBoundingClientRect(),
@@ -113,6 +117,7 @@
                 canvasYr: y - _this.y,
             }
         }
+
         isInBounds(x = M.x, y = M.y){
             let rect = _this.element.getBoundingClientRect(),
                 point = _this.relativePoint()

@@ -1,0 +1,2792 @@
+@charset "UTF-8";
+/*Copyright (c) LSTV 2014-2024*/
+/*]part(base)*/
+[ls] :is(button, input, select, textarea), [ls] {
+  font-family: var(--font) !important;
+  color: var(--color);
+}
+
+body, [ls] {
+  background: var(--background);
+  overflow-y: overlay;
+}
+
+[ls-theme=dark], [ls-theme=amoled], [ls-theme=default], body:not([ls-theme]) {
+  --background-raw: 25, 25, 25;
+  --background: rgb(var(--background-raw));
+  --background-tr: #222a;
+  --transparent-overlay: #fff1;
+  --transparent-overlay-strong: #fff4;
+  --transparent-overlay-dark: #00000018;
+  --transparent-overlay-dark-strong: #0005;
+  --color: var(--elevate-8);
+  --ui: var(--bg-6);
+  --ui-bg-0: var(--bg-1);
+  --ui-bg-1: var(--bg-4);
+  --ui-border: var(--border-color-0);
+  --ui-overlay: #0c0c0ca3;
+  --border-color-0: #0c0c0c;
+  --border-color: var(--border-color-0);
+  --bg-0: #000;
+  --bg-1: #121212;
+  --bg-2: #151515;
+  --bg-3: var(--background);
+  --bg-4: #1c1c1c;
+  --bg-5: #202020;
+  --bg-6: #232323;
+  --bg-7: #272727;
+  --bg-8: #333;
+  --bg: var(--background);
+  --elevate-0: #222;
+  --elevate-1: #333;
+  --elevate-2: #444;
+  --elevate-3: #555;
+  --elevate-4: #666;
+  --elevate-5: #aaa;
+  --elevate-6: #ccc;
+  --elevate-7: #ddd;
+  --elevate-8: #eee;
+  --elevate: var(--elevate-0);
+}
+[ls-theme=dark] [ls-accent=auto], [ls-theme=amoled] [ls-accent=auto], [ls-theme=default] [ls-accent=auto], body:not([ls-theme]) [ls-accent=auto] {
+  --accent-raw: 225, 225, 225;
+  --accent-dark-raw: 190, 190, 190;
+  --accent-light-raw: 245, 245, 245;
+  --accent-text-raw: 26, 26, 26;
+  --accent-background-raw: 60, 60, 60;
+  --color-bg: #222 ;
+}
+
+[ls-theme=amoled] {
+  --background-raw: 0, 0, 0;
+  --elevate-0: #151515;
+  --elevate-1: #222;
+  --elevate-2: #333;
+  --elevate-3: #444;
+  --elevate-4: #585858;
+}
+
+[ls-theme=light] {
+  --background-raw: 255, 255, 255;
+  --background: rgb(var(--background-raw));
+  --background-tr: #fffa;
+  --transparent-overlay: #0001;
+  --transparent-overlay-strong: #0004;
+  --transparent-overlay-dark: #0001;
+  --transparent-overlay-dark-strong: #0003;
+  --color: var(--elevate-8);
+  --ui: var(--bg-6);
+  --ui-bg-0: var(--bg-1);
+  --ui-bg-1: var(--bg-4);
+  --ui-border: var(--border-color-0);
+  --ui-overlay: #7272725e;
+  --border-color-0: #727272;
+  --border-color: var(--border-color-0);
+  --bg-0: #b4b4b4;
+  --bg-1: #e4e4e4;
+  --bg-2: #f3f3f3;
+  --bg-3: var(--background);
+  --bg-4: #f1f1f1;
+  --bg-5: #ececec;
+  --bg-6: #e4e4e4;
+  --bg-7: #dadada;
+  --bg-8: #c7c7c7;
+  --bg: var(--background);
+  --elevate-0: #eee;
+  --elevate-1: #ddd;
+  --elevate-2: #bbb;
+  --elevate-3: #aaa;
+  --elevate-4: #888;
+  --elevate-5: #666;
+  --elevate-6: #555;
+  --elevate-7: #444;
+  --elevate-8: #222;
+  --elevate: var(--elevate-0);
+}
+[ls-theme=light] [ls-accent=auto] {
+  --accent-raw: 21, 21, 21;
+  --accent-light-raw: 41, 41, 41;
+  --accent-dark-raw: 11, 11, 11;
+  --accent-text-raw: 215, 215, 215;
+  --accent-background-raw: 120, 120, 120;
+  --color-bg: #eee ;
+}
+
+[ls] input {
+  position: relative;
+}
+[ls] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  cursor: pointer;
+}
+[ls] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) i {
+  font-size: 1em;
+  margin: 0 4px 0 2px;
+}
+[ls] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) i:only-child {
+  margin: 0;
+}
+[ls] img {
+  padding: 0;
+}
+[ls] table {
+  background-color: rgba(255, 255, 255, 0.0666666667);
+  border-collapse: collapse;
+  border: 1px solid rgba(255, 255, 255, 0.3333333333);
+  overflow: hidden;
+  border-radius: 15px;
+}
+[ls] table :is(th, td) {
+  border: 1px solid rgba(255, 255, 255, 0.1333333333);
+  text-align: center;
+  padding: 5px;
+}
+[ls] a {
+  color: var(--accent);
+  text-decoration: none;
+}
+[ls] a[disabled] {
+  color: var(--elevate-3);
+}
+[ls] a:focus:not(.ls-button, .ls-plain) {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2666666667);
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+[ls] select {
+  padding: 0.3125em;
+}
+[ls] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])), [ls] textarea {
+  color: var(--color) !important;
+}
+[ls] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image]))::selection, [ls] textarea::selection {
+  background-color: rgb(var(--accent-raw), 50%);
+}
+[ls] h1 {
+  font-weight: 800;
+}
+[ls] h2 {
+  font-weight: 600;
+}
+[ls] h3, [ls] h4 {
+  font-weight: 300;
+  color: var(--elevate-3);
+}
+[ls] hr {
+  border: 1px solid var(--elevate-1);
+  border-radius: 10px;
+  margin: var(--hr-spacing, 18px) 0;
+}
+[ls] :is([disabled], :disabled) {
+  cursor: not-allowed;
+  opacity: 0.9;
+  filter: brightness(0.7);
+}
+[ls] * {
+  box-sizing: border-box;
+}
+[ls] p, [ls] header, [ls] body, [ls] html {
+  margin: 0;
+}
+
+:is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), input, textarea) {
+  color: var(--color-bg, var(--color));
+  border: 0;
+  outline: none;
+  position: relative;
+  background: var(--ui-bg-0);
+  font-size: 1em;
+}
+
+.ls-checkbox, .ls-radio {
+  padding-left: calc(1em + 20px);
+  position: relative;
+  display: inline-block;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ls-checkbox > input, .ls-radio > input, .ls-radio-button > input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute !important;
+}
+
+.ls-checkbox > span, .ls-radio > span {
+  width: 1.2em;
+  height: 1.2em;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+
+.ls-checkbox > span::after {
+  content: "";
+  width: 0.2em;
+  height: 0.5em;
+  border: solid var(--color-bg);
+  border-width: 0 0.15em 0.15em 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  display: none;
+}
+
+:is(.ls-checkbox, .ls-radio) > input:checked ~ span::after {
+  display: block;
+}
+
+:is(.ls-radio-button) > input:checked ~ :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  background: var(--accent-dark-transparent);
+  color: var(--color-bg);
+}
+
+.ls-radio > span::after {
+  content: "";
+  width: 0.55em;
+  height: 0.55em;
+  background: var(--color-bg);
+  display: none;
+}
+
+ls-box {
+  background: var(--elevate-1);
+  display: block;
+}
+
+ls-box:not(.contained, .color, .inline) {
+  outline: 1px solid var(--transparent-overlay-strong);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+}
+
+ls-box.inline {
+  display: inline-block;
+  border-radius: var(--br-small-inside);
+  padding: 0.1em 0.5em;
+  margin: 0 0.2em;
+}
+
+ls-box.color {
+  color: var(--accent-light);
+  background: rgb(var(--accent-raw), 10%);
+}
+
+ls-box::selection {
+  background: var(--accent-transparent);
+}
+
+/*
+    This function increases specificity x times by repeating the selector.
+
+    eg.
+
+    buttonpriority(".myClass", 2) { ... }
+
+    will result in:
+
+    button.myClass.myClass { ... }
+
+    which boosts the specificity to 0,2,1 instead of 0,1,1 if the class was written just once.
+
+    Use this only in edge cases, where a higher selector is breaking a lower selector and there is not a better way.
+*/
+[ls] {
+  --br: 6px;
+  --br-lg: 8px;
+  --br-tiny: 5px;
+  --br-tiny-inside: 4px;
+  --br-small: 8px;
+  --br-small-inside: 5px;
+  --br-medium: 14px;
+  --br-medium-inside: 10px;
+  --br-big: 18px;
+  --br-big-inside: 15px;
+  --br-round: 24px;
+  --br-round-inside: 20px;
+  --br-extra: 34px;
+  --br-extra-inside: 30px;
+  --shadow-overlay-0: 0 12px 32px 0 #0004;
+  --shadow-overlay-1: 0 12px 24px 0 #0006;
+  --shadow-overlay: var(--shadow-overlay-0);
+  --shadow-float-0: 0 4px 16px -5px #0008;
+  --shadow-float-1: 0 6px 18px -5px #000a;
+  --shadow-float-box: 0 10px 20px 0 #0002;
+  --shadow-float: var(--shadow-float-0);
+  --shadow-elevate-0: 0 1px 4px 0 #0004, inset 0 1px 0 0 #fff2;
+  --shadow-elevate-1: 0 2px 8px 0 #0004, inset 0 1px 0 0 #fff3;
+  --shadow-elevate-3: 0 4px 12px 4px #0004, inset 0 1px 0 0 #fff4;
+  --shadow-elevate: var(--shadow-elevate-0);
+}
+
+#ls-top-layer {
+  position: fixed;
+  z-index: 9000000000000;
+}
+
+ls-label {
+  margin: 0.2em 0;
+  margin-left: 10px;
+  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 100%;
+  display: block;
+}
+
+:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).pill, ls-select.pill {
+  border-radius: var(--br-round);
+  padding: 0.4em 1.2em;
+}
+
+:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).circle {
+  border-radius: 50%;
+  padding: 0.7em;
+  line-height: 0;
+}
+
+ls-menu {
+  --scrollbar-size: 3px;
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  overflow: overlay;
+  overflow-x: hidden;
+  text-align: left;
+  background: var(--ui);
+  -webkit-user-select: none;
+  user-select: none;
+  font-size: 1em;
+  min-width: 100px;
+}
+
+ls-menu.has-top-handle {
+  border-top-left-radius: 0 !important;
+  border-top-right-radius: 0 !important;
+}
+
+[ls] ls-menu > :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])) {
+  margin: 0.5em;
+  width: 100%;
+  width: -webkit-fill-available;
+  width: -moz-fill-available;
+  background: var(--ui-bg-1);
+}
+
+ls-menu hr {
+  --hr-spacing: .5em;
+  border-color: rgba(0, 0, 0, 0.1333333333);
+}
+
+ls-option.indent {
+  padding-left: 1em;
+}
+
+ls-option {
+  cursor: pointer;
+  display: block;
+  border-radius: var(--br);
+  margin: 2px 5px;
+  padding: 1px 8px;
+  position: relative;
+}
+
+ls-option:hover, ls-option.submenu-visible {
+  background: var(--elevate-1);
+}
+
+ls-option:active:not(.submenu-visible) {
+  background: var(--elevate-2);
+}
+
+ls-option i, .ls-select-label i {
+  margin-right: 10px;
+}
+
+/*]end;part(LS-Flat)*/
+[ls-style=flat] {
+  /*]part(Modal)*/
+  /*]end*/
+}
+[ls-style=flat] :is(textarea):focus, [ls-style=flat] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])):focus {
+  outline: 2px solid var(--accent-focus, var(--accent));
+  background: rgb(var(--accent-raw), 10%);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  background: var(--accent);
+  color: var(--color-bg, #fff);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(.pill, .circle), [ls-style=flat] input, [ls-style=flat] textarea {
+  border-radius: var(--br-small);
+  padding: 6px 18px;
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), [ls-style=flat] input, [ls-style=flat] textarea {
+  margin: 4px 0;
+}
+[ls-style=flat] input, [ls-style=flat] textarea {
+  padding: 0.3125em 0.625em;
+}
+[ls-style=flat] ls-box {
+  border-radius: var(--br-small);
+  padding: 0.5em 1em;
+  margin: 0.4em;
+}
+[ls-style=flat] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).elevated {
+  outline: none;
+  background: rgb(var(--accent-raw), 10%);
+  color: var(--accent-light);
+  transition-duration: 0.1s;
+  transition-property: background;
+}
+[ls-style=flat] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).outlined {
+  outline: none;
+  background: none;
+  color: var(--accent-light);
+  border: 1px solid var(--accent-light);
+  transition-duration: 0.1s;
+  transition-property: background;
+}
+[ls-style=flat] :not(ls-group) > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):focus {
+  box-shadow: 0 0 0 3px var(--transparent-overlay-dark);
+}
+[ls-style=flat] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select):focus-visible {
+  outline: 2px solid var(--accent-light);
+  opacity: 1;
+}
+[ls-style=flat] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select):not(.elevated, .outlined):focus-visible {
+  outline: 2px solid var(--color);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):hover:not([disabled]) {
+  filter: brightness(1.1);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):is(.active, :active):not([disabled]) {
+  background: var(--accent-light);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:hover:not([disabled]) {
+  background: rgb(var(--accent-raw), 15%);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:active:not([disabled]) {
+  background: rgb(var(--accent-raw), 25%);
+}
+[ls-style=flat] button.outlined:active:not([disabled]) {
+  background: rgb(var(--accent-raw), 10%);
+}
+[ls-style=flat] ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:first-child, [ls-style=flat] ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:not(:first-child, :last-child) {
+  border-right: 1px solid var(--accent);
+}
+[ls-style=flat] ls-select:not(.plain) {
+  overflow: hidden;
+  padding: 0.2em 1.2em;
+  padding-right: 2.4em;
+  background: var(--elevate-1);
+}
+[ls-style=flat] ls-select:not(.pill) {
+  border-radius: var(--br-small);
+}
+[ls-style=flat] ls-select:not(.plain):focus {
+  outline: 2px solid var(--accent);
+}
+[ls-style=flat] ls-select:not(.plain).open {
+  border-radius: var(--br) var(--br) 0 0 !important;
+}
+[ls-style=flat] .ls-tooltip-content {
+  border: 0.05em solid rgba(0, 0, 0, 0.2196078431);
+  box-shadow: inset 0 0.0625em 0 0 rgba(255, 255, 255, 0.1333333333);
+  background: var(--ui-bg-1);
+  border-radius: var(--br-small-inside);
+}
+[ls-style=flat] ls-menu {
+  border-radius: var(--br-medium);
+  box-shadow: 0px 3px 20px -4px rgba(0, 0, 0, 0.4117647059);
+  padding: 4px 0;
+}
+[ls-style=flat] ls-option {
+  border-radius: var(--br-medium-inside);
+  margin: 3px 6px;
+  padding: 5px 12px;
+}
+[ls-style=flat] .ls-checkbox > span, [ls-style=flat] .ls-radio > span {
+  border: 2px solid var(--elevate-3);
+  border-radius: var(--br-small-inside);
+  transition: background 0.2s;
+}
+[ls-style=flat] .ls-radio > span {
+  border-radius: 50%;
+}
+[ls-style=flat] :is(.ls-checkbox, .ls-radio) > span::before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  inset: -0.8em;
+  transition: background 0.2s, transform 0.2s;
+  transform: scale(0.8);
+}
+[ls-style=flat] .ls-radio > span::after {
+  background: var(--accent);
+  border-radius: 50%;
+}
+[ls-style=flat] :is(.ls-checkbox, .ls-radio) > input:disabled ~ span::before {
+  display: none;
+}
+[ls-style=flat] :is(.ls-checkbox, .ls-radio):active > span::before {
+  background: rgb(var(--accent-raw), 20%);
+  transform: scale(1);
+}
+[ls-style=flat] .ls-checkbox > input:checked ~ span {
+  background: var(--accent);
+  border: none;
+}
+[ls-style=flat] .ls-radio > input:checked ~ span {
+  border-color: var(--accent);
+}
+[ls-style=flat] :is(.ls-checkbox, .ls-radio) > input:disabled ~ span {
+  opacity: 0.8;
+  --elevate-3: var(--elevate-1);
+  cursor: not-allowed;
+}
+[ls-style=flat] ls-modal {
+  background: var(--ui);
+  border-radius: 1rem;
+  outline: 1px solid var(--transparent-overlay-strong);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+  flex-direction: column;
+  overflow: hidden;
+}
+[ls-style=flat] ls-modal-body {
+  padding: 1.4rem;
+}
+[ls-style=flat] ls-modal-footer > button {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  border-left: 1px solid var(--transparent-overlay);
+  color: var(--accent);
+  transition: background 0.1s;
+  background: transparent !important;
+}
+[ls-style=flat] ls-modal-footer > button:active:not([disabled]) {
+  background: var(--elevate-1) !important;
+}
+
+/*]end;part(LS-Fluent)*/
+[ls-fluent], [ls-style=fluent] {
+  --br: .4375em;
+  --br-lg: .5625em;
+}
+[ls-fluent] :is(button, input[type=text], textarea):focus, [ls-fluent] [ls-selected], [ls-style=fluent] :is(button, input[type=text], textarea):focus, [ls-style=fluent] [ls-selected] {
+  outline: 0.125em solid var(--accent-focus, var(--accent));
+}
+[ls-fluent] :is(button, input, textarea), [ls-style=fluent] :is(button, input, textarea) {
+  color: var(--color-bg, #fff);
+  background: var(--accent);
+  border-radius: var(--br);
+  border: 0.8px solid rgba(0, 0, 0, 0.4117647059);
+  box-shadow: inset 0 0.0625em 0 0 rgba(255, 255, 255, 0.1607843137);
+}
+[ls-fluent] :is(input, textarea), [ls-style=fluent] :is(input, textarea) {
+  box-shadow: inset 0 0.0625em 0 0 rgba(255, 255, 255, 0.1607843137), inset 0 -0.0625em 0 0 rgba(0, 0, 0, 0.1960784314);
+}
+[ls-fluent] button.elevated, [ls-style=fluent] button.elevated {
+  background: var(--accent-light);
+}
+[ls-fluent] button.outlined, [ls-style=fluent] button.outlined {
+  background: none;
+  color: var(--accent-light);
+  border: 1px solid var(--accent-light);
+  transition-duration: 0.1s;
+  transition-property: background;
+}
+[ls-fluent] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])), [ls-fluent] textarea, [ls-style=fluent] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])), [ls-style=fluent] textarea {
+  color: var(--color);
+  background: var(--ui-bg-0, var(--background));
+}
+[ls-fluent] button:active, [ls-style=fluent] button:active {
+  background: var(--accent-dark);
+  opacity: 0.8;
+}
+[ls-fluent] button:focus, [ls-fluent] button[ls-selected], [ls-style=fluent] button:focus, [ls-style=fluent] button[ls-selected] {
+  box-shadow: none;
+  background: var(--accent-dark);
+}
+[ls-fluent] .ls-tooltip-content, [ls-style=fluent] .ls-tooltip-content {
+  border: 0.05em solid rgba(0, 0, 0, 0.2196078431);
+  box-shadow: inset 0 0.0625em 0 0 rgba(255, 255, 255, 0.1333333333);
+  background: var(--ui-bg-1);
+  border-radius: var(--br);
+}
+[ls-fluent] ls-menu, [ls-style=fluent] ls-menu {
+  border-radius: var(--br);
+  box-shadow: 0px 20px 90px -40px #000, inset 0 -2px 0 0 rgba(0, 0, 0, 0.3333333333);
+  padding: 0 0 4px;
+  outline: 0.5px solid var(--ui-border);
+}
+
+/*]end;part(LS-Sharp)*/
+[ls-style=sharp] {
+  --br: 2px;
+  --br-lg: 6px;
+  /*]part(Modal)*/
+  /*]end*/
+}
+[ls-style=sharp] :is(button, input, select, textarea):focus {
+  outline: 1px solid var(--accent-focus, var(--accent));
+}
+[ls-style=sharp] :is(button, input, select, textarea) {
+  color: var(--color);
+  background: var(--elevate-1);
+  border-radius: var(--br);
+}
+[ls-style=sharp] :is(button, input, select, textarea):hover {
+  opacity: 1;
+}
+[ls-style=sharp] :is(button, select):active {
+  background: var(--ui-bg-1);
+}
+[ls-style=sharp] group[inputs] {
+  box-shadow: 0 4px 40px -10px #000;
+}
+[ls-style=sharp] group > :is(button, input) {
+  box-shadow: unset;
+}
+[ls-style=sharp] :is(ls-select, [ls-box], [ls-box-i], .ls-tooltip-content, [ls-box-i][ls-fluent]) {
+  padding: 5px 15px;
+  margin-bottom: 5px;
+  color: var(--color);
+  background: var(--elevate-1);
+  border-radius: var(--br);
+}
+[ls-style=sharp] ls-menu :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])) {
+  background: var(--ui-bg-0);
+}
+[ls-style=sharp] ls-menu {
+  border-radius: 0;
+  box-shadow: 0px 4px 10px 0px rgba(0, 0, 0, 0.2);
+  padding: 0 0 4px;
+  background: var(--ui-bg-1);
+}
+[ls-style=sharp] ls-option {
+  border-radius: 0;
+  margin: 0;
+  padding: 0.2em 0.8em;
+}
+[ls-style=sharp] ls-modal {
+  background: var(--ui-bg-1);
+  border-radius: 4px;
+  outline: 2px solid var(--ui-border);
+  border: 1px solid var(--ui);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+  flex-direction: column;
+  overflow: hidden;
+}
+[ls-style=sharp] ls-modal-body {
+  padding: 1.4rem;
+}
+[ls-style=sharp] ls-modal-footer > button {
+  width: 100%;
+}
+[ls-style=sharp] ls-modal-footer > button:is(:active, :focus):not([disabled]) {
+  background: var(--elevate-1) !important;
+}
+[ls-style=sharp] ls-modal-footer {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--transparent-overlay);
+  overflow: hidden;
+  gap: 10px;
+  padding: 10px;
+}
+
+/*]end;part(LS-Elevated)*/
+[ls-style=elevated] {
+  --elevate-shadow: 0 2px 0 0 #0002, inset 0 1px 0 0 #fff2, inset 0 -1px 0 0 #0002;
+  /*]part(tabs)*/
+  /*]end*/
+  /*]part(Modal)*/
+  /*]end*/
+}
+[ls-style=elevated] :is(textarea):focus, [ls-style=elevated] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])):focus {
+  outline: 2px solid var(--accent-focus, var(--accent));
+  background: rgb(var(--accent-raw), 10%);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
+  color: var(--color);
+  box-shadow: var(--elevate-shadow);
+  border: 1px solid var(--bg-1);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).colored {
+  background: linear-gradient(var(--accent) 0%, var(--accent-dark) 100%);
+  color: var(--color-bg, #fff);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(.pill, .circle), [ls-style=elevated] input, [ls-style=elevated] textarea {
+  border-radius: var(--br-tiny);
+  padding: 4px 12px;
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), [ls-style=elevated] input, [ls-style=elevated] textarea {
+  margin: 4px;
+}
+[ls-style=elevated] input, [ls-style=elevated] textarea {
+  padding: 0.3125em 0.625em;
+}
+[ls-style=elevated] ls-box {
+  border-radius: var(--br-small);
+  padding: 0.5em 1em;
+  margin: 0.4em;
+}
+[ls-style=elevated] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).elevated {
+  outline: none;
+  background: rgb(var(--accent-raw), 10%);
+  color: var(--accent-light);
+  transition-duration: 0.1s;
+  transition-property: background;
+}
+[ls-style=elevated] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select).outlined {
+  outline: none;
+  background: none;
+  color: var(--accent-light);
+  border: 1px solid var(--accent-light);
+  transition-duration: 0.1s;
+  transition-property: background;
+}
+[ls-style=elevated] :not(ls-group) > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):focus {
+  box-shadow: 0 0 0 3px var(--transparent-overlay-dark);
+}
+[ls-style=elevated] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select):focus-visible {
+  outline: 2px solid var(--accent-light);
+  opacity: 1;
+}
+[ls-style=elevated] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), ls-select):not(.elevated, .outlined):focus-visible {
+  outline: 2px solid var(--color);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):is(.active, :active):not([disabled]) {
+  background: linear-gradient(var(--elevate) 0%, var(--elevate) 100%);
+  box-shadow: 0px 2px 0 0 rgba(0, 0, 0, 0.1333333333), inset 0 0 2px 2px rgba(0, 0, 0, 0.2666666667);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).active {
+  text-shadow: 0 0 7px currentColor;
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:hover:not([disabled]) {
+  background: rgb(var(--accent-raw), 15%);
+}
+[ls-style=elevated] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:active:not([disabled]) {
+  background: rgb(var(--accent-raw), 25%);
+}
+[ls-style=elevated] button.outlined:active:not([disabled]) {
+  background: rgb(var(--accent-raw), 10%);
+}
+[ls-style=elevated] ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:first-child, [ls-style=elevated] ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:not(:first-child, :last-child) {
+  border-right: 1px solid var(--accent);
+}
+[ls-style=elevated] ls-select:not(.plain) {
+  overflow: hidden;
+  padding: 0.2em 1.2em;
+  padding-right: 2.4em;
+  outline: 1px solid var(--border-color-0);
+  background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
+  box-shadow: var(--elevate-shadow);
+}
+[ls-style=elevated] ls-select:not(.pill) {
+  border-radius: var(--br-tiny);
+}
+[ls-style=elevated] .ls-tooltip-content {
+  border: 0.05em solid rgba(0, 0, 0, 0.2196078431);
+  box-shadow: inset 0 0.0625em 0 0 rgba(255, 255, 255, 0.1333333333);
+  background: var(--ui-bg-1);
+  border-radius: var(--br-small-inside);
+}
+[ls-style=elevated] ls-menu {
+  border-radius: var(--br-small-inside);
+  box-shadow: 0px 3px 20px -4px rgba(0, 0, 0, 0.5333333333), inset 0 -2px 0 0 rgba(0, 0, 0, 0.1333333333);
+  padding: 0;
+  outline: 1px solid var(--border-color-0);
+}
+[ls-style=elevated] ls-option {
+  border-radius: 0;
+  margin: 0;
+  padding: 4px 12px;
+}
+[ls-style=elevated] .ls-checkbox > span, [ls-style=elevated] .ls-radio > span {
+  border: 2px solid var(--elevate-3);
+  border-radius: var(--br-small-inside);
+  transition: background 0.2s;
+}
+[ls-style=elevated] .ls-radio > span {
+  border-radius: 50%;
+}
+[ls-style=elevated] :is(.ls-checkbox, .ls-radio) > span::before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  inset: -0.8em;
+  transition: background 0.2s, transform 0.2s;
+  transform: scale(0.8);
+}
+[ls-style=elevated] .ls-radio > span::after {
+  background: var(--accent);
+  border-radius: 50%;
+}
+[ls-style=elevated] :is(.ls-checkbox, .ls-radio) > input:disabled ~ span::before {
+  display: none;
+}
+[ls-style=elevated] :is(.ls-checkbox, .ls-radio):active > span::before {
+  background: rgb(var(--accent-raw), 20%);
+  transform: scale(1);
+}
+[ls-style=elevated] .ls-checkbox > input:checked ~ span {
+  background: var(--accent);
+  border: none;
+}
+[ls-style=elevated] .ls-radio > input:checked ~ span {
+  border-color: var(--accent);
+}
+[ls-style=elevated] :is(.ls-checkbox, .ls-radio) > input:disabled ~ span {
+  opacity: 0.8;
+  --elevate-3: var(--elevate-1);
+  cursor: not-allowed;
+}
+[ls-style=elevated] ._tab_style {
+  padding: 2px 20px;
+  background: linear-gradient(var(--elevate) 0%, var(--elevate) 100%);
+  border: 1px solid var(--bg-1);
+}
+[ls-style=elevated] ._tab_style.active:not(.ls-held) {
+  padding: 2px 20px;
+  border: none;
+  box-shadow: 0 2px 0 0 rgba(255, 255, 255, 0.2), inset 0 1px 0 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 0 rgba(0, 0, 0, 0.2);
+  background: linear-gradient(var(--elevate-1) 0%, var(--elevate) 100%);
+  border-radius: 5px 5px 0 0;
+}
+[ls-style=elevated] .tablist {
+  min-height: unset;
+}
+[ls-style=elevated] ls-modal {
+  background: var(--ui);
+  border-radius: 1rem;
+  outline: 1px solid var(--transparent-overlay-strong);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+  flex-direction: column;
+  overflow: hidden;
+}
+[ls-style=elevated] ls-modal-body {
+  padding: 1.4rem;
+}
+[ls-style=elevated] ls-modal-footer > button {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  border-left: 1px solid var(--transparent-overlay);
+  color: var(--accent);
+  transition: background 0.1s;
+  background: transparent !important;
+}
+[ls-style=elevated] ls-modal-footer > button:active:not([disabled]) {
+  background: var(--elevate-1) !important;
+}
+
+/*]end*/
+@keyframes ls-rotate {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes ls-rotateCentered {
+  from {
+    transform: translate(-50%, -50%) rotate(0);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+/*]part(base)*/
+.ls-dragging {
+  overflow: hidden;
+}
+
+.ls-dragging, .ls-dragging .ls-seeker-thumb, .ls-dragging * {
+  -webkit-user-select: none !important;
+  user-select: none !important;
+}
+
+.ls-dragging.ls-seeker-drag {
+  cursor: grabbing !important;
+}
+
+.ls-dragging :is(iframe) {
+  pointer-events: none !important;
+}
+
+* {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-highlight: none;
+}
+
+[tr], .ls-notif, [ls-modal] > :first-child, .ls-notif-area {
+  transition-duration: var(--transition, 0.2s);
+}
+
+[ls-accent=rich-black] {
+  --accent-raw: 6, 0, 35;
+  --accent-background-raw: 0, 0, 0;
+  --accent-dark-raw: 0, 0, 0;
+  --accent-light-raw: 19, 4, 92;
+  --accent-text-raw: 54, 27, 187;
+  --color-bg: #7d65f0;
+}
+
+[ls-accent=navy] {
+  --accent-raw: 40, 28, 108;
+  --accent-background-raw: 14, 13, 21;
+  --accent-dark-raw: 24, 18, 56;
+  --accent-light-raw: 64, 48, 149;
+  --accent-text-raw: 134, 124, 190;
+  --color-bg: #d3cfeb;
+}
+
+[ls-accent=blue], html {
+  --accent-raw: 0, 133, 255;
+  --accent-background-raw: 13, 26, 38;
+  --accent-dark-raw: 8, 101, 186;
+  --accent-light-raw: 69, 162, 247;
+  --accent-text-raw: 0, 40, 77;
+  --color-bg: white;
+}
+
+[ls-accent=pastel-indigo] {
+  --accent-raw: 70, 118, 181;
+  --accent-background-raw: 60,72,89;
+  --accent-dark-raw: 61, 90, 129;
+  --accent-light-raw: 120, 151, 192;
+  --accent-text-raw: 20, 34, 52;
+  --color-bg: #222;
+}
+
+[ls-accent=lapis] {
+  --accent-raw: 34, 114, 154;
+  --accent-background-raw: 0, 0, 0;
+  --accent-dark-raw: 28, 75, 99;
+  --accent-light-raw: 55, 148, 194;
+  --accent-text-raw: 11, 37, 50;
+  --color-bg: #cee3ed;
+}
+
+[ls-accent=teal] {
+  --accent-raw: 0, 128, 128;
+  --accent-background-raw: 7, 20, 20;
+  --accent-dark-raw: 3, 64, 64;
+  --accent-light-raw: 8, 182, 182;
+  --accent-text-raw: 0, 0, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=pastel-teal] {
+  --accent-raw: 69, 195, 205;
+  --accent-background-raw: 69,100,103;
+  --accent-dark-raw: 54, 151, 159;
+  --accent-light-raw: 124, 205, 211;
+  --accent-text-raw: 20, 71, 75;
+  --color-bg: #222;
+}
+
+[ls-accent=aquamarine] {
+  --accent-raw: 58, 160, 125;
+  --accent-background-raw: 35, 55, 48;
+  --accent-dark-raw: 48, 109, 88;
+  --accent-light-raw: 95, 184, 154;
+  --accent-text-raw: 24, 66, 52;
+  --color-bg: #222;
+}
+
+[ls-accent=mint] {
+  --accent-raw: 106, 238, 189;
+  --accent-background-raw: 49, 167, 123;
+  --accent-dark-raw: 60, 223, 162;
+  --accent-light-raw: 165, 240, 212;
+  --accent-text-raw: 14, 126, 84;
+  --color-bg: #222;
+}
+
+[ls-accent=green] {
+  --accent-raw: 25, 135, 84;
+  --accent-background-raw: 24, 34, 29;
+  --accent-dark-raw: 19, 79, 52;
+  --accent-light-raw: 43, 178, 115;
+  --accent-text-raw: 9, 49, 30;
+  --color-bg: #fff;
+}
+
+[ls-accent=lime] {
+  --accent-raw: 133, 210, 50;
+  --accent-background-raw: 28, 32, 24;
+  --accent-dark-raw: 80, 114, 44;
+  --accent-light-raw: 163, 213, 108;
+  --accent-text-raw: 42, 67, 15;
+  --color-bg: #222;
+}
+
+[ls-accent=neon] {
+  --accent-raw: 173, 255, 110;
+  --accent-background-raw: 28, 44, 15;
+  --accent-dark-raw: 124, 187, 76;
+  --accent-light-raw: 225, 253, 204;
+  --accent-text-raw: 59, 136, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=yellow] {
+  --accent-raw: 255, 236, 32;
+  --accent-background-raw: 62, 59, 21;
+  --accent-dark-raw: 217, 199, 9;
+  --accent-light-raw: 255, 248, 175;
+  --accent-text-raw: 109, 99, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=lstv-red] {
+  --accent-raw: 237, 108, 48;
+  --accent-background-raw: 54, 35, 27;
+  --accent-dark-raw: 197, 81, 27;
+  --accent-light-raw: 235, 150, 111;
+  --accent-text-raw: 98, 37, 9;
+  --color-bg: #222;
+}
+
+[ls-accent=lstv-yellow] {
+  --accent-raw: 252, 194, 27;
+  --accent-background-raw: 55, 46, 20;
+  --accent-dark-raw: 206, 156, 12;
+  --accent-light-raw: 246, 207, 94;
+  --accent-text-raw: 99, 74, 1;
+  --color-bg: #222;
+}
+
+[ls-accent=lstv-blue] {
+  --accent-raw: 64, 192, 231;
+  --accent-background-raw: 33, 52, 58;
+  --accent-dark-raw: 35, 160, 198;
+  --accent-light-raw: 125, 207, 232;
+  --accent-text-raw: 13, 82, 103;
+  --color-bg: #222;
+}
+
+[ls-accent=orange] {
+  --accent-raw: 255, 140, 32;
+  --accent-background-raw: 62, 41, 21;
+  --accent-dark-raw: 217, 110, 9;
+  --accent-light-raw: 249, 172, 100;
+  --accent-text-raw: 109, 53, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=deep-orange] {
+  --accent-raw: 255, 112, 52;
+  --accent-background-raw: 77, 41, 26;
+  --accent-dark-raw: 236, 77, 10;
+  --accent-light-raw: 249, 157, 119;
+  --accent-text-raw: 129, 38, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=red] {
+  --accent-raw: 245, 47, 47;
+  --accent-background-raw: 62, 26, 26;
+  --accent-dark-raw: 157, 33, 33;
+  --accent-light-raw: 242, 112, 112;
+  --accent-text-raw: 108, 5, 5;
+  --color-bg: #222;
+}
+
+[ls-accent=rusty-red], [ls-accent=bright-red] {
+  --accent-raw: 220, 53, 69;
+  --accent-background-raw: 42, 27, 29;
+  --accent-dark-raw: 172, 40, 52;
+  --accent-light-raw: 222, 112, 123;
+  --accent-text-raw: 81, 14, 20;
+  --color-bg: #222;
+}
+
+[ls-accent=pink] {
+  --accent-raw: 230, 52, 164;
+  --accent-background-raw: 61, 42, 54;
+  --accent-dark-raw: 188, 33, 130;
+  --accent-light-raw: 230, 113, 187;
+  --accent-text-raw: 92, 11, 62;
+  --color-bg: #222;
+}
+
+[ls-accent=hotpink] {
+  --accent-raw: 245, 100, 169;
+  --accent-background-raw: 97, 44, 69;
+  --accent-dark-raw: 232, 52, 138;
+  --accent-light-raw: 245, 162, 201;
+  --accent-text-raw: 156, 10, 80;
+  --color-bg: #222;
+}
+
+[ls-accent=purple] {
+  --accent-raw: 155, 77, 175;
+  --accent-background-raw: 54, 43, 56;
+  --accent-dark-raw: 113, 66, 125;
+  --accent-light-raw: 175, 126, 187;
+  --accent-text-raw: 45, 22, 51;
+  --color-bg: #eee;
+}
+
+[ls-accent=soap] {
+  --accent-raw: 210, 190, 235;
+  --accent-background-raw: 145, 119, 178;
+  --accent-dark-raw: 178, 149, 215;
+  --accent-light-raw: 243, 238, 248;
+  --accent-text-raw: 116, 58, 189;
+  --color-bg: #222;
+}
+
+[ls-accent=burple] {
+  --accent-raw: 81, 101, 246;
+  --accent-background-raw: 37, 43, 86;
+  --accent-dark-raw: 33, 57, 233;
+  --accent-light-raw: 144, 156, 244;
+  --accent-text-raw: 7, 24, 141;
+  --color-bg: #eee;
+}
+
+[ls-accent=gray],
+:disabled {
+  --accent-raw: 73, 73, 73;
+  --accent-background-raw: 22, 22, 22;
+  --accent-dark-raw: 42, 42, 42;
+  --accent-light-raw: 104, 104, 104;
+  --accent-text-raw: 0, 0, 0;
+  --color-bg: #eee;
+}
+
+[ls-accent=gray-light] {
+  --accent-raw: 107, 107, 107;
+  --accent-background-raw: 43, 43, 43;
+  --accent-dark-raw: 76, 76, 76;
+  --accent-light-raw: 138, 138, 138;
+  --accent-text-raw: 31, 31, 31;
+  --color-bg: #222;
+}
+
+[ls-accent=white] {
+  --accent-raw: 225, 225, 225;
+  --accent-background-raw: 123, 123, 123;
+  --accent-dark-raw: 194, 194, 194;
+  --accent-light-raw: 255, 255, 255;
+  --accent-text-raw: 136, 136, 136;
+  --color-bg: #222;
+}
+
+[ls-accent=black] {
+  --accent-raw: 16, 16, 16;
+  --accent-background-raw: 42, 42, 42;
+  --accent-dark-raw: 0, 0, 0;
+  --accent-light-raw: 47, 47, 47;
+  --accent-text-raw: 255, 255, 255;
+  --color-bg: #fff;
+}
+
+[ls-accent=sand] {
+  --accent-raw: 236, 98, 111;
+  --accent-dark-raw: 230, 103, 53;
+  --accent-background-raw: 109, 93, 139;
+  --accent-light-raw: 242, 171, 143;
+  --color-bg: #222;
+}
+
+[ls-accent=icepop] {
+  --accent-raw: 206, 38, 38;
+  --accent-dark-raw: 36, 102, 157;
+  --accent-light-raw: 80, 154, 215;
+  --accent-background-raw: 13, 26, 38;
+  --color-bg: #ddd;
+}
+
+[ls-accent=cozy] {
+  --accent-raw: 180, 133, 124;
+  --accent-dark-raw: 92, 133, 161;
+  --accent-background-raw: 81, 105, 121;
+  --accent-light-raw: 156, 181, 199;
+  --color-bg: #222;
+}
+
+[ls-accent=sport] {
+  --accent-raw: 246, 66, 35;
+  --accent-dark-raw: 94, 221, 9;
+  --accent-light-raw: 150, 248, 84;
+  --accent-text-raw: 150, 248, 84;
+  --accent-background-raw: 39, 52, 4;
+  --color-bg: #000;
+}
+
+[ls-accent] {
+  --accent: rgb(var(--accent-raw));
+  --accent-transparent: rgb(var(--accent-raw), 50%);
+  --accent-background: rgb(var(--accent-background-raw));
+  --accent-dark: rgb(var(--accent-dark-raw));
+  --accent-dark-transparent: rgb(var(--accent-dark-raw), 50%);
+  --accent-light: rgb(var(--accent-light-raw));
+  --accent-light-transparent: rgb(var(--accent-light-raw), 50%);
+  --accent-text: rgb(var(--accent-text-raw));
+  --accent-text-transparent: rgb(var(--accent-text-raw), 50%);
+}
+
+::-webkit-scrollbar {
+  width: var(--scrollbar-size, 4px);
+  height: var(--scrollbar-size, 4px);
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: var(--scrollbar-radius, 8px);
+  background: var(--scrollbar-color, rgba(0, 0, 0, 0.2666666667));
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-color-hover, rgba(255, 255, 255, 0.2));
+}
+
+ls-group[join] {
+  position: relative;
+  display: flex;
+  margin: 0.3125em 0.1875em;
+}
+
+ls-group[join] > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  padding: 5px 20px;
+}
+
+ls-group[join] > :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), input):last-child, ls-group[join] > label:last-child > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  border-radius: 0 var(--br-small) var(--br-small) 0;
+}
+
+ls-group[join] > :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), input), ls-group[join] > label > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  margin: 0 !important;
+}
+
+ls-group[join] > :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), input):first-child, ls-group[join] > label:first-child > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  border-radius: var(--br-small) 0 0 var(--br-small);
+  border-right: 0;
+}
+
+ls-group[join] > :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), input):not(:first-child, :last-child), ls-group[join] > label:not(:first-child, :last-child) > :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  border-radius: 0;
+  border-right: 0;
+}
+
+ls-group[grid] {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+/*]end;part(toast)*/
+.ls-toast-layer {
+  pointer-events: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1em;
+  padding-bottom: 1em;
+  gap: 1em;
+}
+
+.ls-toast {
+  pointer-events: all;
+  transform: scaleY(0);
+  opacity: 0;
+  margin-top: -70px;
+  padding: 0.5em 1.8em;
+  background: var(--ui-bg-0);
+  border-radius: 2em;
+  overflow: hidden;
+  transition: 0.2s;
+  -webkit-user-select: none;
+  user-select: none;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+}
+
+.ls-toast.open {
+  transform: unset;
+  opacity: 1;
+  margin-top: 0;
+}
+
+button.ls-toast-close.ls-toast-close {
+  margin: 0;
+  width: 1.5em;
+  height: 1.5em;
+  min-width: 1.5em;
+  min-height: 1.5em;
+  padding: 0.2em;
+  font-size: 1.2em;
+  box-sizing: content-box;
+  margin-left: 1em;
+  margin-right: -1em;
+}
+
+.ls-toast-content {
+  display: inline-block;
+  padding: 0.5em 0;
+}
+
+.ls-toast > i {
+  margin-right: 0.8em;
+  margin-left: -0.4em;
+}
+
+/*]end;part(present)*/
+.ls-present-container {
+  background-color: #000;
+  display: block;
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+}
+
+.ls-present-body {
+  transform: translate(50%, 50%);
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.ls-present-fullscreen {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background-color: #000;
+  padding: 0;
+  margin: 0;
+}
+
+:is(.ls-present-body, .ls-present-responsive) [tab-id] {
+  transition-timing-function: ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  position: absolute;
+  transform: translateX(100%);
+}
+:is(.ls-present-body, .ls-present-responsive) [tab-id].tab-active {
+  transform: translateX(0);
+}
+
+/*]end;part(tabs)*/
+.tablist {
+  display: flex;
+  width: 100%;
+  overflow: overlay;
+  --scrollbar-size: 2px;
+  --scrollbar-color: #0000;
+  min-height: var(--tablist-height);
+}
+
+.ls-tabs-with-list {
+  display: flex;
+  flex-direction: column;
+  --tablist-height: 32px;
+}
+
+.ls-tabs-wrapper {
+  height: calc(100% - var(--tablist-height));
+  overflow: hidden;
+}
+
+.tablist_style {
+  border-bottom: 1px solid var(--ui-border);
+}
+
+.tablist:hover {
+  --scrollbar-color: #fff2 ;
+}
+
+._tab_style {
+  white-space: nowrap;
+  padding: 5px 20px;
+  border-right: 1px solid var(--ui-border);
+  border-top: 1px solid var(--ui-border);
+  background: var(--ui-bg-1);
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: pointer;
+}
+
+._tab_style.ls-held {
+  border-radius: var(--br);
+  border: none;
+  outline: 1px solid var(--accent);
+}
+
+._tab_style.active:not(.ls-held) {
+  background: var(--ui);
+  padding: 7px 20px;
+  border-top: none;
+  cursor: default;
+  padding-bottom: 4px;
+  border-bottom: 3px solid var(--accent);
+}
+
+/*]end;part(Tooltips)*/
+.ls-tootlip-layer.shown .ls-tooltip-content {
+  opacity: 1 !important;
+}
+
+.ls-tooltip-content {
+  color: var(--color, #fff);
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  padding: 4px 8px;
+  width: max-content;
+  text-align: center;
+  font-size: 0.9em;
+  font-family: var(--font);
+  white-space: pre-wrap;
+}
+
+.ls-tootlip-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100000;
+  pointer-events: none;
+}
+
+[ls-sharp] .ls-tooltip-content {
+  background: #111 !important;
+}
+
+:is([ls-fluent], [ls-flat]) .ls-tooltip-content {
+  background: #252525 !important;
+}
+
+/*]end;part(Loader)*/
+[load]:not(.load-noBackground)::before {
+  content: "";
+  z-index: 900;
+  display: flex;
+  background: var(--accent-transparent);
+  pointer-events: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+[load=solid]:not(.load-noBackground)::before {
+  background: var(--ui);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+
+[load]::after {
+  content: "";
+  z-index: 905;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  animation: ls-rotateCentered 2s linear infinite both;
+}
+
+[load]::after, [ls-load] {
+  width: var(--load-size, 2em);
+  height: var(--load-size, 2em);
+  border: var(--load-width, 5px) solid var(--accent-transparent);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+}
+
+button[load] {
+  overflow: hidden;
+}
+
+button[load]::after {
+  width: 1.2em;
+  height: 1.2em;
+  left: calc(50% - 1em);
+  top: calc(50% - 0.9em);
+  border-width: 3px;
+}
+
+button[load]::before {
+  background: var(--accent-dark);
+}
+
+[ls-rotate], [ls-load] {
+  animation: ls-rotate 2s linear infinite both;
+}
+
+/*]end;part(Modal)*/
+ls-modal {
+  display: flex;
+}
+
+ls-modal-body {
+  flex: 1;
+  white-space: pre-wrap;
+  overflow: auto;
+}
+
+ls-modal-footer {
+  flex: 1;
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--transparent-overlay);
+  overflow: hidden;
+}
+
+ls-modal-footer > button {
+  width: 100%;
+}
+
+ls-shade-fixed {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5333333333);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 50000;
+  opacity: 0;
+  transition: opacity 0.1s ease-in;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+ls-shade-fixed[open=true] {
+  opacity: 1;
+}
+
+ls-shade-fixed > ls-modal {
+  margin: 0 1em;
+  max-width: 32em;
+  width: 100%;
+  transition: 0.4s;
+  opacity: 0;
+  transform: scale(1.2);
+}
+
+ls-shade-fixed[open=true] > ls-modal {
+  opacity: 1;
+  transform: unset;
+}
+
+ls-modal-body :is(h1, h2, h3, h4) {
+  margin-top: 0;
+  margin-bottom: 0.3em;
+}
+
+@media only screen and (max-width: 300px) {
+  [ls-style=flat] ls-modal-footer {
+    flex-direction: column;
+  }
+  [ls-style=flat] ls-modal-footer > button {
+    border-top: 1px solid var(--transparent-overlay);
+  }
+}
+/*]end;part(Select)*/
+ls-select:not(.plain) {
+  cursor: pointer;
+  display: inline-block;
+  min-width: 8em;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  position: relative;
+}
+
+ls-select * {
+  pointer-events: none;
+}
+
+ls-select.open {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+[ls-theme=light] ls-select::after {
+  filter: brightness(0.2);
+}
+
+ls-select:not(.plain)::after {
+  content: "";
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-caret-down-fill' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  position: absolute;
+  width: 1.8em;
+  background-repeat: no-repeat;
+  background-position: center;
+  right: 5px;
+  top: 0;
+  bottom: 0;
+}
+
+ls-select:not(.plain).open::after {
+  transform: rotate(180deg);
+}
+
+/*]end;part(Tree)*/
+.ls-tree-expandable:before {
+  border: 5px solid transparent;
+  border-left-color: currentColor;
+  border-radius: 3px;
+  content: "";
+  position: absolute;
+  left: calc(var(--ls-tree-indent) * 20px - 12px);
+  top: calc(50% - 5px);
+}
+
+.ls-tree-expandable.open:before {
+  transform: rotate(45deg);
+}
+
+.ls-tree-item:after {
+  border-left: 1px solid currentColor;
+  opacity: 0.1;
+  transition-duration: 0.3s;
+  content: "";
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+}
+
+.ls-tree:hover .ls-tree-item:after {
+  opacity: 0.4;
+}
+
+.ls-tree {
+  max-height: 100vh;
+  position: relative;
+}
+
+.ls-tree-container {
+  position: relative;
+  left: 0;
+  right: 0;
+  top: 0;
+}
+
+.ls-tree-item {
+  cursor: pointer;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  line-height: 18px;
+  padding: 4px 0;
+  padding-left: calc(var(--ls-tree-indent) * 20px);
+}
+
+.ls-tree-item:hover {
+  background: rgba(255, 255, 255, 0.0666666667);
+}
+
+.ls-tree-item:focus span {
+  outline: 1px dotted currentColor;
+}
+
+/*]end;part(Navbar)*/
+ls-nav {
+  display: flex;
+}
+
+ls-dropdown {
+  -webkit-user-select: none;
+  user-select: none;
+  padding: 5px 10px;
+  height: 100%;
+}
+
+ls-dropdown:hover {
+  background: var(--ui-bg-1);
+}
+
+ls-dropdown:not(.open) {
+  cursor: pointer;
+}
+
+ls-option.has-submenu::before {
+  content: "›";
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color);
+  font-size: 1.1em;
+  opacity: 0.8;
+}
+
+ls-option.has-submenu {
+  padding-right: 1.5rem;
+}
+
+ls-option.submenu-visible > ls-menu {
+  display: block;
+}
+
+/*]end;part(toolbox)*/
+.ls-toolbox-host {
+  border: 0;
+  position: absolute;
+  background: #151515;
+  border-top: 1px solid #888;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ls-toolbox-container {
+  position: fixed;
+  z-index: 90000000000;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: none;
+  min-height: 80px;
+  height: 200px;
+  max-height: 100vh;
+}
+
+.ls-toolbox-container.open {
+  display: block;
+}
+
+#ls-toolbox-overlay {
+  position: fixed;
+  z-index: 2100000000;
+  outline: 3px solid rgba(255, 0, 0, 0.6666666667);
+  border: 2px solid rgba(0, 0, 0, 0.6666666667);
+  background: rgba(136, 136, 255, 0.1333333333);
+  pointer-events: none;
+}
+
+#ls-toolbox-overlay:before, #ls-toolbox-overlay:after {
+  content: "";
+  position: absolute;
+  border: 1px dashed rgba(255, 255, 255, 0.6666666667);
+  z-index: -1;
+}
+
+#ls-toolbox-overlay:before {
+  left: -100vw;
+  right: -100vw;
+  bottom: -4px;
+  top: -4px;
+}
+
+#ls-toolbox-overlay::after {
+  top: -100vh;
+  bottom: -100vh;
+  left: -4px;
+  left: -4px;
+  left: -4px;
+  right: -4px;
+}
+
+/*]end;part(toolbox-frame)*/
+#root {
+  --color: #fff;
+  --font: Montserrat, Rubik, sans;
+  -webkit-user-select: none;
+  user-select: none;
+  overflow: hidden;
+  height: 100%;
+}
+
+.ls-console {
+  line-height: 1.32em;
+  font-family: "JetBrains Mono", monospace;
+  white-space: pre-wrap;
+  background: #000;
+  color: #fff;
+  overflow: auto;
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 33px;
+  padding: 10px;
+  width: calc(100% - 20px);
+}
+
+.ls-console ::selection {
+  background-color: rgba(255, 255, 255, 0.1333333333);
+}
+
+.ls-console-cursor {
+  position: absolute;
+  width: 0.6em;
+  height: 1.32em;
+  outline: 1px solid;
+}
+
+.ls-console-line-container {
+  height: 100%;
+  width: 100%;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+.focus .ls-console-cursor {
+  backdrop-filter: invert(1);
+  outline: none;
+  animation: blink 1.2s infinite;
+  animation-timing-function: linear(0.07 3.68%, -0.13 45.59%, 0.88 47.06%);
+}
+
+.ls-console-inputfield {
+  position: relative;
+  white-space: pre;
+}
+
+.num_badge {
+  background: var(--accent);
+  color: var(--color-bg, --color);
+  display: inline-block;
+  border-radius: 8px;
+  outline: 2px solid var(--accent-transparent);
+  padding: 0 8px;
+  margin-left: 10px;
+}
+
+.tablist {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.3333333333);
+}
+
+.components {
+  width: 300px;
+  background: var(--ui-bg-0);
+}
+
+.content {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  padding-left: 25px;
+}
+
+.select_color {
+  background: var(--accent);
+  padding: 10px;
+  border-radius: 3px;
+}
+
+ls-select .select_color {
+  margin: 4px;
+  margin-right: 38px;
+}
+
+.ls-console-timestamp {
+  display: none;
+}
+
+tab > div {
+  height: calc(100% - 34px);
+  overflow: auto;
+}
+
+.setup img {
+  width: 130px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  pointer-events: none;
+}
+
+.setup-de > div {
+  text-align: center;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 10px;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.setup-de > div:hover {
+  background: rgba(255, 255, 255, 0.0196078431);
+}
+
+.setup-de > div:active {
+  background: rgba(0, 0, 0, 0.2666666667);
+}
+
+/*]end;part(Steps)*/
+.ls-steps-dots {
+  padding: 1em;
+}
+
+.ls-steps-dots .ls-steps-item.active {
+  background: var(--accent);
+}
+
+.ls-steps-dots .ls-steps-item {
+  background: var(--elevate-1);
+  border-radius: 2em;
+  text-indent: -20em;
+  overflow: hidden;
+  display: block;
+  width: 0.8em;
+  height: 0.8em;
+  margin: 0.3em;
+}
+
+.ls-steps-wizzard {
+  justify-content: space-between;
+  border-radius: var(--br);
+}
+
+.ls-steps-wizzard .ls-steps-item {
+  color: var(--color-bg, var(--color));
+  width: 100%;
+  padding: 5px 0 !important;
+  border: none;
+  background: var(--accent-dark);
+  position: relative;
+  clip-path: polygon(95% 0%, 100% 50%, 95% 100%, 0% 100%, 5% 50%, 0% 0%);
+}
+
+.ls-steps-wizzard .ls-steps-item.active {
+  background: var(--accent);
+}
+
+.ls-steps-wizzard .ls-steps-item.first-child {
+  clip-path: polygon(0% 0%, 95% 0%, 100% 50%, 95% 100%, 0% 100%);
+}
+
+.ls-steps-wizzard .ls-steps-item.last-child {
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 0 100%, 5% 50%);
+}
+
+.ls-steps-wizzard .ls-steps-item.only-child {
+  clip-path: polygon(100% 0%, 100% 50%, 100% 100%, 0% 100%, 0% 50%, 0% 0%);
+}
+
+.ls-steps-wizzard .ls-steps-item:not(.active) {
+  filter: brightness(0.8);
+}
+
+/*]end;part(progress)*/
+.ls-progress-styled {
+  width: 100%;
+  height: 40px;
+  background: var(--ui-bg-0);
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  display: block;
+}
+
+.ls-progress-styled.style-round {
+  border-radius: var(--br-small);
+  overflow: hidden;
+  outline: 8px solid var(--ui-bg-0);
+  height: 28px;
+  margin: 8px;
+  width: calc(100% - 16px);
+}
+
+.ls-progress-styled .ls-progress-bar {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  background: var(--accent);
+  z-index: 0;
+}
+
+.ls-progress-styled .ls-progress-label {
+  z-index: 1;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ls-progress-styled.ls-progress.ls-seek {
+  border-radius: 1em;
+  height: 0.7em;
+  margin: 1.5em 20px;
+  margin-bottom: 2.5em;
+}
+
+.ls-progress-styled.ls-progress.ls-seek.no-label {
+  margin-top: 0;
+}
+
+.ls-progress-styled.ls-seek .ls-progress-bar {
+  border-radius: 1em;
+}
+
+.ls-progress-styled.ls-seek .ls-progress-label {
+  position: absolute;
+  bottom: -200%;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  height: 1em;
+}
+
+.ls-progress-styled .ls-seeker-thumb {
+  position: absolute;
+  background: var(--ui-bg-0);
+  border-radius: 50%;
+  transform: translateX(-50%);
+  width: 1.5em;
+  height: 1.5em;
+  cursor: grab;
+}
+
+.ls-progress-styled .ls-seeker-thumb::after {
+  content: "";
+  position: absolute;
+  top: 0.3em;
+  left: 0.3em;
+  right: 0.3em;
+  bottom: 0.3em;
+  background: var(--accent);
+  border-radius: 50%;
+  transform: scale(0.9);
+  transition: 0.1s;
+  opacity: 0.7;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ls-progress-styled .ls-seeker-thumb:hover:not(:active)::after {
+  transform: scale(1.1);
+}
+
+.is-dragging.ls-progress-styled .ls-seeker-thumb::after {
+  transform: scale(0.7);
+  opacity: 1;
+}
+
+/*]end;part(dragdrop)*/
+.ls-drag-area > * {
+  /* max-width: 300px; */
+  box-shadow: 0 5px 25px 0 rgba(0, 0, 0, 0.2666666667);
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ls-drag-area {
+  position: fixed;
+  transition: transform 0.1s;
+  pointer-events: none;
+  box-shadow: 0 0 0 0 20px 20px;
+}
+
+.ls-drop {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ls-drop-preview {
+  background: rgba(255, 255, 255, 0.2666666667);
+  pointer-events: none;
+}
+
+/*]end;part(timeline)*/
+ls-timeline {
+  -webkit-user-select: none;
+  user-select: none;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+ls-timeline-pointer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  outline: 1px solid var(--accent);
+  z-index: 10;
+}
+
+ls-timeline-pointer::after {
+  content: "";
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 10px solid var(--accent);
+  height: 0;
+  width: 0;
+  position: absolute;
+  transform: translateX(-50%);
+}
+
+ls-timeline-blackout {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.2705882353);
+  pointer-events: none;
+}
+
+ls-timeline-row {
+  width: var(--scroll-width);
+  display: block;
+  min-height: 45px;
+  position: relative;
+  background: var(--background);
+}
+
+ls-timeline-row:nth-child(odd) {
+  background: var(--ui);
+}
+
+ls-timeline-container {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: overlay;
+  z-index: 5;
+  background: var(--ui-bg-0);
+}
+
+ls-timeline-markers {
+  display: flex;
+  justify-content: space-between;
+  height: 25px;
+  min-height: 25px;
+  max-height: 35px;
+}
+
+ls-timeline-markers > div {
+  display: block;
+  min-width: var(--column-width, 10px);
+  max-width: var(--column-width, 10px);
+  width: var(--column-width, 10px);
+  text-align: center;
+  transform: translateX(-50%);
+  font-size: small;
+  border-bottom: 1px solid var(--accent-transparent);
+}
+
+ls-timeline-markers > div::before, ls-timeline-markers > div::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+ls-timeline-markers > div::after {
+  border: 1px solid var(--accent-transparent);
+  top: calc(1em + 8px);
+  left: 100%;
+}
+
+ls-timeline-markers > div::before {
+  border: 1px solid var(--accent);
+  top: calc(1em + 7px);
+  left: 50%;
+}
+
+ls-timeline-row-label {
+  display: block;
+  width: var(--ls-timeline-label-width);
+  background: var(--elevate-2);
+  border-bottom: 1px solid var(--transparent-overlay-dark);
+  height: 20px;
+}
+
+ls-timeline-label-container {
+  position: absolute;
+  width: var(--ls-timeline-label-width);
+  bottom: 0;
+  top: 25px;
+  z-index: 40;
+  background: var(--ui);
+  box-shadow: -7px 20px 13px 0 #000 !important;
+  border-right: 1px solid var(--ui-border) !important;
+}
+
+ls-timeline-area {
+  margin-left: var(--ls-timeline-label-width);
+  padding-right: var(--ls-timeline-label-width);
+  -webkit-user-select: none;
+  user-select: none;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/*]end;part(AutomationGraphEditor)*/
+.ls-automationgraph {
+  overflow: hidden;
+  display: inline-block;
+}
+
+.ls-automationgraph-container {
+  position: relative;
+  background: linear-gradient(var(--bg-1) 0, var(--bg-0) 100%);
+  /* background: var(--bg-0); */
+  display: inline-block;
+}
+
+.ls-automationgraph-container svg {
+  stroke-width: 2px;
+}
+
+.ls-automationgraph-point-handle, .ls-automationgraph-curve-handle {
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+.ls-automationgraph-point-handle {
+  outline: 2px solid var(--accent);
+  background: var(--bg);
+  cursor: grab;
+  opacity: 0.4;
+  transition: opacity 0.2s;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.ls-automationgraph-container:hover .ls-automationgraph-point-handle, .ls-automationgraph-container:hover .ls-automationgraph-curve-handle {
+  opacity: 0.8;
+}
+
+.ls-automationgraph-curve-handle {
+  width: 10px;
+  height: 5px;
+  background: var(--accent-transparent);
+  outline: 1px solid var(--accent);
+  cursor: pointer;
+  border-radius: 20px;
+  opacity: 0;
+}
+
+.ls-automationgraph-point-handle.active, .ls-automationgraph-point-handle:hover {
+  outline: 2px solid var(--accent-light);
+}
+
+.ls-automationgraph-point-handle::after {
+  content: "";
+  opacity: 0;
+  transform: rotate(0deg);
+  scale: 1.2;
+  transform-origin: center;
+  border-radius: 50%;
+  outline: 8px dashed var(--accent);
+  outline-offset: -6px;
+  position: absolute;
+  inset: -10px;
+  transition-duration: 0.2s;
+  transition-timing-function: ease-in;
+  animation: ls-rotate 2s linear infinite;
+}
+
+.ls-automationgraph-point-handle.active::after {
+  opacity: 0.25;
+  transform: rotate(0deg);
+  scale: 1;
+}
+
+.ls-automationgraph-point-handle::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  height: var(--bottom);
+  width: 2px;
+  background: linear-gradient(rgb(var(--accent-raw), 25%) 0%, rgb(var(--accent-raw), 0) 100%);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ls-automationgraph-point-handle.active {
+  cursor: none;
+}
+
+/*]end;part(graphgl)*/
+.ls-chart-vector {
+  overflow: visible;
+}
+
+.ls-chart-container {
+  position: relative;
+}
+
+.ls-chart-tooltip {
+  position: absolute;
+  opacity: 0;
+  backdrop-filter: blur(20px);
+  transition: opacity 0.2s;
+  transform: translate(-50%, calc(-100% - 20px));
+  z-index: 2;
+  min-width: max-content;
+  text-align: left;
+  padding-top: 20px;
+  overflow: hidden;
+}
+
+.ls-chart-tooltip-top {
+  position: absolute;
+  text-align: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.2666666667);
+  padding: 8px 0;
+}
+
+.ls-chart-dot {
+  display: inline-block;
+  transform: scale(0.8);
+  transform-origin: bottom;
+  margin-right: 3px;
+}
+
+.ls-chart-dot,
+.ls-chart-point {
+  width: 1em;
+  height: 1em;
+  border-radius: 50%;
+}
+
+.ls-chart-point {
+  position: absolute;
+  opacity: 0;
+  transition: 0.2s;
+  z-index: 1;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 5px 1em -0.2em rgba(0, 0, 0, 0.6), inset 0 0.1em 0 0 rgba(255, 255, 255, 0.2666666667);
+}
+
+.ls-chart-line {
+  position: absolute;
+  opacity: 0;
+  bottom: 0;
+  top: 0;
+  width: 1px;
+  border-left: 1px dashed rgba(255, 255, 255, 0.2);
+  transition: 0.2s;
+  z-index: 0;
+}
+
+.ls-chart-container:hover .ls-chart-point,
+.ls-chart-container:hover .ls-chart-tooltip,
+.ls-chart-container:hover .ls-chart-line {
+  opacity: 1;
+}
+
+.ls-chart-point::after {
+  position: absolute;
+  content: "";
+  top: 0.28em;
+  bottom: 0.22em;
+  left: 0.25em;
+  right: 0.25em;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+}
+
+/*]end;part(Multiselect)*/
+#ls-multiselect-mask {
+  background: rgb(var(--accent-raw), 0.1);
+  position: absolute;
+  border-radius: 4px;
+  z-index: 5000005;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+/*]end;part(list)*/
+.ls-listContainer {
+  position: relative;
+  overflow: hidden;
+}
+
+.ls-listItemContainer {
+  line-height: var(--ls-list-lineHeight, 16px);
+  position: sticky;
+  height: 100%;
+  overflow: visible;
+  width: 100%;
+  inset: 0;
+}
+
+.ls-listScrollContainer {
+  overflow: overlay;
+  position: absolute;
+  inset: 0;
+  --scrollbar-size: 0;
+}
+
+.ls-listScrollFilter {
+  height: calc(100% + 800px);
+}
+
+.ls-listItem {
+  height: var(--ls-list-lineHeight, 16px);
+  width: 100%;
+}
+
+.ls-listItem.hidden {
+  opacity: 0;
+}
+
+/*]end;part(Knob)*/
+:root {
+  --knob-size: 3em;
+  --gear-size: 80%;
+  --pointer-offset: 10%;
+  --pointer-size: 5%;
+}
+
+ls-knob {
+  display: inline-flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: var(--knob-size);
+  height: var(--knob-size);
+  border-radius: 50%;
+}
+
+ls-knob svg {
+  overflow: visible;
+}
+
+ls-knob svg, .ls-knob-rotor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+}
+
+ls-knob * {
+  pointer-events: none;
+}
+
+.ls-knob-stator {
+  transition: all 0.3s;
+  border-radius: 50%;
+  position: absolute;
+  width: var(--gear-size);
+  height: var(--gear-size);
+  filter: drop-shadow(0px 7px 0px rgba(0, 0, 0, 0.25));
+}
+
+.ls-knob-rotor::after {
+  content: "";
+  position: absolute;
+  top: var(--pointer-offset);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--accent);
+}
+
+.ls-knob-glow .ls-knob-rotor::after {
+  box-shadow: 0 0 5px 1px var(--accent);
+}
+
+[knob-pointer=dot] .ls-knob-rotor::after {
+  padding: var(--pointer-size);
+  border-radius: 50%;
+}
+
+[knob-pointer=line] .ls-knob-rotor::after {
+  width: 2%;
+  height: 30%;
+  border-radius: 300px;
+}
+
+ls-knob[knob-preset=progress] {
+  box-shadow: inset 0 0 0 var(--knob-stroke-width) var(--accent-transparent);
+}
+
+ls-knob[knob-preset=default] {
+  background: linear-gradient(180deg, #333C41, #3E474C);
+  outline: 1px solid rgba(0, 0, 0, 0.2666666667);
+}
+
+[knob-preset=flat] .ls-knob-arc-full {
+  stroke: var(--accent-transparent);
+  stroke-width: 7.5%;
+  stroke-linecap: round;
+}
+
+[knob-preset=default] .ls-knob-stator {
+  background: radial-gradient(100% 100% at 50% 17%, #515A5F 0%, #2C353A 100%);
+  box-shadow: 0px -2px 0px 0px rgba(255, 255, 255, 0.08) inset, 0px 2px 0px 0px rgba(255, 255, 255, 0.25) inset;
+}
+
+[knob-preset=chrome] .ls-knob-stator {
+  background: conic-gradient(#252c2f, #63696c, #35393c 130deg, #55595c, #2f3436, #66686b, 340deg, #252c2f) content-box;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.5333333333);
+}
+
+:is(ls-knob:hover, ls-knob.is-dragging) :is(.ls-knob-stator, .ls-knob-rotor) {
+  transform: scale(90%);
+}
+
+/*]end;part(PatchBay)*/
+:root {
+  --patchbay-source-hitbox: 20px;
+}
+
+.ls-bay-node {
+  position: absolute;
+  border-radius: 0.625em;
+  -webkit-user-select: none;
+  user-select: none;
+  display: flex;
+}
+
+.ls-bay-node:hover {
+  background: rgba(255, 255, 255, 0.0666666667);
+  outline: 1px solid rgba(255, 255, 255, 0.2509803922);
+}
+
+.ls-bay-node .node-content {
+  padding: 0.625em 0.9625em;
+  display: flex;
+  align-items: center;
+  z-index: -1;
+  filter: drop-shadow(0 4px 2px rgba(0, 0, 0, 0.2666666667));
+  flex-direction: column;
+  align-items: center;
+}
+
+.ls-bay-node .node-content i {
+  display: block;
+  font-size: 2.5em;
+}
+
+.node-content[label]::after {
+  content: attr(label);
+  position: absolute;
+  bottom: -17px;
+}
+
+.ls-bay-node .sources {
+  display: flex;
+  flex-direction: column;
+  margin: -0.625em;
+  flex-wrap: wrap;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ls-patch-source {
+  pointer-events: none;
+  background: var(--accent-dark);
+  padding: 0.1875em;
+  border-radius: 50%;
+  border: 0.125em solid rgba(0, 0, 0, 0.5333333333);
+  margin: 0.15625em;
+}
+
+.ls-patch-source-hitbox {
+  pointer-events: all;
+  padding: 0 var(--patchbay-source-hitbox);
+  margin: 0 calc(var(--patchbay-source-hitbox) * -1);
+}
+
+.ls-patch-source-hitbox:first-child {
+  padding: var(--patchbay-source-hitbox) var(--patchbay-source-hitbox) 0 var(--patchbay-source-hitbox);
+  margin: calc(var(--patchbay-source-hitbox) * -1) calc(var(--patchbay-source-hitbox) * -1) 0 calc(var(--patchbay-source-hitbox) * -1);
+}
+
+.ls-patch-source-hitbox:last-child {
+  padding: 0 var(--patchbay-source-hitbox) var(--patchbay-source-hitbox);
+  margin: 0 calc(var(--patchbay-source-hitbox) * -1) calc(var(--patchbay-source-hitbox) * -1);
+}
+
+.ls-patch-source-hitbox:only-child {
+  padding: var(--patchbay-source-hitbox);
+  margin: calc(var(--patchbay-source-hitbox) * -1);
+}
+
+.ls-patch-source-hitbox:hover:not(.ls-drag-target) .ls-patch-source {
+  background: var(--accent);
+  padding: 0.25em;
+  border: 0.0625em solid rgba(0, 0, 0, 0.5333333333);
+  transform: scale(1.4);
+}
+
+.ls-patch-source-hitbox.ls-drag-target .ls-patch-source, .ls-patch-source-hitbox:focus .ls-patch-source {
+  outline: 1px solid var(--accent);
+}
+
+.ls-bay-svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 5000000;
+  overflow: visible;
+}
+
+.ls-workspace {
+  position: relative;
+  overflow: hidden;
+  height: 100%;
+  width: 100%;
+}
+
+.ls-workspace-scaler {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.ls-workspace-content {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  white-space: nowrap;
+}
+
+/*]end;part(resize)*/
+.ls-resize-bar-top, .ls-resize-bar-bottom {
+  cursor: ns-resize;
+  height: var(--resize-radius, 6px);
+}
+
+.ls-resize-bar-left, .ls-resize-bar-right {
+  cursor: ew-resize;
+  width: var(--resize-radius, 6px);
+}
+
+.ls-resize-bar-top {
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.ls-resize-bar-bottom {
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.ls-resize-bar-left {
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
+
+.ls-resize-bar-right {
+  top: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.ls-resize-bar {
+  position: absolute;
+  background: var(--transparent-overlay-strong);
+}
+
+.ls-resize-bar:hover {
+  outline: 2px solid var(--transparent-overlay-strong);
+}
+
+.ls-resize-bar-topleft, .ls-resize-bar-topright, .ls-resize-bar-bottomleft, .ls-resize-bar-bottomright {
+  width: var(--resize-corners-radius, 20px);
+  height: var(--resize-corners-radius, 20px);
+  z-index: 5;
+  background: transparent;
+}
+
+.ls-resize-bar-topleft {
+  top: 0;
+  left: 0;
+  cursor: nw-resize;
+  transform: translate(-50%, -50%);
+}
+
+.ls-resize-bar-topright {
+  top: 0;
+  right: 0;
+  cursor: ne-resize;
+  transform: translate(50%, -50%);
+}
+
+.ls-resize-bar-bottomleft {
+  bottom: 0;
+  left: 0;
+  cursor: sw-resize;
+  transform: translate(-50%, 50%);
+}
+
+.ls-resize-bar-bottomright {
+  bottom: 0;
+  right: 0;
+  cursor: se-resize;
+  transform: translate(50%, 50%);
+}
+
+/*]end;part(sheet)*/
+.ls-sheet-wrapper {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  inset: 0;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ls-sheet-container {
+  width: 45%;
+  background: var(--ui);
+  border-radius: 20px 20px 0 0;
+  pointer-events: auto;
+}
+
+/*]end*/
+
+/*# sourceMappingURL=ls.css.map */

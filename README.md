@@ -1,3 +1,12 @@
+# Upcomming major update (4.0)
+A major update to LS is now in the making, which will revamp most of the codebase and introduce new features.<br><br>
+New things will include:<br>
+- Migration to a new CDN URL syntax
+- Improved tree-shaking
+- 
+
+<br>
+
 ## Update 3.5
 ### Welcome a new component - AutomationGraphEditor!
 ![Screenshot from 2024-08-22 22-47-28](https://github.com/user-attachments/assets/175c8ab3-d00f-4467-bb96-066df234c46b)<br>

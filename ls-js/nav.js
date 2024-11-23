@@ -1,5 +1,5 @@
 {
-    return(_this)=>class Nav{
+    return(_this) => class Nav{
         constructor(id, element){
 
             _this = this;
@@ -10,7 +10,7 @@
 
             _this.active = false
 
-            if(this.element)LS.once("body-available", ()=>{
+            if(this.element) LS.once("body-available", ()=>{
                 element.getAll("ls-dropdown").all(dropdown => {
                     this.addMenu(dropdown, dropdown.get("ls-menu"))
                 })
@@ -32,7 +32,7 @@
             })
         }
 
-        virtualMenu(menuElement, id, virtualHandle = ()=>[0,0]){
+        virtualMenu(menuElement, id, virtualHandle = () => [0,0]){
             if(!menuElement)throw "Invalid menu element";
             return _this.addMenu(null, menuElement, id, virtualHandle)
         }
@@ -41,7 +41,7 @@
             let id = _id || (menuElement && menuElement.id) || M.GlobalID;
 
             if(menuElement){
-                if(handle)O(handle).attr("menu", id)
+                if(handle) O(handle).attr("menu", id)
                 LS._topLayer.add(menuElement)
                 menuElement.id = id;
                 
@@ -95,8 +95,9 @@
                 let subMenu = option.get(":scope > ls-menu")
 
                 if(subMenu){
-                    _this.menu[id].sub.push({menu: subMenu, handle: option});
+                    _this.menu[id].sub.push({ menu: subMenu, handle: option });
                     option.class("has-submenu");
+
                     option.on("mouseenter", ()=>{
                         if(option.parentElement == _this.menu[id].element) _this.clearSubmenus(id);
                         option.class("submenu-visible")
@@ -119,12 +120,13 @@
         }
 
         toggle(menu){
-            _this[_this.menu[menu].shown?"hide":"show"](menu)
+            _this[_this.menu[menu].shown? "hide" : "show"](menu)
         }
 
         show(id){
             let menu = _this.menu[id];
-            if(!menu || menu.shown)return;
+            if(!menu || menu.shown) return;
+
             _this.clearSubmenus(id);
             _this.active = true;
 
@@ -174,11 +176,16 @@
                 }
                 return;
             }
+
             let menu = _this.menu[id];
-            if(!menu || !menu.shown)return;
+
+            if(!menu || !menu.shown) return;
+
             if(!own) _this.active = false;
+
             menu.shown = false;
             menu.element.hide()
+
             if(typeof menu.handle !== "function") {
                 menu.handle.focus()
                 menu.handle.class("open", 0)
