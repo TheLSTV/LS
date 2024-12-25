@@ -1075,15 +1075,7 @@ if(!LS){
 
 /*]end*/
 
-/*] part(EventResolver) {*/
-LS.LoadComponents({
-    /*]
-    import(
-        ls-js/eventresolver.js
-        : EventResolver :  js
-    )
-    */
-})
+LS.EventResolver = () => (console.warn("LS.EventResolver is deprecated; You should migrate to LS.EventHandler"), LS.EventHandler);
 
 LS.EventHandler = function (target, options) {
     return ((_this) => new class EventClass {
@@ -1230,7 +1222,6 @@ LS.GlobalEvents = new LS.EventHandler(LS)
 
     if(document.body) LS.invoke("body-available"); else M.on("load", () => LS.invoke("body-available"));
 })();
-/*]}*/
 
 
 /*] part(websocket) {*/
