@@ -8,6 +8,8 @@ if(!LS){
 
     var LS = {
         isWeb: typeof window !== 'undefined',
+        version: "4.0.1",
+        v: 4,
 
         Util: {
             resolveElements(...array){

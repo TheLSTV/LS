@@ -1,74 +1,88 @@
-{
-    gl.conf={
-        batch: false,
-        singular: true
+LS.LoadComponent(class Toast extends LS.Component {
+    constructor(){
+        super()
+
+        let container = this.container = N({
+            class: "ls-toast-layer"
+        });
+
+        LS.once("body-available", () => {
+            LS._topLayer.add(container);
+        })
     }
+}, { global: true, singular: true })
 
-    return _this => class Toasts {
-        constructor(){
-            _this = this;
+// {
+//     gl.conf={
+//         batch: false,
+//         singular: true
+//     }
 
-            let container = N({
-                class: "ls-toast-layer"
-            });
+//     return _this => class Toasts {
+//         constructor(){
+//             _this = this;
 
-            this.container = container;
+//             let container = N({
+//                 class: "ls-toast-layer"
+//             });
 
-            LS.once("body-available", ()=>{
-                LS._topLayer.add(container);
-            })
-        }
+//             this.container = container;
 
-        closeAll(){
-            _this.invoke("close-all")
-        }
+//             LS.once("body-available", ()=>{
+//                 LS._topLayer.add(container);
+//             })
+//         }
 
-        show(content, options = {}){
+//         closeAll(){
+//             _this.invoke("close-all")
+//         }
 
-            let toast = N({
-                class: "ls-toast",
-                attr: {"ls-accent": options.accent || "auto"},
-                inner: [
-                    options.icon? N("i", {class: options.icon}) : "",
-                    N({inner: content, class: "ls-toast-content"}),
-                    !options.uncancellable? N("button", {
-                        class: "elevated circle ls-toast-close",
-                        inner: "&times;",
-                        onclick(){
-                            methods.close()
-                        }
-                    }): ""
-                ]
-            })
+//         show(content, options = {}){
 
-            let methods = {
-                element: toast,
+//             let toast = N({
+//                 class: "ls-toast",
+//                 attr: {"ls-accent": options.accent || "auto"},
+//                 inner: [
+//                     options.icon? N("i", {class: options.icon}) : "",
+//                     N({inner: content, class: "ls-toast-content"}),
+//                     !options.uncancellable? N("button", {
+//                         class: "elevated circle ls-toast-close",
+//                         inner: "&times;",
+//                         onclick(){
+//                             methods.close()
+//                         }
+//                     }): ""
+//                 ]
+//             })
 
-                update(content){
-                    toast.get(".ls-toast-content").set(content)
-                },
+//             let methods = {
+//                 element: toast,
 
-                close(){
-                    toast.class("open", 0);
-                    setTimeout(()=>{
-                        if(!options.keep) toast.remove()
-                    }, 200)
-                }
-            }
+//                 update(content){
+//                     toast.get(".ls-toast-content").set(content)
+//                 },
 
-            _this.once("close-all", methods.close)
+//                 close(){
+//                     toast.class("open", 0);
+//                     setTimeout(()=>{
+//                         if(!options.keep) toast.remove()
+//                     }, 200)
+//                 }
+//             }
 
-            _this.container.add(toast);
+//             _this.once("close-all", methods.close)
 
-            if(options.timeout) setTimeout(()=>{
-                methods.close()
-            }, options.timeout)
+//             _this.container.add(toast);
+
+//             if(options.timeout) setTimeout(()=>{
+//                 methods.close()
+//             }, options.timeout)
             
-            setTimeout(()=>{
-                toast.class("open")
-            }, 1)
+//             setTimeout(()=>{
+//                 toast.class("open")
+//             }, 1)
 
-            return methods
-        }
-    }
-}
+//             return methods
+//         }
+//     }
+// }

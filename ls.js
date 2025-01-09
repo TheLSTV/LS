@@ -3,16 +3,29 @@
     const global = typeof window !== 'undefined'? window : global || globalThis;
     const instance = exports();
 
-    if(instance.isWeb){
-        for (let key in instance.Tiny){
-            global[key] = instance.Tiny[key]
-        }
-    }
-
     if(typeof module !== "undefined"){
         module.exports = instance
     } else {
         global.LS = instance
+    }
+
+    if(instance.isWeb){
+        for (let key in instance.Tiny){
+            global[key] = instance.Tiny[key]
+        }
+
+        LS._topLayer = LS.Create({id: "ls-top-layer", style: {
+            position: "fixed"
+        }});
+
+        LS._topLayerInherit = function () { console.error("LS._topLayerInherit is deprecated, you can safely remove it from your code.") }
+
+        function bodyAvailable(){
+            LS.GlobalEvents.completed("body-available")
+            document.body.add(LS._topLayer)
+        }
+
+        if(document.body) bodyAvailable(); else window.addEventListener("load", bodyAvailable);
     }
 
 })(() => {
@@ -42,6 +55,8 @@
             prepare(name, options){
                 if(!this.events.has(name)){
                     this.events.set(name, { listeners: [], ...options, _isEvent: true })
+                } else {
+                    Object.assign(this.events.get(name), options)
                 }
 
                 return this.events.get(name)
@@ -215,27 +230,55 @@
             }
         },
 
+        TinyWrap(elements){
+            if(LS.Tiny._prototyped) return elements;
+
+            let i = -1;
+            for(const element of Array.isArray(elements)? elements: [elements]){
+                i ++;
+                if(element._lsWrapped) {
+                    elements[i] = element._lsWrapped
+                    continue
+                }
+
+                elements[i] = element._lsWrapped = new Proxy(element, {
+                    get(target, key){
+                        return LS.TinyFactory[key] || target[key]
+                    },
+
+                    set(target, key, value){
+                        return target[key] = value
+                    }
+                })
+            }
+
+            return elements
+        },
+
         Tiny: {
             /**
              * @description Element selector utility
              */
             Q(selector, subSelector, one = false) {
-                if(!selector) return [];
+                if(!selector) return LS.TinyWrap(one? null: []);
 
                 const isElement = selector instanceof HTMLElement;
                 const target = (isElement? selector : document);
+
+                if(isElement && !subSelector) return LS.TinyWrap(one? selector: [selector]);
+
                 const actualSelector = isElement? subSelector || "*" : selector || '*';
 
                 let elements = one? target.querySelector(actualSelector): target.querySelectorAll(actualSelector);
                 
-                return one? elements: [...elements];
+                return LS.TinyWrap(one? elements: [...elements]);
             },
 
             /**
              * @description Single element selector
              */
             O(selector, subSelector){
-                if(!selector) return document.body;
+                if(!selector) return LS.TinyWrap(document.body);
                 return LS.Tiny.Q(selector, subSelector, true)
             },
 
@@ -243,17 +286,17 @@
              * @description Element builder utility
              */
             N(tagName = "div", content){
-                if(typeof tagName != "string"){
+                if(typeof tagName !== "string"){
                     content = tagName;
                     tagName = "div";
                 }
 
-                content = 
+                content =
                     typeof content === "string" 
                         ? { innerHTML: content } 
                         : Array.isArray(content) 
                             ? { inner: content } 
-                            : content;
+                            : content || {};
 
 
                 const { class: className, tooltip, ns, accent, attr, style, inner, content: innerContent, ...rest } = content;
@@ -264,8 +307,8 @@
                 );
 
                 // Handle attributes
-                if (accent) element.attrAssign({ "ls-accent": accent });
-                if (attr) element.attrAssign(attr);
+                if (accent) LS.TinyFactory.attrAssign.add(element, { "ls-accent": accent });
+                if (attr) LS.TinyFactory.attrAssign.add(element, attr);
 
                 // Handle tooltips
                 if (tooltip) {
@@ -277,12 +320,12 @@
                     }
                 }
 
-                if (className && element.class) element.class(className);
-                if (typeof style === "object") element.applyStyle(style);
+                if (className && element.class) LS.TinyFactory.class.call(element, className);
+                if (typeof style === "object") LS.TinyFactory.applyStyle.call(element, style);
 
                 // Append children or content
                 const contentToAdd = inner || innerContent;
-                if (contentToAdd) element.add(contentToAdd);
+                if (contentToAdd) LS.TinyFactory.applyStyle.add(element, contentToAdd);
 
                 return element;
             },
@@ -502,15 +545,15 @@
                         if(typeof event !== "string") continue;
                         window.addEventListener(event, fn)
                     }
-                    return M
+                    return LS.Tiny.M
                 },
 
                 get GlobalID(){
                     // return M.GlobalIndex.toString(36)
 
-                    M._GlobalID.count++;
+                    LS.Tiny.M._GlobalID.count++;
 
-                    return `${Date.now().toString(36)}-${(M._GlobalID.count).toString(36)}-${M._GlobalID.prefix}`
+                    return `${Date.now().toString(36)}-${(LS.Tiny.M._GlobalID.count).toString(36)}-${LS.Tiny.M._GlobalID.prefix}`
                 },
 
                 uid(){
@@ -571,211 +614,212 @@
                         throw errorMsg;
                     }
                 }
-            }
+            },
+
+            _prototyped: false
         },
 
-        TinyFactory(){
-            return {
-                isElement: true,
+        TinyFactory: {
+            isElement: true,
 
-                attr(get = false, set = false) {
-                    if (set) {
-                        this.setAttribute(get, set);
-                        return this;
-                    }
-                
-                    if (get) {
-                        return this.getAttribute(get);
-                    }
-                
-                    const attributes = {};
-                    for (const { name, value } of this.attributes) {
-                        attributes[name] = value;
-                    }
-                
-                    return attributes;
-                },
-
-                attrAssign(attributes){
-                    if (typeof attributes === "string") {
-                        attributes = { Array: [attributes] };
-                    } else if (Array.isArray(attributes)) {
-                        attributes = { Array: attributes };
-                    }
-                
-                    for (const [key, value] of Object.entries(attributes)) {
-                        if (key === "Array") {
-                            for (const attr of value) {
-                                if (typeof attr === "object") {
-                                    this.attrAssign(attr);
-                                } else if (attr) {
-                                    this.setAttribute(attr, "");
-                                }
-                            }
-                        } else if (key) {
-                            this.setAttribute(key, value || "");
-                        }
-                    }
-                
+            attr(get = false, set = false) {
+                if (set) {
+                    this.setAttribute(get, set);
                     return this;
-                },
-
-                delAttr(...attributes){
-                    attributes = attributes.flat(2);
-                    attributes.forEach(attribute => this.removeAttribute(attribute))
-
-                    return this
-                },
-
-                class(names, action = 1){
-                    if(typeof names == "undefined") return this;
-
-                    action = (action == "add" || (!!action && action !== "remove"))? (action == 2 || action == "toggle")? "toggle": "add": "remove";
-
-                    for(let className of typeof names === "string"? names.split(" "): names){
-                        if(typeof className !== "string" || className.length < 1) continue;
-                        this.classList[action](className)
-                    }
-
-                    return this
-                },
-
-                hasClass(...names){
-                    if(names.length === 0) return false;
-                    if(names.length === 1) return this.classList.contains(names[0]);
-
-                    let has = true;
-
-                    names = names.flatMap(className => {
-                        if(!this.classList.contains(className)) has = false
-                    })
-
-                    return has
-                },
-
-                get(selector = '*'){
-                    return LS.Tiny.O(this, selector)
-                },
-
-                getAll(selector = '*'){
-                    return LS.Tiny.Q(this, selector)
-                },
-
-                add(...a){
-                    this.append(...LS.Util.resolveElements(...a));
-                    return this
-                },
-
-                addBefore(a){
-                    LS.Util.resolveElements(a).forEach(e=>this.parentNode.insertBefore(e,this))
-                    return this
-                },
-
-                addAfter(a){
-                    LS.Util.resolveElements(a).forEach(e=>this.parentNode.insertBefore(e,this.nextSibling))
-                    return this
-                },
-
-                addTo(a){
-                    O(a).add(this)
-                    return this
-                },
-
-                setTo(a){
-                    O(a).set(this)
-                    return this
-                },
-
-                wrapIn(e){
-                    this.addAfter(O(e));
-                    e.appendChild(this);
-                    return this
-                },
-
-                isInView(){
-                    var rect = this.getBoundingClientRect();
-                    return rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.bottom > 0 && rect.right > 0
-                },
-
-                isEntirelyInView(){
-                    var rect = this.getBoundingClientRect();
-
-                    return (
-                        rect.top >= 0 &&
-                        rect.left >= 0 &&
-                        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                        rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-                    );
-                },
-
-                on(...events){
-                    let func = events.find(e => typeof e == "function");
-                    for (const evt of events) {
-                        if (typeof evt != "string") continue;
-                        this.addEventListener(evt, func);
-                    }
-
-                    return this
-                },
-
-                off(...events){
-                    let func = events.find(e => typeof e == "function");
-                    for (const evt of events) {
-                        if (typeof evt != "string") continue;
-                        this.removeEventListener(evt, func);
-                    }
-
-                    return this
-                },
-
-                hide(){
-                    let current = getComputedStyle(this).display;
-                    this._display = current;
-
-                    this.style.display = "none";
-                    return this
-                },
-
-                show(displayOverride){
-                    this.style.display = displayOverride || this._display || "inherit";
-                    return this
-                },
-
-                applyStyle(rules){
-                    if(typeof rules !== "object") throw new Error("First attribute of \"applyStyle\" must be an object");
-
-                    for(let rule in rules){
-                        if(!rules.hasOwnProperty(rule)) continue;
-
-                        let value = rules[rule];
-
-                        if(!rule.startsWith("--")) rule = rule.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
-
-                        this.style.setProperty(rule, value)
-                    }
-                },
-
-                set(...elements){
-                    this.innerHTML = '';
-                    return this.add(...elements)
-                },
-
-                clear(){
-                    this.innerHTML = '';
-                    return this
-                },
-
-                has(...elements){
-                    return !!elements.find(element => this.get(element))
                 }
+            
+                if (get) {
+                    return this.getAttribute(get);
+                }
+            
+                const attributes = {};
+                for (const { name, value } of this.attributes) {
+                    attributes[name] = value;
+                }
+            
+                return attributes;
+            },
+
+            attrAssign(attributes){
+                if (typeof attributes === "string") {
+                    attributes = { Array: [attributes] };
+                } else if (Array.isArray(attributes)) {
+                    attributes = { Array: attributes };
+                }
+            
+                for (const [key, value] of Object.entries(attributes)) {
+                    if (key === "Array") {
+                        for (const attr of value) {
+                            if (typeof attr === "object") {
+                                this.attrAssign(attr);
+                            } else if (attr) {
+                                this.setAttribute(attr, "");
+                            }
+                        }
+                    } else if (key) {
+                        this.setAttribute(key, value || "");
+                    }
+                }
+            
+                return this;
+            },
+
+            delAttr(...attributes){
+                attributes = attributes.flat(2);
+                attributes.forEach(attribute => this.removeAttribute(attribute))
+
+                return this
+            },
+
+            class(names, action = 1){
+                if(typeof names == "undefined") return this;
+
+                action = (action == "add" || (!!action && action !== "remove"))? (action == 2 || action == "toggle")? "toggle": "add": "remove";
+
+                for(let className of typeof names === "string"? names.split(" "): names){
+                    if(typeof className !== "string" || className.length < 1) continue;
+                    this.classList[action](className)
+                }
+
+                return this
+            },
+
+            hasClass(...names){
+                if(names.length === 0) return false;
+                if(names.length === 1) return this.classList.contains(names[0]);
+
+                let has = true;
+
+                names = names.flatMap(className => {
+                    if(!this.classList.contains(className)) has = false
+                })
+
+                return has
+            },
+
+            get(selector = '*'){
+                return LS.Tiny.O(this, selector)
+            },
+
+            getAll(selector = '*'){
+                return LS.Tiny.Q(this, selector)
+            },
+
+            add(...a){
+                this.append(...LS.Util.resolveElements(...a));
+                return this
+            },
+
+            addBefore(a){
+                LS.Util.resolveElements(a).forEach(e=>this.parentNode.insertBefore(e,this))
+                return this
+            },
+
+            addAfter(a){
+                LS.Util.resolveElements(a).forEach(e=>this.parentNode.insertBefore(e,this.nextSibling))
+                return this
+            },
+
+            addTo(a){
+                O(a).add(this)
+                return this
+            },
+
+            setTo(a){
+                O(a).set(this)
+                return this
+            },
+
+            wrapIn(e){
+                this.addAfter(O(e));
+                e.appendChild(this);
+                return this
+            },
+
+            isInView(){
+                var rect = this.getBoundingClientRect();
+                return rect.top < (window.innerHeight || document.documentElement.clientHeight) && rect.left < (window.innerWidth || document.documentElement.clientWidth) && rect.bottom > 0 && rect.right > 0
+            },
+
+            isEntirelyInView(){
+                var rect = this.getBoundingClientRect();
+
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            },
+
+            on(...events){
+                let func = events.find(e => typeof e == "function");
+                for (const evt of events) {
+                    if (typeof evt != "string") continue;
+                    this.addEventListener(evt, func);
+                }
+
+                return this
+            },
+
+            off(...events){
+                let func = events.find(e => typeof e == "function");
+                for (const evt of events) {
+                    if (typeof evt != "string") continue;
+                    this.removeEventListener(evt, func);
+                }
+
+                return this
+            },
+
+            hide(){
+                let current = getComputedStyle(this).display;
+                this._display = current;
+
+                this.style.display = "none";
+                return this
+            },
+
+            show(displayOverride){
+                this.style.display = displayOverride || this._display || "inherit";
+                return this
+            },
+
+            applyStyle(rules){
+                if(typeof rules !== "object") throw new Error("First attribute of \"applyStyle\" must be an object");
+
+                for(let rule in rules){
+                    if(!rules.hasOwnProperty(rule)) continue;
+
+                    let value = rules[rule];
+
+                    if(!rule.startsWith("--")) rule = rule.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
+
+                    this.style.setProperty(rule, value)
+                }
+            },
+
+            set(...elements){
+                this.innerHTML = '';
+                return this.add(...elements)
+            },
+
+            clear(){
+                this.innerHTML = '';
+                return this
+            },
+
+            has(...elements){
+                return !!elements.find(element => this.get(element))
             }
         },
 
         prototypeTiny(){
-            console.warn("Warning: TinyFactory has been prototyped globally. You can now use all its featuers seamlessly for all elements. Beware that this may conflict with other libraries or future changes, use with caution!");
-            
-            const prototype = LS.TinyFactory();            
-            Object.assign(HTMLElement.prototype, prototype);
+            if(LS.Tiny._prototyped) return;
+            LS.Tiny._prototyped = true;
+
+            console.warn("Warning: TinyFactory has been prototyped globally to all HTML elements. You can now use all its featuers seamlessly. Beware that this may conflict with other libraries or future changes or cause confusion, please use with caution!");
+            Object.assign(HTMLElement.prototype, LS.TinyFactory);
         },
 
         Util: {
@@ -1005,12 +1049,14 @@
                 name
             }
 
+            LS.components.set(name, component)
+            componentClass.prototype._component = component;
+
             if(component.global){
-                LS[name] = componentClass;
+                LS[name] = options.singular? new componentClass: componentClass;
             }
 
-            componentClass.prototype._component = component;
-            LS.components.set(name, component)
+            return component
         },
 
         LoadLegacyComponents(components){
@@ -1064,7 +1110,6 @@
     LS.SelectAll = LS.Tiny.Q;
     LS.Select = LS.Tiny.O;
     LS.Create = LS.Tiny.N;
-    LS.Utils = LS.Util;
 
     if(LS.isWeb){
         LS.Global.on("keydown", event => {
