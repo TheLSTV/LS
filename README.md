@@ -25,9 +25,15 @@ Import LS to your site with
 
 And you can start using LS right away!
 ```js
-LS.Create({
-  inner: "Hello world!"
+// Make Tiny's methods available globally (use with caution)
+LS.prototypeTiny()
+
+const myDiv = LS.Create({
+  inner: [N("img", { width: 120, src: "https://lstv.space/assets/image/prism_light.webp" }), "<br> Hello world!"],
+  class: "myDiv"
 })
+
+document.body.add(myDiv)
 ```
 
 ## Creating components
@@ -48,7 +54,7 @@ instance.on("event", console.log)
 instance.invoke("event", "Hello world!")
 ```
 > [!NOTE]
-> Components are no longer sored uniquely with an ID in LS version 5 and up - previously, you were required to supply an ID when creating an instance and LS would manage instances for you. This is no longer the case and you need to manage your own component references now.
+> Components are no longer stored uniquely with an ID in LS version 5 and up - previously, you were required to supply an ID when creating an instance and LS would manage instances for you. This is no longer the case and you need to manage your own component references now.
 
 ## Hosting
 You can either simply use the static files in /dist/, but if you want version management, on-the-fly code compression, and tree-shaking modules from an URL, you can host the API in /backend/api.js, which is the same API used by the official ExtraGon CDN links.<br>

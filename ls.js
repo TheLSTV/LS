@@ -231,28 +231,24 @@
         },
 
         TinyWrap(elements){
+            if(!elements) return null;
+            
+            // No need to wrap anything, prototypes are global
             if(LS.Tiny._prototyped) return elements;
 
-            let i = -1;
-            for(const element of Array.isArray(elements)? elements: [elements]){
-                i ++;
-                if(element._lsWrapped) {
-                    elements[i] = element._lsWrapped
-                    continue
-                }
-
-                elements[i] = element._lsWrapped = new Proxy(element, {
+            function wrap(element){
+                return element._lsWrapped || (element._lsWrapped = new Proxy(element, {
                     get(target, key){
                         return LS.TinyFactory[key] || target[key]
                     },
-
+    
                     set(target, key, value){
                         return target[key] = value
                     }
-                })
+                }))
             }
 
-            return elements
+            return Array.isArray(elements)? elements.map(wrap): wrap(elements);
         },
 
         Tiny: {
@@ -307,8 +303,8 @@
                 );
 
                 // Handle attributes
-                if (accent) LS.TinyFactory.attrAssign.add(element, { "ls-accent": accent });
-                if (attr) LS.TinyFactory.attrAssign.add(element, attr);
+                if (accent) LS.TinyFactory.add.call(element, { "ls-accent": accent });
+                if (attr) LS.TinyFactory.add.call(element, attr);
 
                 // Handle tooltips
                 if (tooltip) {
@@ -325,7 +321,7 @@
 
                 // Append children or content
                 const contentToAdd = inner || innerContent;
-                if (contentToAdd) LS.TinyFactory.applyStyle.add(element, contentToAdd);
+                if (contentToAdd) LS.TinyFactory.add.call(element, contentToAdd);
 
                 return element;
             },
@@ -706,6 +702,8 @@
             },
 
             add(...a){
+                console.log(this);
+                
                 this.append(...LS.Util.resolveElements(...a));
                 return this
             },
