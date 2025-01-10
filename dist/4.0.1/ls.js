@@ -1,5 +1,5 @@
 /*] default {*/
-console.warn("You are on LSv4 - LSv5 just came out! We recommend migrating for a brand new, polished experience, with much better performance and improved practices, new components and more.\nNote that v5 aims for a brand new, fresh experience and has been rebuilt from the ground-up without the many quirks of v4, thus some migration steps may need to be taken.")
+console.warn("You are using LS v4 - LS v5 is out! We recommend migrating for a brand new, polished experience, with much better performance and improved practices, new components and more.\nNote that v5 aims for a brand new, fresh experience and has been rebuilt from the ground-up without the many quirks of v4, thus some migration steps may need to be taken.")
 
 String.prototype.replaceAll||(String.prototype.replaceAll=function(a,b){return"[object regexp]"===Object.prototype.toString.call(a).toLowerCase()?this.replace(a,b):this.replace(new RegExp(a,"g"),b)});
 

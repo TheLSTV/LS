@@ -9,6 +9,16 @@ but old versions in general are difficult to put together, or lost to time.
 # Version 5.0.0
 - Major update
 
+# Version 4.0.0
+> [!NOTE]
+> Where or what is version 4.0.0? The v5 release should have actually been v4, but due to a personal mistake Ive released v3.6 under v4.. <br>
+> So instead, I have decided to make v4 kind of the LTS version of v3. <br>
+> v4.x.x versions are essentially the most recent v3 versions, with minor enhancements and future support to maintain old projects that depend on older LS versions.
+## 4.0.1
+- Added a console note to suggest upgrading to v5
+- Minor API bugfixes
+- Add version information to LS.version and LS.v
+
 
 ## Version 3.0.47
 - Added dynamic amoled theme

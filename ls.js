@@ -1057,46 +1057,6 @@
             return component
         },
 
-        LoadLegacyComponents(components){
-            /*
-                Old (v4) component system
-            */
-            for(let name in components){
-                LS[name] = function ComponentInstance(id, ...attributes){
-                    if(LS[name].conf.isFunction) return (LS[name].class({})) (id, ...attributes);
-                    return LS[name].new(id, ...attributes);
-                }
-
-                LS[name].class = (components[name]) (LS[name]);
-
-                LS[name].conf = {
-                    batch: true,
-                    events: true,
-                    ... LS[name].conf
-                };
-
-                if(LS[name].conf.events) LS[name].Events = new LS.EventHandler(LS[name]);
-
-                if(LS[name].conf.singular){
-
-                    if(LS[name].conf.becomeClass) {
-                        LS[name] = LS[name].class;
-                        continue
-                    }
-
-                    LS[name] = LS[name].new("global");
-                }
-
-                LS[name].new = function (id, ...attributes){
-                    let ClassInstance = new((LS[name].class)({})) (id, ...attributes);
-                    if(LS[name].conf.events) ClassInstance.Events = new LS.EventHandler(ClassInstance);
-                    if(ClassInstance._init) ClassInstance._init();
-
-                    return ClassInstance
-                }
-            }
-        },
-
         GetComponent(name){
             return LS.components.get(name)
         }
