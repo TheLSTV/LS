@@ -1,3 +1,14 @@
+/*
+    Author: Lukas (thelstv)
+    Copyright: (c) https://lstv.space
+
+    Last modified: 2025
+    License: GPL-3.0
+    Version: 5.0.0
+    See: https://github.com/thelstv/LS
+*/
+
+
 (exports => {
 
     const global = typeof window !== 'undefined'? window : global || globalThis;
@@ -472,13 +483,13 @@
                         return C().fromHSL(h, s, l)
                     },
 
-                    // lighten(percent){
-                    //     let [h, s, l] = tools.hsl;
+                    lighten(percent){
+                        let [h, s, l] = tools.hsl;
 
-                    //     l = Math.min(l + percent, 1);
+                        l = Math.min(l + percent, 1);
 
-                    //     return C().fromHSL(h, s, l)
-                    // },
+                        return C().fromHSL(h, s, l)
+                    },
                     
                     hueShift(deg){
                         let [h, s, l] = tools.hsl;

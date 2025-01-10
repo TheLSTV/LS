@@ -7,43 +7,30 @@ but old versions in general are difficult to put together, or lost to time.
 
 
 # Version 5.0.0
-- Major update
+- Major update!
+- Licence changed to GPLv3
+- More clear code rules
 
 # Version 4.0.0
+V4 has become a ✨ *special* ✨ one.
 > [!NOTE]
-> Where or what is version 4.0.0? The v5 release should have actually been v4, but due to a personal mistake Ive released v3.6 under v4.. <br>
+> Where or what is version 4.0.0? The v5 release should have actually been v4, but due to a personal oversight, Ive accidentaly released v3.6 as v4.0.. <br>
 > So instead, I have decided to make v4 kind of the LTS version of v3. <br>
 > v4.x.x versions are essentially the most recent v3 versions, with minor enhancements and future support to maintain old projects that depend on older LS versions.
-## 4.0.1
+
+## Version 4.0.1
 - Added a console note to suggest upgrading to v5
 - Minor API bugfixes
 - Add version information to LS.version and LS.v
 
-
-## Version 3.0.47
-- Added dynamic amoled theme
-- Added a light version to all accent colors
-- Added many new default accent colors, along with an improved accent system
-- Added full support for checkboxes and radio buttons
-- Improoved button classes: .elevated, .pill, .circle
-- Improoved how segmented buttons/inputs work
-- Pushed ls-box into the stable release!
-- Deprecated some old CSS code. (To temporarily add it back, include ls/css.deprecated)
-- LS.Color has 2 new methods: setColor and setTheme
-- Enhanced LS.Toast
-- Added LS.Native in alpha!
-    LS.Native is a bridge that makes the creation of native-like apps easy across platforms.
-	Currently Android is supported with a Java library that enables cross-events, and access to some system APIs from your JS frontend.
-	- You may historically remember it as aHTMLx.
-
-## Update 3.5
+## Version 3.5
 ### Welcome a new component - AutomationGraphEditor!
 ![Screenshot from 2024-08-22 22-47-28](https://github.com/user-attachments/assets/175c8ab3-d00f-4467-bb96-066df234c46b)<br>
 This new component allows you to easily include a beautiful and fully customizeable graph editor, primarily intended for automations (eg. gain on an audio oscillator), but is great for any other possible usage scenarios.<br>
 It uses SVG for rendering, offers an easy way to scale, has a simple API with efficient instancing etc.<br><br>
 In this update, LS.EventResolver (as component) was deprecated in favor of LS.EventHandler (as a standalone class) - compatibility is retained at this moment.
 
-## Recent changes (3.4.5)
+## Version 3.4.5
 ### 1) Colors
 The color system was updated, with many new presets, new shades in CSS, more customization, and upgraded LS.Color API:
 ![Screenshot from 2024-06-08 11-23-38](https://github.com/TheLSTV/LS/assets/62482747/33a132f4-9005-4e36-b389-9f637cab944f)
@@ -98,7 +85,23 @@ Progress & range components.
 ..and almost every other component was greatly improved.
 
 
-# Following is old / outdated content;
+## Version 3.0.47
+- Added dynamic amoled theme
+- Added a light version to all accent colors
+- Added many new default accent colors, along with an improved accent system
+- Added full support for checkboxes and radio buttons
+- Improoved button classes: .elevated, .pill, .circle
+- Improoved how segmented buttons/inputs work
+- Pushed ls-box into the stable release!
+- Deprecated some old CSS code. (To temporarily add it back, include ls/css.deprecated)
+- LS.Color has 2 new methods: setColor and setTheme
+- Enhanced LS.Toast
+- Added LS.Native in alpha!
+    LS.Native is a bridge that makes the creation of native-like apps easy across platforms.
+	Currently Android is supported with a Java library that enables cross-events, and access to some system APIs from your JS frontend.
+	- You may historically remember it as aHTMLx.
+
+# Following is old / outdated content (LS v1 and v2 and possibly pre-LS (Tiny));
 
 
 ## Component system

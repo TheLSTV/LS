@@ -1,3 +1,12 @@
+/*
+
+    For older projects that used LS v2/v3/v4 modules or features, this patch aims to provide some
+    backwards-compatibility to allow them to keep using v5 of the framework.
+
+    It re-adds some deprecated features, and sort of brings back the old component system.
+
+*/
+
 (() => {
     const og_LoadComponents = LS.LoadComponents;
 

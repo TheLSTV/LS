@@ -15,17 +15,29 @@ Welcome the next big iteration of LS, LS v5.<br>
 > [!WARNING]
 > If you are migrating from earlier LS versions, please review the migration notes. As this is a major release of LS, API compatibility is not guaranteed and a lot of things were changed or removed. Namely all previously deprecated methods were removed and many methods have changed.
 
+## v4 vs v5 Performance
+
+| Operation               | v4 (Ops/s)      | v5 (Ops/s)            | Speed Improvement |
+|-------------------------|-----------------|-----------------------|-------------------|
+| **Event Handling**      |                 |                       |                   |
+| Event `invoke`          | 462,637         | 57,068,479            | ~123x faster      |
+| Event `on`              | 666,207         | 4,310,638             | ~6x faster        |
+| Event `once`            | 295,046         | 4,418,975             | ~14x faster        |
+| **Elements selector**   |                 |                       |                   |
+| Simple selector         | --              | --                    | ~4.5x faster |
+| Complex selector        | --              | --                    | ~2x faster |
+
 ## Getting started
-Import LS to your site with
+Add LS to your web app or site with
 ```html
-<!-- Note this imports *all* parts and components. -->
+<!-- Note this imports *all* default parts and components. -->
 <script src="https://cdn.extragon.cloud/ls/5.0.0/*/index.min.js"></script>
 <link href="https://cdn.extragon.cloud/ls/5.0.0/*/index.min.css" rel="stylesheet">
 ```
 
 And you can start using LS right away!
 ```js
-// Make Tiny's methods available globally (use with caution)
+// Make LS-Tiny's HTMLElement custom methods available globally (use with caution!)
 LS.prototypeTiny()
 
 const myDiv = LS.Create({
