@@ -67,6 +67,6 @@ LS.LoadComponent(class Toast extends LS.Component {
 
         return methods
     }
-}, { global: true, singular: true })
+}, { global: true, singular: true, name: "Toast" });
 
-else { throw "You need to upgrade to LS v5 to use this version of the module or downgrade to an older release!" }
+else { throw "You need to upgrade to LS v5 to use this version of the module or downgrade to an older release!" };

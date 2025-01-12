@@ -1,0 +1,198 @@
+/*
+    Author: Lukas (thelstv)
+    Copyright: (c) https://lstv.space
+
+    Last modified: 2025
+    License: GPL-3.0
+    Version: 5.0.0
+    See: https://github.com/thelstv/LS
+*/
+[ls] input {
+  position: relative;
+}
+[ls] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  cursor: pointer;
+}
+[ls] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) i {
+  font-size: 1em;
+  margin: 0 4px 0 2px;
+}
+[ls] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) i:only-child {
+  margin: 0;
+}
+[ls] img {
+  padding: 0;
+}
+[ls] table {
+  background-color: rgba(255, 255, 255, 0.0666666667);
+  border-collapse: collapse;
+  border: 1px solid rgba(255, 255, 255, 0.3333333333);
+  overflow: hidden;
+  border-radius: 15px;
+}
+[ls] table :is(th, td) {
+  border: 1px solid rgba(255, 255, 255, 0.1333333333);
+  text-align: center;
+  padding: 5px;
+}
+[ls] a {
+  color: var(--accent);
+  text-decoration: none;
+}
+[ls] a[disabled] {
+  color: var(--elevate-3);
+}
+[ls] a:focus:not(.ls-button, .ls-plain) {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.2666666667);
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+[ls] select {
+  padding: 0.3125em;
+}
+[ls] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])), [ls] textarea {
+  color: var(--color) !important;
+}
+[ls] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image]))::selection, [ls] textarea::selection {
+  background-color: rgb(var(--accent-raw), 50%);
+}
+[ls] h1 {
+  font-weight: 800;
+}
+[ls] h2 {
+  font-weight: 600;
+}
+[ls] h3, [ls] h4 {
+  font-weight: 300;
+  color: var(--elevate-3);
+}
+[ls] hr {
+  border: 1px solid var(--elevate-1);
+  border-radius: 10px;
+  margin: var(--hr-spacing, 18px) 0;
+}
+[ls] :is([disabled], :disabled) {
+  cursor: not-allowed;
+  opacity: 0.9;
+  filter: brightness(0.7);
+}
+[ls] * {
+  box-sizing: border-box;
+}
+[ls] p, [ls] header, [ls] body, [ls] html {
+  margin: 0;
+}
+
+:is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), input, textarea) {
+  color: var(--color-bg, var(--color));
+  border: 0;
+  outline: none;
+  position: relative;
+  background: var(--ui-bg-0);
+  font-size: 1em;
+}
+
+.ls-checkbox, .ls-radio {
+  padding-left: calc(1em + 20px);
+  position: relative;
+  display: inline-block;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.ls-checkbox > input, .ls-radio > input, .ls-radio-button > input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute !important;
+}
+
+.ls-checkbox > span, .ls-radio > span {
+  width: 1.2em;
+  height: 1.2em;
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+}
+
+.ls-checkbox > span::after {
+  content: "";
+  width: 0.2em;
+  height: 0.5em;
+  border: solid var(--color-bg);
+  border-width: 0 0.15em 0.15em 0;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+  display: none;
+}
+
+:is(.ls-checkbox, .ls-radio) > input:checked ~ span::after {
+  display: block;
+}
+
+:is(.ls-radio-button) > input:checked ~ :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  background: var(--accent-dark-transparent);
+  color: var(--color-bg);
+}
+
+.ls-radio > span::after {
+  content: "";
+  width: 0.55em;
+  height: 0.55em;
+  background: var(--color-bg);
+  display: none;
+}
+
+ls-box {
+  background: var(--elevate-1);
+  display: block;
+}
+
+ls-box:not(.contained, .color, .inline) {
+  outline: 1px solid var(--transparent-overlay-strong);
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+}
+
+ls-box.inline {
+  display: inline-block;
+  border-radius: var(--br-small-inside);
+  padding: 0.1em 0.5em;
+  margin: 0 0.2em;
+}
+
+ls-box.color {
+  color: var(--accent-light);
+  background: rgb(var(--accent-raw), 10%);
+}
+
+ls-box::selection {
+  background: var(--accent-transparent);
+}
+
+/**
+ * @description: Increase the priority of a CSS property
+*/
+[ls], [ls] :is(button, input, select, textarea) {
+  font-family: var(--font) !important;
+  color: var(--color);
+}
+
+:root {
+  background: var(--background);
+}
+
+[ls] {
+  overflow-y: overlay;
+}
+
+#ls-top-layer {
+  position: fixed;
+  z-index: 5000000000000;
+}
+
+/*# sourceMappingURL=ls.css.map */

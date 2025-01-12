@@ -1,0 +1,11 @@
+/**
+ * @description: Increase the priority of a CSS property
+*/
+
+@function priority($thing, $times) {
+    $result: '';
+    @for $i from 1 through $times {
+        $result: #{$result}#{$thing};
+    }
+    @return $result;
+}
