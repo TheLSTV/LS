@@ -22,11 +22,19 @@ $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"])
     color: var(--color);
 }
 
-:root {
-    background: var(--background);
-}
-
 [ls] {
+    @extend %font;
+    
+    :is(button, input, select, textarea) {
+        @extend %font;
+
+        padding: var(--control-padding-v) var(--control-padding-h);
+    }
+
+    --control-padding-h: 10px;
+    --control-padding-v: 5px;
+
+    background: var(--background);
     overflow-y: overlay;
 }
 

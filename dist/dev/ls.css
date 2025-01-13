@@ -590,12 +590,14 @@ ls-box::selection {
   color: var(--color);
 }
 
-:root {
-  background: var(--background);
-}
-
 [ls] {
+  --control-padding-h: 10px;
+  --control-padding-v: 5px;
+  background: var(--background);
   overflow-y: overlay;
+}
+[ls] :is(button, input, select, textarea) {
+  padding: var(--control-padding-v) var(--control-padding-h);
 }
 
 #ls-top-layer {
