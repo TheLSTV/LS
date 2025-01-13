@@ -9,9 +9,7 @@
 */
 
 
-$button: ':is(button, input[type="button"], input[type="submit"], input[type="reset"], .ls-button)';
-$input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"]):not([type="color"]):not([type="file"]):not([type="reset"]):not([type="image"]))';
-
+@import "css/variables.scss";
 @import "css/themes.scss";
 @import "css/essentials.scss";
 @import "css/utils.scss";
@@ -32,7 +30,7 @@ $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"])
     }
 
     --control-padding-h: 10px;
-    --control-padding-v: 5px;
+    --control-padding-v: 4px;
 
     background: var(--background);
     overflow-y: overlay;
