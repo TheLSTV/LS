@@ -8,7 +8,6 @@
     See: https://github.com/thelstv/LS
 */
 
-
 (exports => {
 
     const global = typeof window !== 'undefined'? window : global || globalThis;

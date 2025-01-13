@@ -1,11 +1,10 @@
-
-
 @function toRaw($color) {
     $red: red($color);
     $green: green($color);
     $blue: blue($color);
     @return $red, $green, $blue;
 }
+
 
 [ls-accent="rich-black"] {
     $accent: rgb(6, 0, 35);

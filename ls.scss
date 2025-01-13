@@ -12,15 +12,15 @@
 $button: ':is(button, input[type="button"], input[type="submit"], input[type="reset"], .ls-button)';
 $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"]):not([type="color"]):not([type="file"]):not([type="reset"]):not([type="image"]))';
 
+@import "css/themes.scss";
 @import "css/essentials.scss";
 @import "css/utils.scss";
-
+@import 'css/colors.scss';
 
 %font {
-    font-family: var(--font) !important;
+    font-family: var(--font);
     color: var(--color);
 }
-
 
 :root {
     background: var(--background);
@@ -32,5 +32,5 @@ $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"])
 
 #ls-top-layer {
     position: fixed;
-    z-index: 5000000000000;
+    z-index: 50000000;
 }

@@ -7,6 +7,107 @@
     Version: 5.0.0
     See: https://github.com/thelstv/LS
 */
+[ls-theme=dark], [ls-theme=amoled], [ls-theme=default], body:not([ls-theme]) {
+  --background-raw: 25, 25, 25;
+  --background: rgb(var(--background-raw));
+  --background-tr: #222a;
+  --transparent-overlay: #fff1;
+  --transparent-overlay-strong: #fff4;
+  --transparent-overlay-dark: #00000018;
+  --transparent-overlay-dark-strong: #0005;
+  --color: var(--elevate-8);
+  --ui: var(--bg-6);
+  --ui-bg-0: var(--bg-1);
+  --ui-bg-1: var(--bg-4);
+  --ui-border: var(--border-color-0);
+  --ui-overlay: #0c0c0ca3;
+  --border-color-0: #0c0c0c;
+  --border-color: var(--border-color-0);
+  --bg-0: #000;
+  --bg-1: #121212;
+  --bg-2: #151515;
+  --bg-3: var(--background);
+  --bg-4: #1c1c1c;
+  --bg-5: #202020;
+  --bg-6: #232323;
+  --bg-7: #272727;
+  --bg-8: #333;
+  --bg: var(--background);
+  --elevate-0: #222;
+  --elevate-1: #333;
+  --elevate-2: #444;
+  --elevate-3: #555;
+  --elevate-4: #666;
+  --elevate-5: #aaa;
+  --elevate-6: #ccc;
+  --elevate-7: #ddd;
+  --elevate-8: #eee;
+  --elevate: var(--elevate-0);
+}
+[ls-theme=dark] [ls-accent=auto], [ls-theme=amoled] [ls-accent=auto], [ls-theme=default] [ls-accent=auto], body:not([ls-theme]) [ls-accent=auto] {
+  --accent-raw: 225, 225, 225;
+  --accent-dark-raw: 190, 190, 190;
+  --accent-light-raw: 245, 245, 245;
+  --accent-text-raw: 26, 26, 26;
+  --accent-background-raw: 60, 60, 60;
+  --color-bg: #222 ;
+}
+
+[ls-theme=amoled] {
+  --background-raw: 0, 0, 0;
+  --elevate-0: #151515;
+  --elevate-1: #222;
+  --elevate-2: #333;
+  --elevate-3: #444;
+  --elevate-4: #585858;
+}
+
+[ls-theme=light] {
+  --background-raw: 255, 255, 255;
+  --background: rgb(var(--background-raw));
+  --background-tr: #fffa;
+  --transparent-overlay: #0001;
+  --transparent-overlay-strong: #0004;
+  --transparent-overlay-dark: #0001;
+  --transparent-overlay-dark-strong: #0003;
+  --color: var(--elevate-8);
+  --ui: var(--bg-6);
+  --ui-bg-0: var(--bg-1);
+  --ui-bg-1: var(--bg-4);
+  --ui-border: var(--border-color-0);
+  --ui-overlay: #7272725e;
+  --border-color-0: #727272;
+  --border-color: var(--border-color-0);
+  --bg-0: #b4b4b4;
+  --bg-1: #e4e4e4;
+  --bg-2: #f3f3f3;
+  --bg-3: var(--background);
+  --bg-4: #f1f1f1;
+  --bg-5: #ececec;
+  --bg-6: #e4e4e4;
+  --bg-7: #dadada;
+  --bg-8: #c7c7c7;
+  --bg: var(--background);
+  --elevate-0: #eee;
+  --elevate-1: #ddd;
+  --elevate-2: #bbb;
+  --elevate-3: #aaa;
+  --elevate-4: #888;
+  --elevate-5: #666;
+  --elevate-6: #555;
+  --elevate-7: #444;
+  --elevate-8: #222;
+  --elevate: var(--elevate-0);
+}
+[ls-theme=light] [ls-accent=auto] {
+  --accent-raw: 21, 21, 21;
+  --accent-light-raw: 41, 41, 41;
+  --accent-dark-raw: 11, 11, 11;
+  --accent-text-raw: 215, 215, 215;
+  --accent-background-raw: 120, 120, 120;
+  --color-bg: #eee ;
+}
+
 [ls] input {
   position: relative;
 }
@@ -177,8 +278,315 @@ ls-box::selection {
 /**
  * @description: Increase the priority of a CSS property
 */
+[ls-accent=rich-black] {
+  --accent-raw: 6, 0, 35;
+  --accent-background-raw: 0, 0, 0;
+  --accent-dark-raw: 0, 0, 0;
+  --accent-light-raw: 19, 4, 92;
+  --accent-text-raw: 54, 27, 187;
+  --color-bg: rgb(124.9665714286, 101.21, 239.79);
+}
+
+[ls-accent=navy] {
+  --accent-raw: 40, 28, 108;
+  --accent-background-raw: 14, 13, 21;
+  --accent-dark-raw: 24, 18, 56;
+  --accent-light-raw: 64, 48, 149;
+  --accent-text-raw: 134, 124, 190;
+  --color-bg: rgb(211.284, 207.12, 234.88);
+}
+
+[ls-accent=blue], html {
+  --accent-raw: 0, 133, 255;
+  --accent-background-raw: 13, 26, 38;
+  --accent-dark-raw: 8, 101, 186;
+  --accent-light-raw: 69, 162, 247;
+  --accent-text-raw: 0, 40, 77;
+  --color-bg: white;
+}
+
+[ls-accent=pastel-indigo] {
+  --accent-raw: 70, 118, 181;
+  --accent-background-raw: 60,72,89;
+  --accent-dark-raw: 61, 90, 129;
+  --accent-light-raw: 120, 151, 192;
+  --accent-text-raw: 20, 34, 52;
+  --color-bg: #222;
+}
+
+[ls-accent=lapis] {
+  --accent-raw: 34, 114, 154;
+  --accent-background-raw: 0, 0, 0;
+  --accent-dark-raw: 28, 75, 99;
+  --accent-light-raw: 55, 148, 194;
+  --accent-text-raw: 11, 37, 50;
+  --color-bg: rgb(206.1470212766, 226.6176595745, 236.8529787234);
+}
+
+[ls-accent=teal] {
+  --accent-raw: 0, 128, 128;
+  --accent-background-raw: 6, 20, 20;
+  --accent-dark-raw: 3, 64, 64;
+  --accent-light-raw: 8, 182, 182;
+  --accent-text-raw: 0, 0, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=pastel-teal] {
+  --accent-raw: 69, 195, 205;
+  --accent-background-raw: 69,100,103;
+  --accent-dark-raw: 54, 151, 159;
+  --accent-light-raw: 124, 205, 211;
+  --accent-text-raw: 20, 71, 75;
+  --color-bg: #222;
+}
+
+[ls-accent=aquamarine] {
+  --accent-raw: 58, 160, 125;
+  --accent-background-raw: 35, 55, 48;
+  --accent-dark-raw: 48, 109, 88;
+  --accent-light-raw: 95, 184, 154;
+  --accent-text-raw: 24, 66, 52;
+  --color-bg: #222;
+}
+
+[ls-accent=mint] {
+  --accent-raw: 106, 238, 189;
+  --accent-background-raw: 49, 167, 123;
+  --accent-dark-raw: 60, 223, 162;
+  --accent-light-raw: 165, 240, 212;
+  --accent-text-raw: 14, 126, 84;
+  --color-bg: #222;
+}
+
+[ls-accent=green] {
+  --accent-raw: 25, 135, 84;
+  --accent-background-raw: 24, 34, 29;
+  --accent-dark-raw: 19, 79, 52;
+  --accent-light-raw: 43, 178, 115;
+  --accent-text-raw: 9, 49, 30;
+  --color-bg: #fff;
+}
+
+[ls-accent=lime] {
+  --accent-raw: 133, 210, 50;
+  --accent-background-raw: 28, 32, 24;
+  --accent-dark-raw: 80, 114, 44;
+  --accent-light-raw: 163, 213, 108;
+  --accent-text-raw: 42, 67, 15;
+  --color-bg: #222;
+}
+
+[ls-accent=neon] {
+  --accent-raw: 173, 255, 110;
+  --accent-background-raw: 28, 44, 15;
+  --accent-dark-raw: 124, 187, 76;
+  --accent-light-raw: 225, 253, 204;
+  --accent-text-raw: 59, 135, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=yellow] {
+  --accent-raw: 255, 236, 32;
+  --accent-background-raw: 62, 59, 21;
+  --accent-dark-raw: 217, 199, 9;
+  --accent-light-raw: 255, 248, 175;
+  --accent-text-raw: 109, 99, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=lstv-red] {
+  --accent-raw: 237, 108, 48;
+  --accent-background-raw: 54, 35, 27;
+  --accent-dark-raw: 197, 81, 27;
+  --accent-light-raw: 235, 150, 111;
+  --accent-text-raw: 98, 37, 9;
+  --color-bg: #222;
+}
+
+[ls-accent=lstv-yellow] {
+  --accent-raw: 252, 194, 27;
+  --accent-background-raw: 55, 46, 20;
+  --accent-dark-raw: 206, 156, 12;
+  --accent-light-raw: 246, 207, 94;
+  --accent-text-raw: 99, 74, 1;
+  --color-bg: #222;
+}
+
+[ls-accent=lstv-blue] {
+  --accent-raw: 64, 192, 231;
+  --accent-background-raw: 33, 52, 58;
+  --accent-dark-raw: 35, 160, 198;
+  --accent-light-raw: 125, 207, 232;
+  --accent-text-raw: 13, 82, 103;
+  --color-bg: #222;
+}
+
+[ls-accent=orange] {
+  --accent-raw: 255, 140, 32;
+  --accent-background-raw: 62, 41, 21;
+  --accent-dark-raw: 217, 110, 9;
+  --accent-light-raw: 249, 172, 100;
+  --accent-text-raw: 109, 53, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=deep-orange] {
+  --accent-raw: 255, 112, 52;
+  --accent-background-raw: 77, 41, 26;
+  --accent-dark-raw: 236, 77, 10;
+  --accent-light-raw: 249, 157, 119;
+  --accent-text-raw: 129, 38, 0;
+  --color-bg: #222;
+}
+
+[ls-accent=red] {
+  --accent-raw: 245, 47, 47;
+  --accent-background-raw: 62, 26, 26;
+  --accent-dark-raw: 157, 33, 33;
+  --accent-light-raw: 242, 112, 112;
+  --accent-text-raw: 108, 5, 5;
+  --color-bg: #222;
+}
+
+[ls-accent=rusty-red], [ls-accent=bright-red] {
+  --accent-raw: 220, 53, 69;
+  --accent-background-raw: 42, 27, 29;
+  --accent-dark-raw: 172, 40, 52;
+  --accent-light-raw: 222, 112, 123;
+  --accent-text-raw: 81, 14, 20;
+  --color-bg: #222;
+}
+
+[ls-accent=pink] {
+  --accent-raw: 230, 52, 164;
+  --accent-background-raw: 61, 42, 54;
+  --accent-dark-raw: 188, 33, 130;
+  --accent-light-raw: 230, 113, 187;
+  --accent-text-raw: 92, 11, 62;
+  --color-bg: #222;
+}
+
+[ls-accent=hotpink] {
+  --accent-raw: 245, 100, 169;
+  --accent-background-raw: 97, 44, 69;
+  --accent-dark-raw: 232, 52, 138;
+  --accent-light-raw: 245, 162, 201;
+  --accent-text-raw: 156, 10, 80;
+  --color-bg: #222;
+}
+
+[ls-accent=purple] {
+  --accent-raw: 155, 77, 175;
+  --accent-background-raw: 54, 43, 56;
+  --accent-dark-raw: 113, 66, 125;
+  --accent-light-raw: 175, 126, 187;
+  --accent-text-raw: 45, 22, 51;
+  --color-bg: #eee;
+}
+
+[ls-accent=soap] {
+  --accent-raw: 210, 190, 235;
+  --accent-background-raw: 145, 119, 178;
+  --accent-dark-raw: 178, 149, 215;
+  --accent-light-raw: 243, 238, 248;
+  --accent-text-raw: 116, 58, 188;
+  --color-bg: #222;
+}
+
+[ls-accent=burple] {
+  --accent-raw: 81, 101, 246;
+  --accent-background-raw: 37, 43, 86;
+  --accent-dark-raw: 33, 57, 233;
+  --accent-light-raw: 144, 156, 244;
+  --accent-text-raw: 7, 24, 141;
+  --color-bg: #eee;
+}
+
+[ls-accent=gray],
+:disabled {
+  --accent-raw: 73, 73, 73;
+  --accent-background-raw: 22, 22, 22;
+  --accent-dark-raw: 42, 42, 42;
+  --accent-light-raw: 104, 104, 104;
+  --accent-text-raw: 0, 0, 0;
+  --color-bg: #eee;
+}
+
+[ls-accent=gray-light] {
+  --accent-raw: 107, 107, 107;
+  --accent-background-raw: 43, 43, 43;
+  --accent-dark-raw: 76, 76, 76;
+  --accent-light-raw: 138, 138, 138;
+  --accent-text-raw: 31, 31, 31;
+  --color-bg: #222;
+}
+
+[ls-accent=white] {
+  --accent-raw: 225, 225, 225;
+  --accent-background-raw: 123, 123, 123;
+  --accent-dark-raw: 194, 194, 194;
+  --accent-light-raw: 255, 255, 255;
+  --accent-text-raw: 136, 136, 136;
+  --color-bg: #222;
+}
+
+[ls-accent=black] {
+  --accent-raw: 16, 16, 16;
+  --accent-background-raw: 41, 41, 41;
+  --accent-dark-raw: 0, 0, 0;
+  --accent-light-raw: 47, 47, 47;
+  --accent-text-raw: 255, 255, 255;
+  --color-bg: #fff;
+}
+
+[ls-accent=sand] {
+  --accent-raw: 236, 98, 111;
+  --accent-dark-raw: 230, 103, 53;
+  --accent-background-raw: 109, 93, 139;
+  --accent-light-raw: 242, 171, 143;
+  --color-bg: #222;
+}
+
+[ls-accent=icepop] {
+  --accent-raw: 206, 38, 38;
+  --accent-dark-raw: 36, 102, 157;
+  --accent-light-raw: 80, 154, 215;
+  --accent-background-raw: 13, 26, 38;
+  --color-bg: #ddd;
+}
+
+[ls-accent=cozy] {
+  --accent-raw: 180, 133, 124;
+  --accent-dark-raw: 92, 133, 161;
+  --accent-background-raw: 81, 105, 121;
+  --accent-light-raw: 156, 181, 199;
+  --color-bg: #222;
+}
+
+[ls-accent=sport] {
+  --accent-raw: 246, 66, 35;
+  --accent-dark-raw: 94, 221, 9;
+  --accent-light-raw: 150, 248, 84;
+  --accent-text-raw: 150, 248, 84;
+  --accent-background-raw: 39, 52, 4;
+  --color-bg: #000;
+}
+
+[ls-accent] {
+  --accent: rgb(var(--accent-raw));
+  --accent-transparent: rgb(var(--accent-raw), 50%);
+  --accent-background: rgb(var(--accent-background-raw));
+  --accent-dark: rgb(var(--accent-dark-raw));
+  --accent-dark-transparent: rgb(var(--accent-dark-raw), 50%);
+  --accent-light: rgb(var(--accent-light-raw));
+  --accent-light-transparent: rgb(var(--accent-light-raw), 50%);
+  --accent-text: rgb(var(--accent-text-raw));
+  --accent-text-transparent: rgb(var(--accent-text-raw), 50%);
+}
+
 [ls], [ls] :is(button, input, select, textarea) {
-  font-family: var(--font) !important;
+  font-family: var(--font);
   color: var(--color);
 }
 
@@ -192,7 +600,7 @@ ls-box::selection {
 
 #ls-top-layer {
   position: fixed;
-  z-index: 5000000000000;
+  z-index: 50000000;
 }
 
 /*# sourceMappingURL=ls.css.map */

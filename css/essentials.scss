@@ -12,10 +12,12 @@
 
     #{$button} {
         cursor: pointer;
+
         i {
             font-size: 1em;
             margin: 0 4px 0 2px;
         }
+    
         i:only-child {
             margin: 0;
         }
@@ -31,6 +33,7 @@
         border: 1px solid #fff5;
         overflow: hidden;
         border-radius: 15px;
+
         :is(th,td) {
             border: 1px solid #fff2;
             text-align: center;
