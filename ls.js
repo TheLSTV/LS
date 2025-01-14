@@ -488,7 +488,7 @@
                 },
 
                 uid(){
-                    return M.GlobalID + "-" + crypto.getRandomValues(new Uint32Array(1))[0].toString(36)
+                    return LS.Tiny.M.GlobalID + "-" + crypto.getRandomValues(new Uint32Array(1))[0].toString(36)
                 },
 
                 Style(url, callback) {
