@@ -10,7 +10,7 @@
 
 (exports => {
 
-    const global = typeof window !== 'undefined'? window : global || globalThis;
+    const global = typeof window !== 'undefined'? window : globalThis;
     const instance = exports();
 
     if(typeof module !== "undefined"){
