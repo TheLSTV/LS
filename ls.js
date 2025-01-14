@@ -617,10 +617,8 @@
                 return LS.Tiny.Q(this, selector)
             },
 
-            add(...a){
-                console.log(this);
-                
-                this.append(...LS.Util.resolveElements(...a));
+            add(...elements){
+                this.append(...LS.Util.resolveElements(...elements));
                 return this
             },
 
