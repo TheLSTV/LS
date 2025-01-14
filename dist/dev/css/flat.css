@@ -1,3 +1,92 @@
-
+[ls-style=flat] {
+  --border-radius-small: 4px;
+  --border-radius: 6px;
+  --border-radius-large: 16px;
+  --border-radius-full: 100px;
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), [ls-style=flat] input, [ls-style=flat] select, [ls-style=flat] textarea {
+  border-radius: var(--border-radius);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  transition: background 0.1s;
+  background-color: var(--accent);
+  color: var(--accent-contrast);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(:disabled):hover, [ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(:disabled):focus {
+  background-color: var(--accent-light);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(:disabled):active {
+  filter: brightness(0.9);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(:disabled):focus {
+  outline: 2px solid rgb(var(--accent-raw), 10%);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):not(:disabled):focus-visible {
+  outline: 2px solid rgb(var(--accent-raw), 50%);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button):disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).circle {
+  border-radius: 50%;
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated {
+  background-color: var(--accent-transparent);
+  color: var(--accent-light);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:hover, [ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).elevated:focus {
+  background-color: rgb(var(--accent-raw), 40%);
+}
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).pill {
+  border-radius: var(--border-radius-full);
+  padding: var(--padding-control-v) var(--padding-control-h-pill);
+}
+[ls-style=flat] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])) {
+  background: var(--bg-0);
+  border: 2px solid var(--elevate-0);
+}
+[ls-style=flat] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])):focus {
+  border: 2px solid var(--accent-focus, var(--accent));
+  background: rgb(var(--accent-raw), 10%);
+}
+[ls-style=flat] .ls-checkbox > span, [ls-style=flat] .ls-radio > span {
+  border: 2px solid var(--elevate-3);
+  border-radius: var(--border-radius-small);
+  transition: background 0.2s;
+}
+[ls-style=flat] .ls-radio > span {
+  border-radius: 50%;
+}
+[ls-style=flat] :is(.ls-checkbox, .ls-radio) > span::before {
+  content: "";
+  border-radius: 50%;
+  position: absolute;
+  inset: -0.8em;
+  transition: background 0.2s, transform 0.2s;
+  transform: scale(0.8);
+}
+[ls-style=flat] .ls-radio > span::after {
+  background: var(--accent);
+  border-radius: 50%;
+}
+[ls-style=flat] :is(.ls-checkbox, .ls-radio) > input:disabled ~ span::before {
+  display: none;
+}
+[ls-style=flat] :is(.ls-checkbox, .ls-radio):active > span::before {
+  background: rgb(var(--accent-raw), 20%);
+  transform: scale(1);
+}
+[ls-style=flat] .ls-checkbox > input:checked ~ span {
+  background: var(--accent);
+  border: none;
+}
+[ls-style=flat] .ls-radio > input:checked ~ span {
+  border-color: var(--accent);
+}
+[ls-style=flat] :is(.ls-checkbox, .ls-radio) > input:disabled ~ span {
+  --elevate-3: var(--elevate-1);
+  cursor: not-allowed;
+}
 
 /*# sourceMappingURL=flat.css.map */

@@ -1,5 +1,17 @@
-
-// Do not put anything else than variables or functions here.
-
 $button: ':is(button, input[type="button"], input[type="submit"], input[type="reset"], .ls-button)';
 $input: ':is(input[type="text"], input:not([type="button"]):not([type="submit"]):not([type="color"]):not([type="file"]):not([type="reset"]):not([type="image"]))';
+
+@function priority($thing, $times) {
+    $result: '';
+    @for $i from 1 through $times {
+        $result: #{$result}#{$thing};
+    }
+    @return $result;
+}
+
+@function toRaw($color) {
+    $red: red($color);
+    $green: green($color);
+    $blue: blue($color);
+    @return $red, $green, $blue;
+}

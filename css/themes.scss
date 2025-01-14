@@ -1,7 +1,10 @@
-[ls-theme="dark"], [ls-theme="amoled"], [ls-theme="default"], body:not([ls-theme]) {
-    --background-raw: 25, 25, 25;
+// Global theme variables
+[ls-theme] {
     --background: rgb(var(--background-raw));
-    --background-tr: #222a;
+}
+
+[ls-theme="dark"], [ls-theme="amoled"], [ls-theme="default"], body:not([ls-theme]) {
+    --background-raw: #{toRaw(#131313)};
 
     --transparent-overlay: #fff1;
     --transparent-overlay-strong: #fff4;
@@ -10,19 +13,12 @@
 
     --color: var(--elevate-8);
 
-    // Deprecated
-    --ui: var(--bg-6);
-    --ui-bg-0: var(--bg-1);
-    --ui-bg-1: var(--bg-4);
-    --ui-border: var(--border-color-0);
-    --ui-overlay: #0c0c0ca3;
-
     // Borders
     --border-color-0: #0c0c0c;
     --border-color: var(--border-color-0);
 
     // Backgrounds
-    --bg-0: #000;
+    --bg-0: #0e0e0e;
     --bg-1: #121212;
     --bg-2: #151515;
     --bg-3: var(--background);
@@ -45,7 +41,7 @@
     --elevate-8: #eee;
     --elevate: var(--elevate-0);
 
-    [ls-accent = "auto"] {
+    [ls-accent = "auto"], &[ls-accent = "auto"] {
         --accent-raw: 225, 225, 225;
         --accent-dark-raw: 190, 190, 190;
         --accent-light-raw: 245, 245, 245;
@@ -56,7 +52,7 @@
 }
 
 [ls-theme="amoled"] {
-    --background-raw: 0, 0, 0;
+    --background-raw: #{toRaw(#000)};
 
     // Elevate
     --elevate-0: #151515;
@@ -67,9 +63,7 @@
 }
 
 [ls-theme="light"] {
-    --background-raw: 255, 255, 255;
-    --background: rgb(var(--background-raw));
-    --background-tr: #fffa;
+    --background-raw: #{toRaw(#f1f1f1)};
 
     --transparent-overlay: #0001;
     --transparent-overlay-strong: #0004;
@@ -113,7 +107,7 @@
     --elevate-8: #222;
     --elevate: var(--elevate-0);
 
-    [ls-accent = "auto"] {
+    [ls-accent = "auto"], &[ls-accent = "auto"] {
         --accent-raw: 21, 21, 21;
         --accent-light-raw: 41, 41, 41;
         --accent-dark-raw: 11, 11, 11;

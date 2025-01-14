@@ -1,11 +1,3 @@
-@function toRaw($color) {
-    $red: red($color);
-    $green: green($color);
-    $blue: blue($color);
-    @return $red, $green, $blue;
-}
-
-
 [ls-accent="rich-black"] {
     $accent: rgb(6, 0, 35);
 
@@ -14,7 +6,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(lighten(desaturate($accent, 25%), 35%))};
-    --color-bg: #{lighten(desaturate($accent, 18%), 60%)};
+    --accent-contrast: #{lighten(desaturate($accent, 18%), 60%)};
 }
 
 [ls-accent="navy"] {
@@ -25,7 +17,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(lighten(desaturate($accent, 25%), 35%))};
-    --color-bg: #{lighten(desaturate($accent, 18%), 60%)};
+    --accent-contrast: #{lighten(desaturate($accent, 18%), 60%)};
 }
 
 [ls-accent="blue"], html {
@@ -39,7 +31,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #{lighten(desaturate($accent, 18%), 50%)};
+    --accent-contrast: #{lighten(desaturate($accent, 18%), 50%)};
 }
 
 [ls-accent="pastel-indigo"] {
@@ -50,7 +42,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="lapis"] {
@@ -61,7 +53,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 25%))};
-    --color-bg: #{lighten(desaturate($accent, 18%), 50%)};
+    --accent-contrast: #{lighten(desaturate($accent, 18%), 50%)};
 }
 
 [ls-accent="teal"] {
@@ -72,7 +64,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="pastel-teal"] {
@@ -83,7 +75,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="aquamarine"] {
@@ -94,7 +86,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 25%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="mint"] {
@@ -105,7 +97,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 40%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="green"] {
@@ -116,7 +108,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 20%))};
-    --color-bg: #fff;
+    --accent-contrast: #fff;
 }
 
 [ls-accent="lime"] {
@@ -127,7 +119,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 20%), 20%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="neon"] {
@@ -138,7 +130,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 55%), 20%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 18%))};
     --accent-text-raw: #{toRaw(darken($accent, 45%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="yellow"] {
@@ -149,7 +141,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(saturate($accent, 5%), 28%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="lstv-red"] {
@@ -160,7 +152,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="lstv-yellow"] {
@@ -171,7 +163,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="lstv-blue"] {
@@ -182,7 +174,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="orange"] {
@@ -193,7 +185,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="deep-orange"] {
@@ -204,7 +196,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="red"] {
@@ -215,7 +207,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 26%), 20%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="rusty-red"], [ls-accent="bright-red"] {
@@ -226,7 +218,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="pink"] {
@@ -237,7 +229,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="hotpink"] {
@@ -248,7 +240,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="purple"] {
@@ -259,7 +251,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #eee;
+    --accent-contrast: #eee;
 }
 
 [ls-accent="soap"] {
@@ -270,7 +262,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="burple"] {
@@ -281,7 +273,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #eee;
+    --accent-contrast: #eee;
 }
 
 [ls-accent="gray"],
@@ -293,7 +285,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #eee;
+    --accent-contrast: #eee;
 }
 
 [ls-accent="gray-light"] {
@@ -304,7 +296,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 30%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="white"] {
@@ -315,7 +307,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(darken($accent, 35%))};
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="black"] {
@@ -326,7 +318,7 @@
     --accent-dark-raw: #{toRaw(darken(desaturate($accent, 8%), 12%))};
     --accent-light-raw: #{toRaw(lighten(desaturate($accent, 8%), 12%))};
     --accent-text-raw: #{toRaw(#fff)};
-    --color-bg: #fff;
+    --accent-contrast: #fff;
 }
 
 [ls-accent="sand"] {
@@ -334,7 +326,7 @@
     --accent-dark-raw: 230, 103, 53;
     --accent-background-raw: 109, 93, 139;
     --accent-light-raw: 242, 171, 143;
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="icepop"] {
@@ -342,7 +334,7 @@
     --accent-dark-raw: 36, 102, 157;
     --accent-light-raw: 80, 154, 215;
     --accent-background-raw: 13, 26, 38;
-    --color-bg: #ddd;
+    --accent-contrast: #ddd;
 }
 
 [ls-accent="cozy"] {
@@ -350,7 +342,7 @@
     --accent-dark-raw: 92, 133, 161;
     --accent-background-raw: 81, 105, 121;
     --accent-light-raw: 156, 181, 199;
-    --color-bg: #222;
+    --accent-contrast: #222;
 }
 
 [ls-accent="sport"] {
@@ -359,12 +351,12 @@
     --accent-light-raw: 150, 248, 84;
     --accent-text-raw: 150, 248, 84;
     --accent-background-raw: 39, 52, 4;
-    --color-bg: #000;
+    --accent-contrast: #000;
 }
 
-[ls-accent] {
+[ls-accent], :disabled {
     --accent: rgb(var(--accent-raw));
-    --accent-transparent: rgb(var(--accent-raw), 50%);
+    --accent-transparent: rgb(var(--accent-raw), 20%);
     
     --accent-background: rgb(var(--accent-background-raw));
 

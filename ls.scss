@@ -1,4 +1,4 @@
-/*
+/*!
     Author: Lukas (thelstv)
     Copyright: (c) https://lstv.space
 
@@ -9,11 +9,12 @@
 */
 
 
+// Do not migrate to @use
 @import "css/variables.scss";
 @import "css/themes.scss";
 @import "css/essentials.scss";
-@import "css/utils.scss";
 @import 'css/colors.scss';
+@import "css/normalize.scss" ;
 
 %font {
     font-family: var(--font);
@@ -22,21 +23,101 @@
 
 [ls] {
     @extend %font;
-    
-    :is(button, input, select, textarea) {
-        @extend %font;
 
-        padding: var(--control-padding-v) var(--control-padding-h);
-    }
-
-    --control-padding-h: 10px;
-    --control-padding-v: 4px;
+    --padding-control-h: 16px;
+    --padding-control-v: 8px;
+    --padding-control-h-pill: 18px;
+    --padding-label-h: 6px;
+    --padding-label-h-pill: 8px;
+    --padding-input-h: 8px;
 
     background: var(--background);
     overflow-y: overlay;
-}
 
-#ls-top-layer {
-    position: fixed;
-    z-index: 50000000;
+    * {
+        box-sizing: border-box;
+    }
+
+    :is(#{$button}, input, select, textarea) {
+        box-sizing: border-box;
+        line-height: 1;
+        color: var(--accent-contrast, var(--color));
+        border: 0;
+        outline: none;
+        position: relative;
+    }
+
+    #{$button} {
+        padding: var(--padding-control-v) var(--padding-control-h);
+
+        cursor: pointer;
+
+        i {
+            margin: 0 4px 0 2px;
+        }
+
+        i:only-child {
+            margin: 0;
+        }
+    }
+
+    input {
+        height: calc(1em + (var(--padding-control-v) * 2));
+        padding: 0 var(--padding-input-h);
+    }
+
+    #{$button}.circle {
+        height: calc(1em + (var(--padding-control-v)* 2));
+        width: calc(1em + (var(--padding-control-v)* 2));
+        padding: 0;
+    }
+
+    #{$button}.circle > :first-child {
+        margin: 0;
+        padding: 0;
+    }
+
+    a {
+        color: var(--accent);
+        text-decoration: none;
+    }
+    
+    a:focus:not(.ls-button, .ls-plain) {
+        box-shadow: 0 0 0 3px #0004;
+        outline: 3px solid var(--accent);
+        outline-offset: 3px;
+        border-radius: 3px;
+    }
+
+    hr {
+        border: 1px solid var(--elevate-1);
+        border-radius: 10px;
+        margin: var(--hr-spacing, 18px) 0
+    }
+
+    #{$input}::selection, textarea::selection {
+        background-color: rgb(var(--accent-raw), 50%);
+    }
+
+    h1 {
+        font-weight:800
+    }
+
+    h2 {
+        font-weight: 600
+    }
+
+    table {
+        background-color: #fff1;
+        border-collapse: collapse;
+        border: 1px solid #fff5;
+        overflow: hidden;
+        border-radius: 15px;
+
+        :is(th,td) {
+            border: 1px solid #fff2;
+            text-align: center;
+            padding: 5px
+        }
+    }
 }

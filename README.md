@@ -14,6 +14,10 @@ Welcome the next big iteration of LS, LS v5.<br>
 
 > [!WARNING]
 > If you are migrating from earlier LS versions, please review the migration notes. As this is a major release of LS, API compatibility is not guaranteed and a lot of things were changed or removed. Namely all previously deprecated methods were removed and many methods have changed.
+> CSS variables and API usage has also been changed!
+
+> [!NOTE]
+> Normalize.css is now bundled with ls.css by default!
 
 ## v4 vs v5 Performance
 
@@ -22,13 +26,13 @@ Welcome the next big iteration of LS, LS v5.<br>
 | **Event Handling**      |                 |                       |                   |
 | Event `invoke`          | 462,637         | 57,068,479            | ~123x faster      |
 | Event `on`              | 666,207         | 4,310,638             | ~6x faster        |
-| Event `once`            | 295,046         | 4,418,975             | ~14x faster        |
+| Event `once`            | 295,046         | 4,418,975             | ~14x faster       |
 | **Elements selector**   |                 |                       |                   |
-| Simple selector         | --              | --                    | ~4.5x faster |
-| Complex selector        | --              | --                    | ~2x faster |
+| Simple selector         | --              | --                    | ~4.5x faster      |
+| Complex selector        | --              | --                    | ~2x faster        |
 
 ## Getting started
-Add LS to your web app or site with
+Add LS to your app or site with
 ```html
 <!-- Note this imports *all* default parts and components. -->
 <script src="https://cdn.extragon.cloud/ls/5.0.0/*/index.min.js"></script>
@@ -69,6 +73,6 @@ instance.invoke("event", "Hello world!")
 > Components are no longer stored uniquely with an ID in LS version 5 and up - previously, you were required to supply an ID when creating an instance and LS would manage instances for you. This is no longer the case and you need to manage your own component references now.
 
 ## Hosting
-You can either simply use the static files in /dist/, but if you want version management, on-the-fly code compression, and tree-shaking modules from an URL, you can host the API in /backend/api.js, which is the same API used by the official ExtraGon CDN links.<br>
+You can either simply use the static files in /dist/, but if you want version management, on-the-fly code compression, and tree-shaking modules from an URL, you can host the API in /backend/api.js, which is the same API hosted by the official ExtraGon CDN (https://cdn.extragon.cloud/ls/).<br>
 
 To host it, you will need [akeno](https://github.com/the-lstv/Akeno) on your server.

@@ -7,9 +7,13 @@ but old versions in general are difficult to put together, or lost to time.
 
 
 # Version 5.0.0
-- Major update!
-- Licence changed to GPLv3
-- More clear code rules
+Major update!
+- Licence of the project changed to GPLv3
+- 🚀 Performance and resource efficiency boosts
+- Various bugfixes
+- More clear and consistent code quality standards
+- Completely redefined CSS structure, with more consistent styling, consistent layouts etc.
+- Bundled Normalize.css for more consistent cross-browser styling.
 
 # Version 4.0.0
 V4 has become a ✨ *special* ✨ one.
