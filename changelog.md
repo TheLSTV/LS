@@ -15,6 +15,31 @@ Major update!
 - Completely redefined CSS structure, with more consistent styling, consistent layouts etc.
 - Bundled Normalize.css for more consistent cross-browser styling.
 
+### Events
+The event API has had major updates, namely in performance (as you can see in the benchmark).
+To get the most out of the new event system:
+```js
+const events = new LS.EventHandler;
+
+// Old method still works:
+// Though it is deprecated and also the slowest. Still 43x faster than v4.
+events.invoke("event-name", data)
+
+// A new way to fire events is the emit method:
+// This one offers a more robust API, more flexibility and is up to 120x faster than v4.
+events.emit("event-name", [ data ], options)
+
+// For performance-critical events, you can also reference events directly:
+// This is the fastest method and is up to 200x faster than v4.
+const myEvent = events.prepare("event-name");
+events.emit(myEvent, data);
+
+// There is also a "rapidFire" method that is technically even faster (300x) as it removes all extra overhead, but is not a proper emit implementation - it does not respect any options including "once" events, error handling, etc.
+// It is not intended for actual use in almost any scenario - it is only there for some very specific uses where you know exactly where and who registers event listeners.
+// It only accepts an event object and data.
+events.rapidFire(myEvent, data);
+```
+
 # Version 4.0.0
 V4 has become a ✨ *special* ✨ one.
 > [!NOTE]

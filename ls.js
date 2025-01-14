@@ -56,7 +56,7 @@
                 if(target){
                     target._events = this;
 
-                    ["invoke", "on", "once", "off"].forEach(method => {
+                    ["emit", "on", "once", "off", "invoke"].forEach(method => {
                         if (!target.hasOwnProperty(method)) target[method] = this[method].bind(this);
                     });
 
@@ -66,8 +66,8 @@
 
             prepare(name, options){
                 if(!this.events.has(name)){
-                    this.events.set(name, { listeners: [], ...options, _isEvent: true })
-                } else {
+                    this.events.set(name, { listeners: [], empty: [], ...options, _isEvent: true })
+                } else if(options){
                     Object.assign(this.events.get(name), options)
                 }
 
@@ -76,11 +76,11 @@
 
             on(name, callback, options){
                 const event = this.events.get(name) || this.prepare(name);
-                const index = event.listeners.length;
+                if(event.completed) return callback();
 
-                if(event.completed) callback();
+                const index = event.empty.length > 0 ? event.empty.pop() : event.listeners.length;
 
-                event.listeners.push({ callback, index, ...options })
+                event.listeners[index] = { callback, index, ...options }
                 return this
             }
 
@@ -88,11 +88,13 @@
                 const event = this.events.get(name);
                 if(!event) return;
 
-                for(let listener of event.listeners){
-                    if(listener.callback === callback) listener._remove = true;
+                for(let i = 0; i < event.listeners.length; i++){
+                    if(event.listeners[i].callback === callback) {
+                        event.empty.push(i)
+                        event.listeners[i] = null
+                    }
                 }
 
-                this.clean(event);
                 return this
             }
 
@@ -100,37 +102,47 @@
                 return this.on(name, callback, Object.assign(options || {}, { once: true }))
             }
 
+            /**
+             * @deprecated
+            */
             invoke(name, ...data){
+                return this.emit(name, data, { results: true })
+            }
+
+            emit(name, data, options = {}){
                 const event = name._isEvent? name: this.events.get(name);
 
                 if(!event) return [];
 
-                const returnData = [];
-                let removedEvents = false;
+                const returnData = options.results? []: null;
+                const hasData = Array.isArray(data) && data.length > 0;
 
                 for(let listener of event.listeners){
-                    if(!listener || listener._remove || typeof listener.callback !== "function") continue;
-
-                    if(listener.once) {
-                        listener._remove = removedEvents = true
-                    }
+                    if(!listener || typeof listener.callback !== "function") continue;
 
                     try {
-                        returnData.push(listener.callback(...data));
+                        const result = hasData? listener.callback(...data): listener.callback();
+
+                        if(options.break && result === false) break;
+                        if(options.results) returnData.push(result);
                     } catch (error) {
                         console.error(`Error in listener for event '${name}':`, listener, error);
                     }
-                }
 
-                if(removedEvents){
-                    this.clean(event)
+                    if(listener.once) {
+                        event.empty.push(listener.index);
+                        event.listeners[listener.index] = null;
+                        listener = null;
+                    }
                 }
 
                 return returnData
             }
 
-            clean(event){
-                event.listeners = event.listeners.filter(listener => !listener._remove)
+            rapidFire(event, data){
+                for(let i = 0; i < event.listeners.length; i++){
+                    event.listeners[i].callback(data);
+                }
             }
 
             flush() {

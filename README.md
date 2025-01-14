@@ -21,10 +21,13 @@ Welcome the next big iteration of LS, LS v5.<br>
 
 ## v4 vs v5 Performance
 
+The event system in v5 got a major performance, being up to 200x faster in executing events than v4.
+It is 100-120x faster for classic events and can be 200x faster with the new direct event access method, for performance-critical events.
+
 | Operation               | v4 (Ops/s)      | v5 (Ops/s)            | Speed Improvement |
 |-------------------------|-----------------|-----------------------|-------------------|
 | **Event Handling**      |                 |                       |                   |
-| Event `invoke`          | 462,637         | 57,068,479            | ~123x faster      |
+| Event `emit`            | 1,011,971       | 120,960,480           | ~120x faster      |
 | Event `on`              | 666,207         | 4,310,638             | ~6x faster        |
 | Event `once`            | 295,046         | 4,418,975             | ~14x faster       |
 | **Elements selector**   |                 |                       |                   |

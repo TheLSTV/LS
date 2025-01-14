@@ -110,14 +110,6 @@
   -webkit-user-select: none;
   user-select: none;
 }
-
-.ls-checkbox > input, .ls-radio > input, .ls-radio-button > input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-  position: absolute !important;
-}
-
 .ls-checkbox > span, .ls-radio > span {
   width: 1.2em;
   height: 1.2em;
@@ -128,6 +120,16 @@
   top: 50%;
   left: 10px;
   transform: translateY(-50%);
+}
+.ls-checkbox > input:checked ~ span::after, .ls-radio > input:checked ~ span::after {
+  display: block;
+}
+
+:is(.ls-checkbox, .ls-radio, .ls-radio-button) > input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute !important;
 }
 
 .ls-checkbox > span::after {
@@ -141,15 +143,6 @@
   display: none;
 }
 
-:is(.ls-checkbox, .ls-radio) > input:checked ~ span::after {
-  display: block;
-}
-
-:is(.ls-radio-button) > input:checked ~ :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
-  background: var(--accent-dark-transparent);
-  color: var(--accent-contrast);
-}
-
 .ls-radio > span::after {
   content: "";
   width: 0.6em;
@@ -158,67 +151,62 @@
   display: none;
 }
 
+.ls-radio-button > input:checked ~ :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button) {
+  background: var(--accent-dark-transparent);
+  color: var(--accent-contrast);
+}
+
 ls-box {
   background: var(--elevate-1);
   display: block;
 }
-
 ls-box:not(.contained, .color, .inline) {
   outline: 1px solid var(--transparent-overlay-strong);
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
 }
-
 ls-box:not(.contained) {
-  display: inline-block;
+  display: block;
 }
-
 ls-box:not(.inline) {
   border-radius: var(--border-radius);
   padding: var(--padding-control-v) var(--padding-control-h);
 }
-
 ls-box.inline {
   display: inline-block;
   outline: 2px solid rgb(var(--accent-raw), 10%);
   border-radius: var(--border-radius-small);
   padding: 0 var(--padding-label-h);
 }
-
 ls-box.inline.pill {
   border-radius: var(--border-radius-full);
   padding: 0 var(--padding-label-h-pill);
 }
-
 ls-box.color {
   color: var(--accent-light);
   background: rgb(var(--accent-raw), 10%);
 }
-
 ls-box::selection {
   background: var(--accent-transparent);
-}
-
-#ls-top-layer {
-  position: fixed;
-  z-index: 50000000;
 }
 
 ls-group {
   display: inline-flex;
 }
-
 ls-group > * {
   margin: 0;
 }
-
-ls-group > *:first-child {
+ls-group > *:not(:only-child):first-child {
   border-top-right-radius: 0 !important;
   border-bottom-right-radius: 0 !important;
 }
-
-ls-group > *:last-child {
+ls-group > *:not(:only-child):last-child {
   border-top-left-radius: 0 !important;
   border-bottom-left-radius: 0 !important;
+}
+
+#ls-top-layer {
+  position: fixed;
+  z-index: 50000000;
 }
 
 [ls-accent=rich-black] {
@@ -227,7 +215,7 @@ ls-group > *:last-child {
   --accent-dark-raw: 0, 0, 0;
   --accent-light-raw: 19, 4, 92;
   --accent-text-raw: 54, 27, 187;
-  --accent-contrast: rgb(124.9665714286, 101.21, 239.79);
+  --accent-contrast: #7d65f0;
 }
 
 [ls-accent=navy] {
@@ -236,7 +224,7 @@ ls-group > *:last-child {
   --accent-dark-raw: 24, 18, 56;
   --accent-light-raw: 64, 48, 149;
   --accent-text-raw: 134, 124, 190;
-  --accent-contrast: rgb(211.284, 207.12, 234.88);
+  --accent-contrast: #d3cfeb;
 }
 
 [ls-accent=blue], html {
@@ -263,12 +251,12 @@ ls-group > *:last-child {
   --accent-dark-raw: 28, 75, 99;
   --accent-light-raw: 55, 148, 194;
   --accent-text-raw: 11, 37, 50;
-  --accent-contrast: rgb(206.1470212766, 226.6176595745, 236.8529787234);
+  --accent-contrast: #cee3ed;
 }
 
 [ls-accent=teal] {
   --accent-raw: 0, 128, 128;
-  --accent-background-raw: 6, 20, 20;
+  --accent-background-raw: 7, 20, 20;
   --accent-dark-raw: 3, 64, 64;
   --accent-light-raw: 8, 182, 182;
   --accent-text-raw: 0, 0, 0;
@@ -325,7 +313,7 @@ ls-group > *:last-child {
   --accent-background-raw: 28, 44, 15;
   --accent-dark-raw: 124, 187, 76;
   --accent-light-raw: 225, 253, 204;
-  --accent-text-raw: 59, 135, 0;
+  --accent-text-raw: 59, 136, 0;
   --accent-contrast: #222;
 }
 
@@ -433,7 +421,7 @@ ls-group > *:last-child {
   --accent-background-raw: 145, 119, 178;
   --accent-dark-raw: 178, 149, 215;
   --accent-light-raw: 243, 238, 248;
-  --accent-text-raw: 116, 58, 188;
+  --accent-text-raw: 116, 58, 189;
   --accent-contrast: #222;
 }
 
@@ -476,7 +464,7 @@ ls-group > *:last-child {
 
 [ls-accent=black] {
   --accent-raw: 16, 16, 16;
-  --accent-background-raw: 41, 41, 41;
+  --accent-background-raw: 42, 42, 42;
   --accent-dark-raw: 0, 0, 0;
   --accent-light-raw: 47, 47, 47;
   --accent-text-raw: 255, 255, 255;
@@ -516,7 +504,7 @@ ls-group > *:last-child {
   --accent-contrast: #000;
 }
 
-[ls-accent], :disabled {
+[ls-accent], :disabled, html {
   --accent: rgb(var(--accent-raw));
   --accent-transparent: rgb(var(--accent-raw), 20%);
   --accent-background: rgb(var(--accent-background-raw));
@@ -888,7 +876,6 @@ template {
 [ls] :is(:is(button, input[type=button], input[type=submit], input[type=reset], .ls-button), input, select, textarea) {
   box-sizing: border-box;
   line-height: 1;
-  color: var(--accent-contrast, var(--color));
   border: 0;
   outline: none;
   position: relative;
@@ -906,6 +893,7 @@ template {
 [ls] input {
   height: calc(1em + var(--padding-control-v) * 2);
   padding: 0 var(--padding-input-h);
+  color: inherit;
 }
 [ls] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).circle {
   height: calc(1em + var(--padding-control-v) * 2);

@@ -354,7 +354,7 @@
     --accent-contrast: #000;
 }
 
-[ls-accent], :disabled {
+[ls-accent], :disabled, html {
     --accent: rgb(var(--accent-raw));
     --accent-transparent: rgb(var(--accent-raw), 20%);
     

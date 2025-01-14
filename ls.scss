@@ -14,7 +14,7 @@
 @import "css/themes.scss";
 @import "css/essentials.scss";
 @import 'css/colors.scss';
-@import "css/normalize.scss" ;
+@import "css/normalize.scss";
 
 %font {
     font-family: var(--font);
@@ -41,7 +41,6 @@
     :is(#{$button}, input, select, textarea) {
         box-sizing: border-box;
         line-height: 1;
-        color: var(--accent-contrast, var(--color));
         border: 0;
         outline: none;
         position: relative;
@@ -64,6 +63,7 @@
     input {
         height: calc(1em + (var(--padding-control-v) * 2));
         padding: 0 var(--padding-input-h);
+        color: inherit;
     }
 
     #{$button}.circle {
