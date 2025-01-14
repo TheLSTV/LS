@@ -50,8 +50,9 @@
         components: new Map,
 
         EventHandler: class EventHandler {
-            constructor(target){
+            constructor(target, options = {}){
                 this.events = new Map;
+                this.options = options;
 
                 if(target){
                     target._events = this;
@@ -75,7 +76,7 @@
             }
 
             on(name, callback, options){
-                const event = this.events.get(name) || this.prepare(name);
+                const event = (name._isEvent? name: this.events.get(name)) || this.prepare(name);
                 if(event.completed) return callback();
 
                 const index = event.empty.length > 0 ? event.empty.pop() : event.listeners.length;
@@ -85,7 +86,7 @@
             }
 
             off(name, callback){
-                const event = this.events.get(name);
+                const event = name._isEvent? name: this.events.get(name);
                 if(!event) return;
 
                 for(let i = 0; i < event.listeners.length; i++){
@@ -140,6 +141,8 @@
             }
 
             rapidFire(event, data){
+                if(!event._isEvent) throw new Error("Event must be a valid event object when using rapidFire");
+
                 for(let i = 0; i < event.listeners.length; i++){
                     event.listeners[i].callback(data);
                 }
@@ -149,8 +152,12 @@
                 this.events.clear();
             }
 
+            alias(name, alias){
+                this.events.set(alias, this.prepare(name))
+            }
+
             completed(name){
-                this.invoke(name)
+                this.emit(name)
 
                 this.prepare(name, {
                     completed: true
