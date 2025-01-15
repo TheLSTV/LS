@@ -89,6 +89,7 @@ ls-box {
     &.inline.pill {
         border-radius: var(--border-radius-full);
         padding: 0 var(--padding-label-h-pill);
+        // border: 1px solid var(--accent-dark);
     }
     
     &.color {

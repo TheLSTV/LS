@@ -37,8 +37,9 @@ v5 is faster and more memory efficient in various fields.
 Add LS to your app or site with
 ```html
 <!-- Note this imports *all* default parts and components. -->
-<script src="https://cdn.extragon.cloud/ls/5.0.0/*/index.min.js"></script>
-<link href="https://cdn.extragon.cloud/ls/5.0.0/*/index.min.css" rel="stylesheet">
+<!-- LS V5 IS NOT RELEASED ON THE CDN YET! -->
+<script src="https://cdn.extragon.cloud/ls/5.0.0/*/ls.min.js"></script>
+<link href="https://cdn.extragon.cloud/ls/5.0.0/*/ls.min.css" rel="stylesheet">
 ```
 
 And you can start using LS right away!
@@ -69,7 +70,7 @@ const instance = new LS.myComponent()
 
 // Events are available on all components by default
 instance.on("event", console.log)
-instance.invoke("event", "Hello world!")
+instance.emit("event", ["Hello world!"])
 ```
 > [!NOTE]
 > Components are no longer stored uniquely with an ID in LS version 5 and up - previously, you were required to supply an ID when creating an instance and LS would manage instances for you. This is no longer the case and you need to manage your own component references now.
