@@ -163,6 +163,9 @@ ls-group {
     display: flex;
     align-items: center;
     box-shadow: 0 10px 20px 0 #0002;
+    max-width: 100%;
+    flex-wrap: wrap;
+    word-break: break-word;
 }
 
 .ls-toast.open {

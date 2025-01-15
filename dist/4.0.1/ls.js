@@ -1,5 +1,5 @@
-/*] default {*/
-console.warn("You are using LS v4 [LTS] - LS v5 is out! We recommend migrating for a brand new, polished experience, with much better performance and improved practices, new components and more.\nhttps://github.com/TheLSTV/LS")
+
+console.warn("You are using an outdated and deprecated version of LS (v4 [LTS]) - LS v5 is out! We recommend migrating for a brand new, polished experience, with much better performance and improved practices, new components and more.\nhttps://github.com/the-lstv/LS")
 
 String.prototype.replaceAll||(String.prototype.replaceAll=function(a,b){return"[object regexp]"===Object.prototype.toString.call(a).toLowerCase()?this.replace(a,b):this.replace(new RegExp(a,"g"),b)});
 
@@ -223,17 +223,7 @@ if(!LS){
                     }
                 })
             },
-
-            /*]
-            
-            import(
-                ls-js/deprecated/manipulator.js
-                : Manipulator : -f
-            )
-            
-            */
         },
-        /*]part(tiny)*/
         TinyFactory(r){
             let __variablesProxyObject
 
@@ -927,7 +917,6 @@ if(!LS){
                 }
             }
         },
-        /*]end*/
         LoadComponents(components){
             for(const name in components){
                 if(!components.hasOwnProperty(name)) continue;
@@ -1048,7 +1037,6 @@ if(!LS){
             throw new Error("To use LoadComponent and use the new components, you need to upgrade to LS v5!")           
         }
     }
-    /*]part(tiny)*/
     if(LS.isWeb){
         // Expose LS.Tiny globally
         for (let key in LS.Tiny){
@@ -1078,10 +1066,7 @@ if(!LS){
 
         O(document.documentElement)
     }
-    /*]end*/
 }
-
-/*]end*/
 
 LS.EventResolver = () => (console.warn("LS.EventResolver is deprecated; You should migrate to LS.EventHandler. Warning: it will be removed entirely in LS v5."), LS.EventHandler);
 
@@ -1228,252 +1213,3 @@ LS.GlobalEvents = new LS.EventHandler(LS)
 
     if(document.body) LS.invoke("body-available"); else M.on("load", () => LS.invoke("body-available"));
 })();
-
-
-/*] part(websocket) {*/
-LS.WebSocket = class {
-
-    // LS.WebSocket is a WebSocket client wrapper that modifies the API to be easier to use. It replaces addEventListener with "on" and adds some helper features, allows for much easier auto-reconnection etc.
-    // It is backwards-compatible and allows to persist event handlers even after the socket has been closed or re-connected.
-
-    constructor(url, options = {}){
-        if(!url) throw "No URL specified";
-
-        if(!url.startsWith("ws://") || !url.startsWith("wss://")) url = (location.protocol === "https:"? "wss://": "ws://") + url;
-
-        this.events = new LS.EventHandler(this);
-
-        this.addEventListener = this.on;
-        this.removeEventListener = this.off;
-
-        if(Array.isArray(options) || typeof options === "string"){
-            options = {protocols: options}
-        }
-
-        if(typeof options !== "object" || options === null || typeof options === "undefined") options = {};
-
-        this.options = LS.Util.defaults({
-            autoReconnect: true,
-            autoConnect: true,
-            delayMessages: true,
-            protocols: null
-        }, options)
-
-        this.waiting = [];
-
-        Object.defineProperty(this, "readyState", {
-            get(){
-                return this.socket.readyState
-            }
-        })
-
-        Object.defineProperty(this, "bufferedAmount", {
-            get(){
-                return this.socket.bufferedAmount
-            }
-        })
-
-        Object.defineProperty(this, "protocol", {
-            get(){
-                return this.socket.protocol
-            }
-        })
-
-        this.url = url;
-        if(this.options.autoConnect) this.connect();
-    }
-
-    connect(){
-        if(this.socket && this.socket.readyState === 1) return;
-
-        this.socket = new WebSocket(this.url, this.options.protocols || null);
-
-        this.socket.addEventListener("open", event => {
-            if(this.waiting.length > 0){
-                for(let message of this.waiting) this.socket.send(message);
-                this.waiting = []
-            }
-
-            this.invoke("open", event)
-        })
-
-        this.socket.addEventListener("message", event => {
-            this.invoke("message", event)
-        })
-
-        this.socket.addEventListener("close", async event => {
-            let prevent = false;
-
-            this.invoke("close", event, () => {
-                prevent = true
-            })
-
-            if(!prevent && this.options.autoReconnect) this.connect();
-        })
-
-        this.socket.addEventListener("error", event => {
-            this.invoke("error", event)
-        })
-    }
-
-    send(data){
-        if(!this.socket || this.socket.readyState !== 1) {
-            if(this.options.delayMessages) this.waiting.push(data)
-            return false
-        }
-
-        this.socket.send(data)
-        return true
-    }
-
-    close(code, message){
-        this.socket.close(code, message)
-    }
-}
-/*]}*/
-
-LS.LoadComponents({
-    /*]
-    set(type::js)
-
-    import(
-        ls-js/modal.js
-        : Modal $type,
-
-        ls-js/tabs.js
-        : Tabs $type,
-
-        ls-js/dragdrop.js
-        : DragDrop $type,
-
-        ls-js/timeline.js
-        : Timeline $type,
-
-        ls-js/nav.js
-        : Nav $type,
-
-        ls-js/list.js
-        : List $type,
-
-        ls-js/select.js
-        : Select $type,
-
-        ls-js/tooltips.js
-        : Tooltips $type,
-
-        ls-js/tree.js
-        : Tree $type,
-
-        ls-js/present.js
-        : Present $type,
-
-        ls-js/resize.js
-        : Resize $type,
-        
-        ls-js/progress.js
-        : Progress $type,
-
-        ls-js/color.js
-        : Color $type,
-        
-        ls-js/graphgl.js
-        : GraphGL $type,
-        
-        ls-js/patchbay.js
-        : PatchBay $type,
-        
-        ls-js/knob.js
-        : Knob $type,
-        
-        ls-js/multiselect.js
-        : MultiSelect $type,
-        
-        ls-js/workspace.js
-        : Workspace $type,
-
-        ls-js/toast.js
-        : Toast $type,
-        
-        ls-js/sheet.js
-        : Sheet $type,
-
-        ls-js/native.js
-        : Native $type,
-
-        ls-js/automationgraph.js
-        : AutomationGraphEditor $type,
-        
-        ls-js/toolbox.js
-        : ToolBox $type,
-
-        ls-js/deprecated/dialog.js
-        : Dialog $type,
-
-        ls-js/deprecated/terminal.js
-        : Terminal $type,
-
-        ls-js/deprecated/editor.js
-        : Editor $type,
-
-        ls-js/deprecated/fragment.js
-        : Fragment $type,
-
-        ls-js/deprecated/form.js
-        : Form $type,
-
-        ls-js/deprecated/steps.js
-        : Steps $type,
-
-        ls-js/deprecated/debugger.js
-        : Debugger $type,
-
-        ls-js/deprecated/chips.js
-        : Chips $type,
-
-        ls-js/deprecated/notif.js
-        : Notif $type,
-
-        ls-js/deprecated/react.js
-        : NanoReact $type,
-
-        ls-js/deprecated/menubar.js
-        : Menubar $type
-    )
-    */
-});
-
-/*]
-part(Knob) {
-*/
-customElements.define('ls-knob', class extends HTMLElement {
-    constructor(){
-        super();
-    }
-
-    connectedCallback(){
-        if(O(this).attr("ls-component")) return;
-        if(O(this).hasClass("manual-init")) return this.class("manual-init", false);
-
-        this.ls = LS.Knob(this.id || M.GlobalID, this)
-    }
-});
-/*]}
-part(Menu) {
-*/
-customElements.define('ls-nav', class extends HTMLElement {
-    constructor(){
-        super();
-    }
-
-    connectedCallback(){
-        if(O(this).attr("ls-component")) return;
-        if(O(this).hasClass("manual-init"))return this.class("manual-init", false);
-
-        this.ls = LS.Nav(this.id || M.GlobalID, this)
-    }
-});
-
-M.on("load", ()=>{
-    Q("[ls-not-ready]").all(e=>e.ready())
-})
-/*]}*/

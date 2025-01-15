@@ -250,6 +250,9 @@ ls-group > *:not(:only-child):last-child {
   display: flex;
   align-items: center;
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+  max-width: 100%;
+  flex-wrap: wrap;
+  word-break: break-word;
 }
 
 .ls-toast.open {
@@ -287,7 +290,7 @@ button.ls-toast-close.ls-toast-close {
   --accent-dark-raw: 0, 0, 0;
   --accent-light-raw: 19, 4, 92;
   --accent-text-raw: 54, 27, 187;
-  --accent-contrast: rgb(124.9665714286, 101.21, 239.79);
+  --accent-contrast: #7d65f0;
 }
 
 [ls-accent=navy] {
@@ -296,7 +299,7 @@ button.ls-toast-close.ls-toast-close {
   --accent-dark-raw: 24, 18, 56;
   --accent-light-raw: 64, 48, 149;
   --accent-text-raw: 134, 124, 190;
-  --accent-contrast: rgb(211.284, 207.12, 234.88);
+  --accent-contrast: #d3cfeb;
 }
 
 [ls-accent=blue], html {
@@ -323,12 +326,12 @@ button.ls-toast-close.ls-toast-close {
   --accent-dark-raw: 28, 75, 99;
   --accent-light-raw: 55, 148, 194;
   --accent-text-raw: 11, 37, 50;
-  --accent-contrast: rgb(206.1470212766, 226.6176595745, 236.8529787234);
+  --accent-contrast: #cee3ed;
 }
 
 [ls-accent=teal] {
   --accent-raw: 0, 128, 128;
-  --accent-background-raw: 6, 20, 20;
+  --accent-background-raw: 7, 20, 20;
   --accent-dark-raw: 3, 64, 64;
   --accent-light-raw: 8, 182, 182;
   --accent-text-raw: 0, 0, 0;
@@ -385,7 +388,7 @@ button.ls-toast-close.ls-toast-close {
   --accent-background-raw: 28, 44, 15;
   --accent-dark-raw: 124, 187, 76;
   --accent-light-raw: 225, 253, 204;
-  --accent-text-raw: 59, 135, 0;
+  --accent-text-raw: 59, 136, 0;
   --accent-contrast: #222;
 }
 
@@ -493,7 +496,7 @@ button.ls-toast-close.ls-toast-close {
   --accent-background-raw: 145, 119, 178;
   --accent-dark-raw: 178, 149, 215;
   --accent-light-raw: 243, 238, 248;
-  --accent-text-raw: 116, 58, 188;
+  --accent-text-raw: 116, 58, 189;
   --accent-contrast: #222;
 }
 
@@ -536,7 +539,7 @@ button.ls-toast-close.ls-toast-close {
 
 [ls-accent=black] {
   --accent-raw: 16, 16, 16;
-  --accent-background-raw: 41, 41, 41;
+  --accent-background-raw: 42, 42, 42;
   --accent-dark-raw: 0, 0, 0;
   --accent-light-raw: 47, 47, 47;
   --accent-text-raw: 255, 255, 255;
