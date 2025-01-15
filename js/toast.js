@@ -1,5 +1,3 @@
-if(LS.v && LS.v >= 5)
-
 LS.LoadComponent(class Toast extends LS.Component {
     constructor(){
         super()
@@ -14,7 +12,7 @@ LS.LoadComponent(class Toast extends LS.Component {
     }
 
     closeAll(){
-        this.invoke("close-all")
+        this.emit("close-all")
     }
 
     show(content, options = {}){
@@ -68,5 +66,3 @@ LS.LoadComponent(class Toast extends LS.Component {
         return methods
     }
 }, { global: true, singular: true, name: "Toast" });
-
-else { throw "You need to upgrade to LS v5 to use this version of the module or downgrade to an older release!" };

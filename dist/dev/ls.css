@@ -111,8 +111,8 @@
   user-select: none;
 }
 .ls-checkbox > span, .ls-radio > span {
-  width: 1.2em;
-  height: 1.2em;
+  width: calc(1em + 2px);
+  height: calc(1em + 2px);
   position: absolute;
   display: flex;
   justify-content: center;
@@ -145,8 +145,8 @@
 
 .ls-radio > span::after {
   content: "";
-  width: 0.6em;
-  height: 0.6em;
+  width: 0.5em;
+  height: 0.5em;
   background: var(--accent-contrast);
   display: none;
 }
@@ -164,12 +164,18 @@ ls-box:not(.contained, .color, .inline) {
   outline: 1px solid var(--transparent-overlay-strong);
   box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
 }
+ls-box :first-child {
+  margin-top: 0;
+}
+ls-box :last-child {
+  margin-bottom: 0;
+}
 ls-box:not(.contained) {
   display: block;
 }
 ls-box:not(.inline) {
   border-radius: var(--border-radius);
-  padding: var(--padding-control-v) var(--padding-control-h);
+  padding: var(--padding-content-v) var(--padding-content-h);
 }
 ls-box.inline {
   display: inline-block;
@@ -187,6 +193,11 @@ ls-box.color {
 }
 ls-box::selection {
   background: var(--accent-transparent);
+}
+
+ls-div {
+  display: block;
+  margin: var(--margin-content-v) 0;
 }
 
 ls-group {
@@ -209,13 +220,74 @@ ls-group > *:not(:only-child):last-child {
   z-index: 50000000;
 }
 
+.ls-toast-layer {
+  pointer-events: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 1em;
+  padding-bottom: 1em;
+  gap: 1em;
+}
+
+.ls-toast {
+  pointer-events: all;
+  transform: scaleY(0);
+  opacity: 0;
+  margin-top: -70px;
+  padding: 0.5em 1.8em;
+  background: var(--accent-background);
+  border-radius: 2em;
+  overflow: hidden;
+  transition: 0.2s;
+  -webkit-user-select: none;
+  user-select: none;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  box-shadow: 0 10px 20px 0 rgba(0, 0, 0, 0.1333333333);
+}
+
+.ls-toast.open {
+  transform: unset;
+  opacity: 1;
+  margin-top: 0;
+}
+
+button.ls-toast-close.ls-toast-close {
+  margin: 0;
+  width: 1.5em;
+  height: 1.5em;
+  min-width: 1.5em;
+  min-height: 1.5em;
+  padding: 0.2em;
+  font-size: 1.2em;
+  box-sizing: content-box;
+  margin-left: 1em;
+  margin-right: -1em;
+}
+
+.ls-toast-content {
+  display: inline-block;
+  padding: 0.5em 0;
+}
+
+.ls-toast > i {
+  margin-right: 0.8em;
+  margin-left: -0.4em;
+}
+
 [ls-accent=rich-black] {
   --accent-raw: 6, 0, 35;
   --accent-background-raw: 0, 0, 0;
   --accent-dark-raw: 0, 0, 0;
   --accent-light-raw: 19, 4, 92;
   --accent-text-raw: 54, 27, 187;
-  --accent-contrast: #7d65f0;
+  --accent-contrast: rgb(124.9665714286, 101.21, 239.79);
 }
 
 [ls-accent=navy] {
@@ -224,7 +296,7 @@ ls-group > *:not(:only-child):last-child {
   --accent-dark-raw: 24, 18, 56;
   --accent-light-raw: 64, 48, 149;
   --accent-text-raw: 134, 124, 190;
-  --accent-contrast: #d3cfeb;
+  --accent-contrast: rgb(211.284, 207.12, 234.88);
 }
 
 [ls-accent=blue], html {
@@ -251,12 +323,12 @@ ls-group > *:not(:only-child):last-child {
   --accent-dark-raw: 28, 75, 99;
   --accent-light-raw: 55, 148, 194;
   --accent-text-raw: 11, 37, 50;
-  --accent-contrast: #cee3ed;
+  --accent-contrast: rgb(206.1470212766, 226.6176595745, 236.8529787234);
 }
 
 [ls-accent=teal] {
   --accent-raw: 0, 128, 128;
-  --accent-background-raw: 7, 20, 20;
+  --accent-background-raw: 6, 20, 20;
   --accent-dark-raw: 3, 64, 64;
   --accent-light-raw: 8, 182, 182;
   --accent-text-raw: 0, 0, 0;
@@ -313,7 +385,7 @@ ls-group > *:not(:only-child):last-child {
   --accent-background-raw: 28, 44, 15;
   --accent-dark-raw: 124, 187, 76;
   --accent-light-raw: 225, 253, 204;
-  --accent-text-raw: 59, 136, 0;
+  --accent-text-raw: 59, 135, 0;
   --accent-contrast: #222;
 }
 
@@ -421,7 +493,7 @@ ls-group > *:not(:only-child):last-child {
   --accent-background-raw: 145, 119, 178;
   --accent-dark-raw: 178, 149, 215;
   --accent-light-raw: 243, 238, 248;
-  --accent-text-raw: 116, 58, 189;
+  --accent-text-raw: 116, 58, 188;
   --accent-contrast: #222;
 }
 
@@ -464,7 +536,7 @@ ls-group > *:not(:only-child):last-child {
 
 [ls-accent=black] {
   --accent-raw: 16, 16, 16;
-  --accent-background-raw: 42, 42, 42;
+  --accent-background-raw: 41, 41, 41;
   --accent-dark-raw: 0, 0, 0;
   --accent-light-raw: 47, 47, 47;
   --accent-text-raw: 255, 255, 255;
@@ -863,10 +935,14 @@ template {
 [ls] {
   --padding-control-h: 16px;
   --padding-control-v: 8px;
+  --padding-content-h: 16px;
+  --padding-content-v: 14px;
   --padding-control-h-pill: 18px;
-  --padding-label-h: 6px;
+  --padding-label-h: 4px;
   --padding-label-h-pill: 8px;
   --padding-input-h: 8px;
+  --margin-content-v: 8px;
+  --margin-content-v-large: 18px;
   background: var(--background);
   overflow-y: overlay;
 }

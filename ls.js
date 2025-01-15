@@ -30,7 +30,7 @@
             position: "fixed"
         }});
 
-        LS._topLayerInherit = function () { console.error("LS._topLayerInherit is deprecated, you can safely remove it from your code.") }
+        LS._topLayerInherit = function () { console.error("LS._topLayerInherit is deprecated and no longer serves any purpose, you can safely remove it from your code.") }
 
         function bodyAvailable(){
             LS.GlobalEvents.completed("body-available")
@@ -238,8 +238,8 @@
                 );
 
                 // Handle attributes
-                if (accent) LS.TinyFactory.add.call(element, { "ls-accent": accent });
-                if (attr) LS.TinyFactory.add.call(element, attr);
+                if (accent) LS.TinyFactory.attrAssign.call(element, { "ls-accent": accent });
+                if (attr) LS.TinyFactory.attrAssign.call(element, attr);
 
                 // Handle tooltips
                 if (tooltip) {
@@ -795,7 +795,7 @@
 
                 if(options.cursor) events.cursor = options.cursor;
                 
-                events.target = element //The target will change based on the event target!
+                events.target = element // The target will change based on the event target!
 
                 let [pointerLockPreviousX, pointerLockPreviousY] = [0, 0];
 
@@ -828,7 +828,7 @@
 
                     if(options.onMove) options.onMove(x, y, event, cancel)
 
-                    events.invoke("move", x, y, event, cancel)
+                    events.emit("move", [x, y, event, cancel])
                 }
 
                 function cancel() {
@@ -854,7 +854,7 @@
                     document.removeEventListener("touchend", release);
                     document.documentElement.style.cursor = "";
     
-                    events.invoke(evt.type == "destroy"? "destroy" : "end", evt)
+                    events.emit(evt.type == "destroy"? "destroy" : "end", [evt])
 
                     if(events.pointerLockActive){
                         document.exitPointerLock();
@@ -878,7 +878,7 @@
 
                     let x = event.type == "touchstart"? event.touches[0].clientX : M.x, y = event.type == "touchstart"? event.touches[0].clientY : M.y;
 
-                    events.invoke("start", event, cancel, x, y)
+                    events.emit("start", [event, cancel, x, y])
                     if(options.onStart) options.onStart(event, cancel, x, y)
 
                     if(cancelled) return events.seeking = false;

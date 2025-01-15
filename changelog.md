@@ -16,26 +16,60 @@ Major update!
 - Bundled Normalize.css for more consistent cross-browser styling.
 
 ### Events
-The event API has had major updates, namely in performance (as you can see in the benchmark).
+The event API has had major updates, namely in performance and usage.
 To get the most out of the new event system:
 ```js
 const events = new LS.EventHandler;
 
-// Old method still works:
-// Though it is deprecated and also the slowest. Still 43x faster than v4.
-events.invoke("event-name", data)
+// Note: the constructor takes two arguments; first is an object of any type, second is an options object.
+// The first one is the "target" of the handler - if set, this will expose some methods on it (on, once, emit, _events).
+
+// Subscribing to events is simple and convinient.
+events.on("event-name", data => {
+  console.log(data);
+})
+
+// Only fire once
+events.once("event-name", data => {
+  console.log(data);
+})
+
+// Remove listener
+events.off("event-name", listener);
+
+// Flush all events and listeners (clear memory)
+events.flush();
+
+// This method will mark the event as "completed" - which calls all current AND future listeners immidiately as they are added.
+// Useful for events like "onload" to ensure listeners are called when your operation is finished. 
+events.completed("event-name");
+
+// Alias an event
+events.alias("event-name", "another-name");
+
+// Get or create event object directly
+events.prepare("event-name");
+
+// Old method (currently still works):
+// It is deprecated and also the slowest. Still 43x faster than v4.
+events.invoke("event-name", ...data) // deprecated!
 
 // A new way to fire events is the emit method:
 // This one offers a more robust API, more flexibility and is up to 120x faster than v4.
 events.emit("event-name", [ data ], options)
 
-// For performance-critical events, you can also reference events directly:
-// This is the fastest method and is up to 200x faster than v4.
+// Options that the emit function takes are:
+// break: if true, when a listener returns false, the emit is aborted.
+// results: if true, will collect return values and return them as an array (else returns null).
+
+
+// You can also reference events directly:
+// This is the fastest method and is even up to 200x faster than v4.
 const myEvent = events.prepare("event-name");
 events.emit(myEvent, data);
 
 // There is also a "rapidFire" method that is technically even faster (300x) as it removes all extra overhead, but is not a proper emit implementation - it does not respect any options including "once" events, error handling, etc.
-// It is not intended for actual use in almost any scenario - it is only there for some very specific uses where you know exactly where and who registers event listeners.
+// It is not intended for actual use in projects - it is only there for some very specific needs where you know exactly where and who registers event listeners (eg. if you use events privately and just need to quickly transfer data).
 // It only accepts an event object and data.
 events.rapidFire(myEvent, data);
 ```

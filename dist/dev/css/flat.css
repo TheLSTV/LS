@@ -42,9 +42,13 @@
   border-radius: var(--border-radius-full);
   padding: var(--padding-control-v) var(--padding-control-h-pill);
 }
+[ls-style=flat] :is(button, input[type=button], input[type=submit], input[type=reset], .ls-button).small {
+  --padding-control-h: 10px;
+  font-size: x-small;
+}
 [ls-style=flat] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])) {
   background: var(--bg-0);
-  border: 2px solid var(--elevate-0);
+  border: 2px solid transparent;
 }
 [ls-style=flat] :is(input[type=text], input:not([type=button]):not([type=submit]):not([type=color]):not([type=file]):not([type=reset]):not([type=image])):focus {
   border: 2px solid var(--accent-focus, var(--accent));

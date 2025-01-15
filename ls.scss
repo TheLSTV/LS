@@ -26,10 +26,15 @@
 
     --padding-control-h: 16px;
     --padding-control-v: 8px;
+    --padding-content-h: 16px;
+    --padding-content-v: 14px;
     --padding-control-h-pill: 18px;
-    --padding-label-h: 6px;
+    --padding-label-h: 4px;
     --padding-label-h-pill: 8px;
     --padding-input-h: 8px;
+
+    --margin-content-v: 8px;
+    --margin-content-v-large: 18px;
 
     background: var(--background);
     overflow-y: overlay;

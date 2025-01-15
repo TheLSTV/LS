@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="dist/dev/ls.css">
     <link rel="stylesheet" href="dist/dev/css/flat.css">
 
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> -->
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
@@ -37,42 +41,100 @@
 
     <hr>
 
-    <button>Button</button>
-    <button class="elevated">Elevated button</button> <br>
-    <button class="pill">Pill button</button>
-    <button class="circle">+</button> <br>
-    <button disabled>Disabled button</button> <br>
+    <style>
+        body {
+            padding: 20px;
+        }
+    </style>
 
-    <ls-group>
-        <input placeholder="Input">
+    <ls-div>
         <button>Button</button>
-    </ls-group>
+        <button class="elevated">Elevated button</button>
+    </ls-div>
+
+    <ls-div>
+        <button class="pill">Pill button</button>
+        <button class="pill elevated">Pill button</button>
+    </ls-div>
+
+    <ls-div>
+        <button class="circle"><i class="fa fa-plus"></i></button>
+        <button class="circle elevated"><i class="fa fa-plus"></i></button>
+    </ls-div>
+
+    <ls-div>
+        <button disabled>Disabled button</button>
+        <button disabled class="elevated">Disabled button</button>
+    </ls-div>
+
+    <ls-div>
+        <ls-group>
+            <input placeholder="Input">
+            <button>Button in a group</button>
+        </ls-group>
+    </ls-div>
+
+    <ls-div>
+        <ls-group>
+            <button>Button 1</button>
+            <button class="elevated small"> <i class="fa fa-angle-down"></i> </button>
+        </ls-group>
+    </ls-div>
+
+    <ls-div>
+        <label class="ls-checkbox">
+            <input type="checkbox">
+            Checkbox
+            <span></span>
+        </label>
+    </ls-div>
+
+    <ls-div>
+        <label class="ls-radio">
+            <input type="radio" name="radio">
+            Radio
+            <span></span>
+        </label>
+    
+        <label class="ls-radio">
+            <input type="radio" name="radio">
+            Radio
+            <span></span>
+        </label>
+    </ls-div>
 
     <br>
 
-    <ls-group>
-        <button>Button 1</button>
-        <button>Button 2</button>
-    </ls-group>
+    <hr>
 
-    <br>
+    <!-- <ls-div style="max-width: 500px">
+        <ls-box>
+            <h2>Example box</h2>
+            <p>Boxes are elements that visually group a secion.</p>
+            <button onclick="LS.Toast.show('Hello, world!')">Show a toast</button>
+        </ls-box>
+    
+        <br>
+    
+        <ls-box class="contained">
+            <h2>Contained box</h2>
+            <p>Alternative variant of ls-box meant for contained boxes.</p>
+        </ls-box>
+    
+        <br>
+    
+        <ls-box class="color">
+            <h2>Colored box</h2>
+            <p>Colored box offers an alternative visual in any accent you want to use.</p>
+        </ls-box>
 
-    <label class="ls-checkbox">
-        <input type="checkbox">
-        Checkbox
-        <span></span>
-    </label> <br>
+        <br>
+    </ls-div>
 
-    <label class="ls-radio">
-        <input type="radio" name="radio" id="">
-        Radio
-        <span></span>
-    </label>
+    <ls-div>
+        For things like highlights, <ls-box class="inline color">an inline box</ls-box> blends in perfectly with text content. <br>
+        There is also a <ls-box class="inline color pill">pill</ls-box> (round) variant.
+    </ls-div> -->
 
-    <label class="ls-radio">
-        <input type="radio" name="radio" id="">
-        Radio
-        <span></span>
-    </label>
 </body>
 </html>

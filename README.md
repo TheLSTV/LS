@@ -21,8 +21,7 @@ Welcome the next big iteration of LS, LS v5.<br>
 
 ## v4 vs v5 Performance
 
-The event system in v5 got a major performance, being up to 200x faster in executing events than v4.
-It is 100-120x faster for classic events and can be 200x faster with the new direct event access method, for performance-critical events.
+v5 is faster and more memory efficient in various fields.
 
 | Operation               | v4 (Ops/s)      | v5 (Ops/s)            | Speed Improvement |
 |-------------------------|-----------------|-----------------------|-------------------|

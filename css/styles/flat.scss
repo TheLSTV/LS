@@ -58,9 +58,15 @@
         padding: var(--padding-control-v) var(--padding-control-h-pill);
     }
 
+    #{$button}.small {
+        --padding-control-h: 10px;
+        font-size: x-small;
+    }
+
     #{$input} {
         background: var(--bg-0);
-        border: 2px solid var(--elevate-0);
+        // border: 2px solid var(--elevate-0);
+        border: 2px solid transparent;
 
         &:focus {
             border: 2px solid var(--accent-focus, var(--accent));

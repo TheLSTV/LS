@@ -57,25 +57,25 @@ LS.WebSocket = class WebSocketWrapper {
                 this.waiting = []
             }
 
-            this.invoke("open", event)
+            this.emit("open", [event])
         })
 
         this.socket.addEventListener("message", event => {
-            this.invoke("message", event)
+            this.emit("message", [event])
         })
 
         this.socket.addEventListener("close", async event => {
             let prevent = false;
 
-            this.invoke("close", event, () => {
+            this.emit("close", [event, () => {
                 prevent = true
-            })
+            }])
 
             if(!prevent && this.options.autoReconnect) this.connect();
         })
 
         this.socket.addEventListener("error", event => {
-            this.invoke("error", event)
+            this.emit("error", [event])
         })
     }
 
